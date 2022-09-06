@@ -4,6 +4,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
+	// 디버깅
+	System.out.println("\n----------------------------customerLoginAction start-------------------------------------\n");
 	// 인코딩
 	request.setCharacterEncoding("utf-8");
 	
@@ -32,15 +34,16 @@
 		session.setAttribute("name", loginCustomer.getCustomerName());
 		response.sendRedirect(request.getContextPath() + "/customer/customerIndex.jsp");
 
-		System.out.println("session.getAttribute() ---------------- 디버깅");
-		System.out.println("user : " + session.getAttribute("user") );
-		System.out.println("id : " + session.getAttribute("id") );
-		System.out.println("name : " + session.getAttribute("name") );
-		System.out.println("end customerLoginAction");
-		System.out.println("-----------------------------------------------------------------------------------------\n");
+		System.out.println("-------------- session.getAttribute() ----------------");
+		System.out.println("customer user : " + session.getAttribute("user") );
+		System.out.println("customer id : " + session.getAttribute("id") );
+		System.out.println("customer name : " + session.getAttribute("name") );
 		
 	}else{
 		System.out.println("로그인 실패!");
 		response.sendRedirect(request.getContextPath() + "/loginForm.jsp");
 	}
+	
+	// 디버깅
+	System.out.println("\n----------------------------customerLoginAction end---------------------------------------\n");
 %>

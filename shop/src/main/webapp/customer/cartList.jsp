@@ -3,6 +3,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
+// 디버깅
+System.out.println("\n--------------------------------------cartList start-------------------------------------------\n");
+
 // 로그인 전, 고객이 아니면 접속 불가
 if (session.getAttribute("id") == null || ((String) session.getAttribute("user")).equals("Employee")) {
 	response.sendRedirect(request.getContextPath() + "/loginForm.jsp");
@@ -15,16 +18,18 @@ System.out.println("user : " + session.getAttribute("user"));
 //인코딩
 request.setCharacterEncoding("utf-8");
 
-// 뱐수 가져오기
+// 변수 가져오기
 String customerId = ((String) session.getAttribute("id"));
 // 디버깅
 System.out.println("CartList - customerId : " + customerId);
 
+// 페이징
 // 한 페이지 당 보여질 게시물 수
 final int rowPerPage = 10;
 
 // 현재 페이지
 int currentPage = 1;
+// 받아오는 페이지 값이 있다면 현재 페이지 변경
 if (request.getParameter("currentPage") != null) {
 	currentPage = Integer.parseInt(request.getParameter("currentPage"));
 }
@@ -48,6 +53,8 @@ System.out.println("CartList - list : " + list);
 if (list != null) {
 	System.out.println("CartList 출력 성공!");
 }
+//디버깅
+System.out.println("\n--------------------------------------cartList end-------------------------------------------\n");
 %>
 
 <%@ include file="/inc/header.jsp"%>
@@ -60,8 +67,7 @@ if (list != null) {
 			%>
 			<div style="text-align: center; margin: 10% 0 10% 0">
 				<h3>장바구니에 담긴 상품이 없습니다.</h3>
-				<a
-					href="<%=request.getContextPath()%>/main.jsp"><button
+				<a href="<%=request.getContextPath()%>/main.jsp"><button
 						type="button" class="btn btn-dark">홈으로 가기</button></a>
 			</div>
 			<%
@@ -73,42 +79,47 @@ if (list != null) {
 				<h2 style="font-size: 40px; margin-top: 5%;">
 					<b><%=customerId%>'s Cart List</b>
 				</h2>
-				<table class="table table-striped">
-					<thead class="thead-light">
-						<tr>
-							<th><b>goodsNo</b></th>
-							<th><b>cartQuantity</b></th>
-							<th><b>createDate</b></th>
-							<th><b>updateDate</b></th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody>
-						<%
-						for (Map<String, Object> n : list) {
-						%>
-						<tr>
-							<td><a
-								href="<%=request.getContextPath()%>/customer/cartListOne.jsp?goodsNo=<%=n.get("goodsNo")%>"><%=n.get("goodsNo")%></a>
-							</td>
-							<td><%=n.get("cartQuantity")%></td>
-							<td><%=n.get("createDate")%></td>
-							<td><%=n.get("updateDate")%></td>
-							<td><a
-								href="<%=request.getContextPath()%>/customer/deleteCarListForm.jsp?goodsNo=<%=n.get("goodsNo")%>">
-									<button type="submit" class="btn btn-danger"
-										style="color: white; background-color: black;">Delete</button>
-							</a> <a
-								href="<%=request.getContextPath()%>/customer/updateCartQuantity.jsp?goodsNo=<%=n.get("goodsNo")%>&cartQuantity=<%=n.get("cartQuantity")%>&">
-									<button type="submit" class="btn btn-warning"
-										style="color: white; background-color: black;">Modify</button>
-							</a></td>
-						</tr>
-						<%
-						}
-						%>
-					</tbody>
-				</table>
+				<form action="<%=request.getContextPath()%>/customer/cartListAction.jsp" method="post">
+					<table class="table table-striped">
+						<thead class="thead-light">
+							<tr>
+								<th><b>goods</b></th>
+								<th><b>goodsName</b></th>
+								<th><b>cartQuantity</b></th>
+								<th><b>createDate</b></th>
+								<th><b>updateDate</b></th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<%
+							for (Map<String, Object> n : list) {
+							%>
+							<tr>
+								<td><input type="checkbox" name="goodsNo"
+									value="<%=n.get("goodsNo")%>"></td>
+								<td><%=n.get("goodsName")%></td>
+								<td><%=n.get("cartQuantity")%></td>
+								<td><%=n.get("goodsPrice")%>won</td>
+								<td><a
+									href="<%=request.getContextPath()%>/customer/deleteCarListForm.jsp?goodsNo=<%=n.get("goodsNo")%>">
+										<button type="submit" class="btn btn-danger"
+											style="color: white; background-color: black;">Delete</button>
+								</a> <a
+									href="<%=request.getContextPath()%>/customer/updateCartQuantity.jsp?goodsNo=<%=n.get("goodsNo")%>&cartQuantity=<%=n.get("cartQuantity")%>&">
+										<button type="submit" class="btn btn-warning"
+											style="color: white; background-color: black;">Modify</button>
+								</a></td>
+							</tr>
+							<%
+							}
+							%>
+						</tbody>
+					</table>
+					<button type="submit" class="btn" style="width: 300px; font-size: 50px; border: 2px solid; margin-top:6%; margin-bottom:3%; float:center; background-color:white; border-color:black;">
+					<b>Order</b>
+					</button>
+				</form>
 				<br> <br>
 			</div>
 			<%

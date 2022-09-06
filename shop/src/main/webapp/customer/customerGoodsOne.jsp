@@ -54,55 +54,67 @@ System.out.println("----------------------------------cutomerGoodsOne - end ----
 <%@ include file="/inc/header.jsp"%>
 <!-- main -->
 <div class="container">
-	<div class="row">
+	<div class="row"
+		style="margin-top: 6%; background-color: #E9EDF1; text-align: center;">
 		<!-- goodsOne start -->
-		<div class="col-lg-12"
-			style="margin-top: 6%; background-color: #E9EDF1; text-align: center;">
+		<!-- 상품 이미지 -->
+		<div class="col-lg-5 mt-5" style="">
+			<img class="card-img img-fluid"
+				src="<%=request.getContextPath()%>/upload/<%=selectGoods.get("filename")%>"
+				alt="goods image">
+		</div>
+		<div class="col-lg-7">
 			<h2 style="font-size: 40px; text-align: center; margin-top: 5%;">
 				<b>Goods Detail</b>
 			</h2>
 			<hr>
 			<br> <br>
 			<table class="table table-hover table-striped">
-				<thead>
-					<tr style="width: 120px; text-align: center;">
-						<th><b>goodseNo</b></th>
-						<th><b>goodsName</b></th>
-						<th><b>goodsImg</b></th>
-						<th><b>goodsPrice</b></th>
-						<th><b>soldOut</b></th>
-						<th><b>createDate</b></th>
-					</tr>
-				</thead>
-
-				<tr>
+				<tr style="width: 120px; text-align: center;">
+					<th><b>goodseNo</b></th>
 					<td><%=goodsNo%></td>
+				</tr>
+				<tr>
+					<th><b>goodsName</b></th>
 					<td><%=selectGoods.get("goodsName")%></td>
-					<td><img alt="이미지 파일"
-						src="<%=request.getContextPath()%>/upload/<%=selectGoods.get("filename")%>"
-						width=200; height=200; style="background-color: white;"></td>
+				</tr>
+				<tr>
+					<th><b>goodsPrice</b></th>
 					<td><%=selectGoods.get("goodsPrice")%></td>
+				</tr>
+				<tr>
+					<th><b>soldOut</b></th>
 					<td><%=selectGoods.get("soldOut")%></td>
+				</tr>
+				<tr>
+					<th><b>createDate</b></th>
 					<td><%=selectGoods.get("createDate")%></td>
 				</tr>
 			</table>
 		</div>
-		<div style="float: right; margin-top: 5%; margin-left: 75%; margin-bottom: 6%;">
-			<a href="<%=request.getContextPath()%>/customer/addCartList.jsp?goodsNo=<%=goodsNo%>">
-				<button type="submit" class="btn btn-warning" style="color: white">AddCart</button>
-			</a> 
-			<a href="<%=request.getContextPath()%>/customer/addCustomerOrders.jsp?goodsNo=<%=goodsNo%>">
-				<button type="submit" class="btn btn-success"
-					style="background-color: darkorange; border-color: darkorange">GoodsOrder</button>
-			</a>
-			 <a
+		<div
+			style="float: right; margin-top: 5%; margin-left: 75%; margin-bottom: 6%;">
+			<a
+				href="<%=request.getContextPath()%>/customer/addCartList.jsp?goodsNo=<%=goodsNo%>">
+				<button type="submit" class="btn btn"
+					style="color: white; background-color: black;">AddCart</button>
+			</a> <a
+				href="<%=request.getContextPath()%>/customer/addCustomerOrders.jsp?goodsNo=<%=goodsNo%>">
+				<button type="submit" class="btn btn"
+					style="color: white; background-color: black;">GoodsOrder</button>
+			</a> <a
 				href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp">
-				<button type="submit" class="btn btn-success">GoodsList</button>
+				<button type="submit" class="btn btn"
+					style="color: white; background-color: black;">GoodsList</button>
 			</a>
 		</div>
 		<br> <br>
-		<!-- goodsOne end -->
-		<!-- review start -->
+	</div>
+</div>
+<!-- goodsOne end -->
+<!-- review start -->
+<div class="container">
+	<div class="row">
 		<div class="col-lg-12"
 			style="margin-top: 3%; background-color: #E9EDF1;">
 			<h3 style="font-size: 40px; text-align: center; margin-top: 5%;">
@@ -120,16 +132,16 @@ System.out.println("----------------------------------cutomerGoodsOne - end ----
 						<th><b>updateDate </b></th>
 					</tr>
 					<%
-					for (Map<String, Object> m : list) {
-						// 리뷰가 없는 경우
-						System.out.println("list : " + m);
-						if (m.isEmpty()) {
+					// 리뷰가 없는 경우
+					if (session.getAttribute("id") == null && list.isEmpty()) {
+						System.out.println("list : " + list);
 					%>
 					<tr>
 						<td>리뷰가 없습니다.</td>
 					</tr>
 					<%
 					} else {
+					for (Map<String, Object> m : list) {
 					%>
 					<tr>
 						<td><%=m.get("orderNo")%></td>
@@ -139,15 +151,12 @@ System.out.println("----------------------------------cutomerGoodsOne - end ----
 					</tr>
 					<%
 					}
-					// 디버깅
-					System.out.println("addGoodsAction - orderNo : " + m.get("orderNo"));
-					System.out.println("addGoodsAction - reviewContent : " + m.get("reviewContent"));
-					System.out.println("addGoodsAction - customerId : " + customerId);
 					}
 					%>
 				</table>
 			</div>
-		</div> <!-- review end -->
+		</div>
+		<!-- review end -->
 	</div>
 </div>
 <!-- end main -->

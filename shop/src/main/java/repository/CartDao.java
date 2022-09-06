@@ -24,8 +24,8 @@ public class CartDao {
 		ResultSet rs = null;
 		this.dbUtil = new DBUtil();
 		// 쿼리
-		String sql = "SELECT goods_no goodsNo, customer_id customerId, cart_quantity cartQuantity, update_date updateDate, create_date createDate"
-				+ " FROM cart WHERE customer_id = ? ";
+		String sql = "SELECT c.goods_no goodsNo, c.cart_quantity cartQuantity, g.goods_price goodsPrice, goods_name goodsName"
+				+ " FROM cart c INNER JOIN goods g USING(goods_no) WHERE customer_id = ? ";
 
 		try {
 			// DB 연결
@@ -34,24 +34,26 @@ public class CartDao {
 			System.out.println("CartDao - selectCartList DB 연결");
 			// 쿼리 담기
 			stmt = conn.prepareStatement(sql);
-			// 쿼리값 설정
+			// ?값 설정
 			stmt.setString(1, customerId);
 			// 디버깅
 			System.out.println("CartDao - selectCartList - stmt : " + stmt);
 
 			// 쿼리 실행
 			rs = stmt.executeQuery();
+			
+			// list에 값 담기
 			while (rs.next()) {
 				Map<String, Object> map = new HashMap<>();
 				map.put("goodsNo", rs.getInt("goodsNo"));
-				map.put("customerId", customerId);
 				map.put("cartQuantity", rs.getInt("cartQuantity"));
-				map.put("updateDate", rs.getString("updateDate"));
-				map.put("createDate", rs.getString("createDate"));
+				map.put("goodsPrice", rs.getString("goodsPrice"));
+				map.put("goodsName", rs.getString("goodsName"));
 				list.add(map);
-				// 디버깅
-				System.out.println("CartDao - selectCartList - list : " + list);
 			}
+			// 디버깅
+			System.out.println("CartDao - selectCartList - list : " + list);
+			
 		} finally {
 			// DB 자원해제
 			if (rs != null) {

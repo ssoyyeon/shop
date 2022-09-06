@@ -84,7 +84,7 @@ if (list != null) {
 		<!-- ordersOne end -->
 		<div style="float: right; margin-left :90%; ">
 		<a href="<%=request.getContextPath()%>/customer/customerOrdersList.jsp">
-			<button type="submit" class="btn btn-success" >OrderList</button>
+			<button type="submit" class="btn" style="background-color:black; color:white; margin-bottom:3%;">OrderList</button>
 		</a>
 	</div>
 		<!-- review -->

@@ -110,7 +110,7 @@ System.out.println("----------------------------------addCartList - end --------
 			style="float: right; margin-top: 5%; margin-left: 90%; margin-bottom: 6%;">
 			<a
 				href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp">
-				<button type="submit" class="btn btn-warning">GoodsList</button>
+				<button type="submit" class="btn" style="background-color:black; color:white;">GoodsList</button>
 			</a>
 		</div>
 	</div>
