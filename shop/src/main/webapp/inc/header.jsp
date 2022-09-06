@@ -229,7 +229,7 @@ if (session.getAttribute("id") != null && session.getAttribute("user").equals("E
 							class="nav-link dropdown-toggle arrow" data-toggle="dropdown">Kids</a>
 							<ul class="dropdown-menu">
 								<li><a
-									href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=kids&category=clothing">clothing</a></li>
+									href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=kids&category=clothing">Clothing</a></li>
 								<li><a
 									href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=kids&category=Shoes">Shoes</a></li>
 								<li><a
@@ -238,8 +238,15 @@ if (session.getAttribute("id") != null && session.getAttribute("user").equals("E
 						<li class="dropdown active"><a href="#"
 							class="nav-link dropdown-toggle arrow" data-toggle="dropdown">Sale</a>
 							<ul class="dropdown-menu">
-								<li><a
-									href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?category=sale">Sale</a></li>
+								<li>
+									<a href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=sale&category=clothing">Clothing</a>
+								</li>
+								<li>
+									<a href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=sale&category=shoes">Shoes</a>
+								</li>
+								<li>
+									<a href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=sale&category=bags">Bags</a>
+								</li>
 							</ul></li>
 					</ul>
 				</div>
@@ -248,7 +255,7 @@ if (session.getAttribute("id") != null && session.getAttribute("user").equals("E
 				%>
 				<!-- /.navbar-collapse -->
 				<!-- Start Atribute Navigation -->
-				<div class="attr-nav" style="margin-left: 159px; margin-right: -158px;">
+				<div class="attr-nav" style="margin-left: 159px; margin-right: -180px;">
 					<ul>
 						<%
 						//오늘 방문자수, 총 방문자수 메서드 호출을 위한 객체 생성
