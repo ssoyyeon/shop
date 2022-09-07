@@ -77,20 +77,16 @@
 					}
 					%>
 					<div class="text-slid-box" style="text-align: center;">
-                        <div id="offer-box" class="carouselTicker">
-                            <ul class="offer-box">
-                                <li>
-                                    <i class="fab fa-opencart"></i> Off 10%! Shop Women's Top!!
-                                </li>
-                                <li>
-                                    <i class="fab fa-opencart"></i> Off 30%! Shop Sale!
-                                </li>
-                                <li>
-                                    <i class="fab fa-opencart"></i> Off 10%! Shop Kids Shoes
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+						<div id="offer-box" class="carouselTicker">
+							<ul class="offer-box">
+								<li><i class="fab fa-opencart"></i> Off 10%! Shop Women's
+									Top!!</li>
+								<li><i class="fab fa-opencart"></i> Off 30%! Shop Sale!</li>
+								<li><i class="fab fa-opencart"></i> Off 10%! Shop Kids
+									Shoes</li>
+							</ul>
+						</div>
+					</div>
 				</div>
 				<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 					<div class="our-link" style="float: right;">
@@ -125,9 +121,14 @@
 									href="<%=request.getContextPath()%>/admin/employeeMemberList.jsp">EMPLOYEE
 								</a></li>
 								<%
-								}
 								if (session.getAttribute("id") != null && session.getAttribute("user").equals("Employee")) {
-								%>
+									 %>
+								<li><a
+									href="<%=request.getContextPath()%>/admin/adminGoodsList.jsp">GOODS
+								</a></li>
+								<%
+								} } if (session.getAttribute("id") != null &&
+								session.getAttribute("user").equals("Employee")) { %>
 								<li><a
 									href="<%=request.getContextPath()%>/admin/adminOrdersList.jsp">ORDER
 								</a></li>
@@ -238,14 +239,14 @@ if (session.getAttribute("id") != null && session.getAttribute("user").equals("E
 						<li class="dropdown active"><a href="#"
 							class="nav-link dropdown-toggle arrow" data-toggle="dropdown">Sale</a>
 							<ul class="dropdown-menu">
-								<li>
-									<a href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=sale&category=clothing">Clothing</a>
+								<li><a
+									href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=sale&category=clothing">Clothing</a>
 								</li>
-								<li>
-									<a href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=sale&category=shoes">Shoes</a>
+								<li><a
+									href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=sale&category=shoes">Shoes</a>
 								</li>
-								<li>
-									<a href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=sale&category=bags">Bags</a>
+								<li><a
+									href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=sale&category=bags">Bags</a>
 								</li>
 							</ul></li>
 					</ul>
@@ -255,7 +256,8 @@ if (session.getAttribute("id") != null && session.getAttribute("user").equals("E
 				%>
 				<!-- /.navbar-collapse -->
 				<!-- Start Atribute Navigation -->
-				<div class="attr-nav" style="margin-left: 159px; margin-right: -180px;">
+				<div class="attr-nav"
+					style="margin-left: 159px; margin-right: -180px;">
 					<ul>
 						<%
 						//오늘 방문자수, 총 방문자수 메서드 호출을 위한 객체 생성

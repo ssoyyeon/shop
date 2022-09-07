@@ -46,8 +46,8 @@ public class OrdersService {
 		}
 		return list;
 	} // end selectOrdersOne
-		// 관리자용 주문 리스트
-
+		
+	// 관리자용 주문 리스트
 	public List<Map<String, Object>> selectOrdersList(int rowPerPage, int currentPage)
 			throws ClassNotFoundException, SQLException {
 		// 리턴값을 반환할 객체

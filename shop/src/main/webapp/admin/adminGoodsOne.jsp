@@ -8,9 +8,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
+	//디버깅
+	System.out.println("\n-------------------------------------adminGoodsOne - start ------------------------------------------------\n");
+
 	//로그인 전이거나 스텝이 아니면 로그인 페이지로 돌아가기
 	if (session.getAttribute("id") == null || session.getAttribute("user").equals("Customer")) {
-		response.sendRedirect(request.getContextPath() + "/loginForm.jsp");
+		response.sendRedirect(request.getContextPath() + "/main.jsp");
 		return;
 	}
 	// 디버깅
@@ -46,6 +49,8 @@
 	if (list != null) {
 		System.out.println("리뷰보기 성공");
 	}
+	//디버깅
+	System.out.println("\n-------------------------------------adminGoodsOne - end ------------------------------------------------\n");
 %>
 <%@ include file="/inc/header.jsp"%>
 <!-- main -->

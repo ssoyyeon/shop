@@ -8,7 +8,7 @@
 <%@ page import="java.net.URLEncoder"%>
 <%
 	// 디버깅
-	System.out.println("\n\n---------------------------------------------------addGoodsAction");
+	System.out.println("\n----------------------------------------addGoodsAction--------------------------------------\n");
 	// 막기
 	if(session.getAttribute("id") == null){
 		response.sendRedirect(request.getContextPath() + "/loginForm.jsp?errorMsg=Not logged in");
@@ -87,5 +87,8 @@
 		return;
 	}
 		response.sendRedirect(request.getContextPath() + "/admin/adminGoodsList.jsp");
+		
+		//디버깅
+		System.out.println("\n-------------------------------------addGoodsAction - end ------------------------------------------------\n");
 %>
 

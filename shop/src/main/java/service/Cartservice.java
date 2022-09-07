@@ -12,7 +12,7 @@ public class Cartservice {
 	private CartDao cartDao;
 
 	// 장바구니 리스트
-	public List<Map<String, Object>> selectCartList(String customerId) {
+	public List<Map<String, Object>> selectCartList(Cart paramCart) {
 		// 리턴값을 반환할 객체
 		List<Map<String, Object>> list = new ArrayList<>();
 		;
@@ -29,15 +29,13 @@ public class Cartservice {
 			// 객체 생성 후 Dao 메서드 호출
 			this.cartDao = new CartDao();
 			// 주문 리스트 호출
-			list = cartDao.selectCartList(conn, customerId);
+			list = cartDao.selectCartList(conn, paramCart);
 
 			// 디버깅
 			if (list == null) {
 				// 주문 리스트 호출 실패시 오류 생성
 				throw new Exception();
 			}
-			// 디버깅
-			System.out.println("Cartservice - selectCartList - customerId : " + customerId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -173,6 +171,49 @@ public class Cartservice {
 		}
 		return selectCart;
 	} // end selectCartOne
+	
+
+	// 장바구니 리스트
+	public List<Map<String, Object>> selectCartListByCustomer(String customerId) {
+		// 리턴값을 반환할 객체
+		List<Map<String, Object>> list = new ArrayList<>();
+		;
+		// DB 자원
+		Connection conn = null;
+		DBUtil dbUtil = new DBUtil();
+
+		try {
+			// DB 연결
+			conn = dbUtil.getConnection();
+			// 디버깅
+			System.out.println("Cartservice - selectCartList - DB 연결");
+
+			// 객체 생성 후 Dao 메서드 호출
+			this.cartDao = new CartDao();
+			// 주문 리스트 호출
+			list = cartDao.selectCartListByCustomer(conn, customerId);
+
+			// 디버깅
+			if (list == null) {
+				// 주문 리스트 호출 실패시 오류 생성
+				throw new Exception();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				// DB 자원해제
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	} // end CartLsit
+
+	
 	
 	// 장바구니 삭제
 	public int removecartList(int goodsNo, String customerId) {

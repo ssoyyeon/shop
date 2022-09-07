@@ -4,17 +4,19 @@
 <%@page import="java.util.Map"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-	
-	System.out.println("\nupdateAdminGoodsOne");
+
+	// 디버깅
+	System.out.println("\n-------------------------------updateAdminGoodsOne start-------------------------------------------\n");
+
 
 	//admin이 아닐 경우 접속 불가
 	if (session.getAttribute("id") == null || ((String) session.getAttribute("user")).equals("customer")) {
-		response.sendRedirect(request.getContextPath() + "/loginForm.jsp");
+		response.sendRedirect(request.getContextPath() + "/main.jsp");
 		return;
 	}
 	// active가 Y이 아니면 접속 불가
 	if(! session.getAttribute("active").equals("Y")){
-		response.sendRedirect(request.getContextPath() + "/noticeList.jsp");
+		response.sendRedirect(request.getContextPath() + "/main.jsp");
 		return;
 	}
 	// 디버깅
@@ -36,6 +38,9 @@
 	
 	Map<String, Object> map = new HashMap<>();
 	map = goodsService.selectGoodsAndImgOne(goodsNo);
+	
+	// 디버깅
+	System.out.println("\n-------------------------------updateAdminGoodsOne end-------------------------------------------\n");
 		
 %>
 <%@ include file="/inc/header.jsp"%>

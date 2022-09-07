@@ -7,11 +7,11 @@
 	pageEncoding="UTF-8"%>
 <%
 //디버깅
-System.out.println("\n\n----------------------------------employeeMemberList- start ---------------------------------");
+System.out.println("\n\n----------------------------------employeeMemberList- start ---------------------------------\n");
 
 //admin이 아닐 경우 접속 불가
 if (session.getAttribute("id") == null || ((String) session.getAttribute("user")).equals("customer")) {
-	response.sendRedirect(request.getContextPath() + "/loginForm.jsp");
+	response.sendRedirect(request.getContextPath() + "/main.jsp");
 	return;
 }
 // active가 Y이 아니면 접속 불가
@@ -58,7 +58,7 @@ if (list == null) {
 }
 
 // 디버깅
-System.out.println("----------------------------------employeeMemberList- end ---------------------------------\n\n");
+System.out.println("\n----------------------------------employeeMemberList- end ---------------------------------\n");
 %>
 <%@ include file="/inc/header.jsp"%>
 <!-- 메인내용 -->

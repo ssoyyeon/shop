@@ -3,15 +3,16 @@
 <%@page import="java.util.Map"%>
 <%@page import="vo.Orders"%>
 <%@page import="service.OrdersService"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ include file="/inc/header.jsp"%>
 <%
 // 디버깅
-System.out.println("----------------------------------customerOrdersOne - start ---------------------------------");
+System.out.println("\n----------------------------------customerOrdersOne - start -----------------------------------------\n");
 
 // 로그인 전이면 로그인 페이지로 재요청
 if (session.getAttribute("id") == null) {
-	response.sendRedirect(request.getContextPath() + "/loginForm.jsp");
+	response.sendRedirect(request.getContextPath() + "/main.jsp");
 	return;
 }
 // 디버깅
@@ -45,93 +46,116 @@ System.out.println(list);
 if (list != null) {
 	System.out.println("리뷰보기 성공");
 }
+//디버깅
+System.out.println("\n----------------------------------cutomerOrdersOne - end ---------------------------------------\n");
 %>
 <!-- main -->
-<div class="container">
-	<div class="row">
+<div class="container" style="margin-bottom: 5%;">
+	<div class="row"
+		style="margin-top: 6%; background-color: #E9EDF1; text-align: center;">
 		<!-- 메인페이지 -->
-		<div class="col-lg-12" style="margin-top: 10%; background-color: #E9EDF1; margin-bottom:5%;">
+		<div class="col-lg-5 mt-5" style="">
+			<img class="card-img img-fluid"
+				src="<%=request.getContextPath()%>/upload/<%=map.get("orderImg")%>"
+				width=200; height=200; style="background-color: white;">
+		</div>
+		<div class="col-lg-7">
 			<h2 style="font-size: 40px; text-align: center; margin-top: 5%;">
 				<b>Order Detail</b>
 			</h2>
 			<hr>
-			<br> <br>
 			<table class="table table-hover table-striped">
 				<thead>
-					<tr style="width: 120px; text-align: center; ">
-						<th><b>ordersNo</b></th>
-						<th><b>orderDate</b></th>
-						<th><b>goodsNo</b></th>
-						<th><b>goodsImg</b></th>
-						<th><b>orderPrice</b></th>
-						<th><b>orderQuantity</b></th>
-						<th><b>orderState</b></th>
+					<tr style="width: 120px; text-align: center;">
+						<th><b>goodsName</b></th>
+						<td><%=map.get("goodsName")%></td>
 					</tr>
-				</thead>
-				<tbody>
-					<tr style="text-align: center;">
-						<td><%=map.get("ordersNo")%></td>
-						<td><%=map.get("orderDate")%></td>
-						<td><%=map.get("goodsNo")%></td>
-						<td><img alt="이미지 파일" src="<%=request.getContextPath()%>/upload/<%=map.get("orderImg")%>" width=200; height=200; style="background-color: white;"></td>
+					<tr>
+						<th><b>customerId</b></th>
+						<td><%=map.get("customerId")%></td>
+					</tr>
+					<tr>
+						<th><b>customerAddress</b></th>
+						<td><%=map.get("orderAddress")%>-<%=map.get("detailAddress")%></td>
+					</tr>
+					<tr>
+						<th><b>orderPrice</b></th>
 						<td><%=map.get("orderPrice")%></td>
+					</tr>
+					<tr>
+						<th><b>orderQuantity</b></th>
 						<td><%=map.get("orderQuantity")%></td>
+					</tr>
+					<tr>
+						<th><b>orderState</b></th>
 						<td><%=map.get("orderState")%></td>
 					</tr>
-			</table>
-			<br> <br>
-		</div>
-		<!-- ordersOne end -->
-		<div style="float: right; margin-left :90%; ">
-		<a href="<%=request.getContextPath()%>/customer/customerOrdersList.jsp">
-			<button type="submit" class="btn" style="background-color:black; color:white; margin-bottom:3%;">OrderList</button>
-		</a>
-	</div>
-		<!-- review -->
-		<div class="col-lg-12" style="margin-top: 3%; background-color: #E9EDF1;">
-			<h3 style="font-size: 40px; text-align: center; margin-top: 5%;">
-				<b>Review</b>
-			</h3>
-			<hr>
-			<br> <br>
-			<div>
-				<table class="table table-hover table-striped" style="text-align: center;">
 					<tr>
-						<th><b>orderNo</b></th>
-						<th><b>reviewContent</b></th>
-						<th><b>createDate </b></th>
-						<th><b>updateDate </b></th>
+						<th><b>orderDate</b></th>
+						<td><%=map.get("orderDate")%></td>
 					</tr>
-					<%
-					for (Map<String, Object> m : list) {
-						// 주문한 상품이 없는 경우
-						System.out.println("list : " + m);
-						if (m.isEmpty()) {
-					%>
-							<tr>
-								<td>주문한 상품이 없습니다.</td>
-							</tr>
-					<%
-						} else {
-					%>
-							<tr>
-								<td><%=m.get("orderNo")%></td>
-								<td><%=m.get("reviewContent")%></td>
-								<td><%=m.get("createDate")%></td>
-								<td><%=m.get("updateDate")%></td>
-							</tr>
-					<%
-						}
-					}
-					%>
-				</table>
-			</div>
+			</table>
 		</div>
-		<!-- review end -->
+	</div>
+	<!-- goodsOne end -->
+	<!-- review start -->
+	<div class="container" style="margin-top: 5%;">
+		<div class="row">
+			<!-- ordersOne end -->
+			<div style="float: right; margin-left: 90%; margin-bottom: 5%;">
+				<a
+					href="<%=request.getContextPath()%>/customer/customerOrdersList.jsp">
+					<button type="submit" class="btn"
+						style="background-color: black; color: white; margin-bottom: 3%;">OrderList</button>
+				</a>
+			</div>
+			<!-- review -->
+			<div class="col-lg-12"
+				style="margin-top: 3%; background-color: #E9EDF1;">
+				<h3 style="font-size: 40px; text-align: center; margin-top: 5%;">
+					<b>Review</b>
+				</h3>
+				<hr>
+				<br> <br>
+				<div>
+					<table class="table table-hover table-striped"
+						style="text-align: center;">
+						<tr>
+							<th><b>orderNo</b></th>
+							<th><b>reviewContent</b></th>
+							<th><b>createDate </b></th>
+							<th><b>updateDate </b></th>
+						</tr>
+						<%
+						for (Map<String, Object> m : list) {
+							// 주문한 상품이 없는 경우
+							System.out.println("list : " + m);
+							if (m.isEmpty()) {
+						%>
+						<tr>
+							<td>주문한 상품이 없습니다.</td>
+						</tr>
+						<%
+						} else {
+						%>
+						<tr>
+							<td><%=m.get("orderNo")%></td>
+							<td><%=m.get("reviewContent")%></td>
+							<td><%=m.get("createDate")%></td>
+							<td><%=m.get("updateDate")%></td>
+						</tr>
+						<%
+						}
+						}
+						%>
+					</table>
+				</div>
+			</div>
+			<!-- review end -->
+		</div>
 	</div>
 </div>
 <!-- end main -->
 <%@ include file="/inc/footer.jsp"%>
 </body>
 </html>
-

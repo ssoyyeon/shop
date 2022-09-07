@@ -5,12 +5,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 // 디버깅
-System.out
-		.println("\n----------------------------------reivewListByEmployee - start ---------------------------------");
+System.out.println("\n----------------------------------reivewListByEmployee - start ---------------------------------\n");
 
 //admin이 아닐 경우 접속 불가
 if (session.getAttribute("id") == null || ((String) session.getAttribute("user")).equals("customer")) {
-	response.sendRedirect(request.getContextPath() + "/loginForm.jsp");
+	response.sendRedirect(request.getContextPath() + "/main.jsp");
 	return;
 }
 // active가 Y이 아니면 접속 불가
@@ -59,7 +58,7 @@ if (list != null) {
 	System.out.println("고객 전체 리뷰 list 조회 성공");
 }
 // 디버깅
-System.out.println("----------------------------------reivewListByEmployee - end ---------------------------------\n");
+System.out.println("\n----------------------------------reivewListByEmployee - end ---------------------------------\n");
 %>
 <%@ include file="/inc/header.jsp"%>
 <!-- 분리하면 servlet / 연계기술 forword(request, response) / jsp -->

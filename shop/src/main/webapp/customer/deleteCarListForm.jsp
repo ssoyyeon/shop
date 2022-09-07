@@ -3,7 +3,7 @@
     pageEncoding="UTF-8"%>
 <% 
 	// 디버깅
-	System.out.println("\n-------------------------------deleteCartListForm start--------------------------------");
+	System.out.println("\n-------------------------------deleteCartListForm start--------------------------------------\n");
 
 	// 디버깅
 	System.out.println("id : " + session.getAttribute("id"));
@@ -11,7 +11,7 @@
 	
 	// 로그인 전이거나 customer가 아닐 경우 접속 불가
 	if (session.getAttribute("id") == null || (!((String) session.getAttribute("user")).equals("Customer"))) {
-		response.sendRedirect(request.getContextPath() + "/loginForm.jsp");
+		response.sendRedirect(request.getContextPath() + "/main.jsp");
 		return;
 	}
 	
@@ -26,7 +26,7 @@
 	System.out.println("deleteReviewForm - goodsNo : " + goodsNo);
 	
 	// 디버깅
-	System.out.println("\n-------------------------------deleteCartListForm end---------------------------------------");
+	System.out.println("\n-------------------------------deleteCartListForm end-----------------------------------------\n");
 %>    
 <%@ include file="/inc/header.jsp"%>
 <!-- main -->

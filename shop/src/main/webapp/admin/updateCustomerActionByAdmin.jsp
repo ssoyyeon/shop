@@ -5,7 +5,7 @@
     pageEncoding="UTF-8"%>
 <%
 	//디버깅
-	System.out.println("\n\n----------------------------------updateCustomerActionByAdmin- start ---------------------------------"); 
+	System.out.println("\n\n----------------------------------updateCustomerActionByAdmin- start ---------------------------------\n"); 
 
 	//인코딩
 	request.setCharacterEncoding("utf-8");
@@ -34,5 +34,5 @@
 	}
 	
 	//디버깅
-	System.out.println("----------------------------------updateCustomerActionByAdmin- end ---------------------------------\n\n"); 
+	System.out.println("\n----------------------------------updateCustomerActionByAdmin- end -----------------------------------\n"); 
 %>

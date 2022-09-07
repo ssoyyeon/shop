@@ -1,3 +1,4 @@
+<%@page import="vo.Cart"%>
 <%@page import="service.Cartservice"%>
 <%@page import="java.util.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -8,7 +9,7 @@ System.out.println("\n--------------------------------------cartList start------
 
 // 로그인 전, 고객이 아니면 접속 불가
 if (session.getAttribute("id") == null || ((String) session.getAttribute("user")).equals("Employee")) {
-	response.sendRedirect(request.getContextPath() + "/loginForm.jsp");
+	response.sendRedirect(request.getContextPath() + "/main.jsp");
 	return;
 }
 // 디버깅
@@ -44,9 +45,10 @@ int lastPage = cartService.lastPage(rowPerPage, currentPage, customerId);
 // 디버깅
 System.out.println("CartList - lastPage : " + lastPage);
 
+
 // 장바구니 리스트 호출
 List<Map<String, Object>> list = new ArrayList<>();
-list = cartService.selectCartList(customerId);
+list = cartService.selectCartListByCustomer(customerId);
 // 디버깅
 System.out.println("CartList - list : " + list);
 
@@ -65,8 +67,11 @@ System.out.println("\n--------------------------------------cartList end--------
 			<%
 			if (session.getAttribute("id") == null || list.isEmpty()) {
 			%>
-			<div style="text-align: center; margin: 10% 0 10% 0">
-				<h3>장바구니에 담긴 상품이 없습니다.</h3>
+			<div class="col-lg-12"
+				style="margin-top: 10%; background-color: #E9EDF1; text-align: center;">
+				<h2 style="font-size: 40px; margin-top: 5%; height: 213px;">
+					<b>장바구니에 담긴 상품이 없습니다.</b>
+				</h2>
 				<a href="<%=request.getContextPath()%>/main.jsp"><button
 						type="button" class="btn btn-dark">홈으로 가기</button></a>
 			</div>
@@ -79,7 +84,9 @@ System.out.println("\n--------------------------------------cartList end--------
 				<h2 style="font-size: 40px; margin-top: 5%;">
 					<b><%=customerId%>'s Cart List</b>
 				</h2>
-				<form action="<%=request.getContextPath()%>/customer/cartListAction.jsp" method="post">
+				<form
+					action="<%=request.getContextPath()%>/customer/cartListAction.jsp"
+					method="post">
 					<table class="table table-striped">
 						<thead class="thead-light">
 							<tr>
@@ -96,11 +103,16 @@ System.out.println("\n--------------------------------------cartList end--------
 							for (Map<String, Object> n : list) {
 							%>
 							<tr>
-								<td><input type="checkbox" name="goodsNo"
-									value="<%=n.get("goodsNo")%>"></td>
-								<td><%=n.get("goodsName")%></td>
-								<td><%=n.get("cartQuantity")%></td>
-								<td><%=n.get("goodsPrice")%>won</td>
+								<td>
+									<input type="checkbox" name="goodsNo" value="<%=n.get("goodsNo")%>">
+								</td>
+								<td>
+									<input type="hidden" name=goodsName value="<%=n.get("goodsName")%>"><%=n.get("goodsName")%>
+								</td>
+								<td>
+									<input type="hidden" name="cartQuantity" value="<%=n.get("cartQuantity")%>"><%=n.get("cartQuantity")%>
+								</td>
+								<td><input type="hidden" name="goodsPrice" value="<%=n.get("goodsPrice")%>"><%=n.get("goodsPrice")%>won</td>
 								<td><a
 									href="<%=request.getContextPath()%>/customer/deleteCarListForm.jsp?goodsNo=<%=n.get("goodsNo")%>">
 										<button type="submit" class="btn btn-danger"
@@ -116,8 +128,9 @@ System.out.println("\n--------------------------------------cartList end--------
 							%>
 						</tbody>
 					</table>
-					<button type="submit" class="btn" style="width: 300px; font-size: 50px; border: 2px solid; margin-top:6%; margin-bottom:3%; float:center; background-color:white; border-color:black;">
-					<b>Order</b>
+					<button type="submit" class="btn"
+						style="width: 300px; font-size: 50px; border: 2px solid; margin-top: 6%; margin-bottom: 3%; float: center; background-color: white; border-color: black;">
+						<b>Order</b>
 					</button>
 				</form>
 				<br> <br>

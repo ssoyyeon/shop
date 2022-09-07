@@ -4,6 +4,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
+	//디버깅
+	System.out.println("\n------------------------------------ deleteEmployeeAction - start ------------------------------------------------\n");
+
 	// 요청값 처리
 	String employeeId = request.getParameter("employeeId");
 	// 디버깅
@@ -27,5 +30,7 @@
 	if(removeEmployee == true){
 		response.sendRedirect(request.getContextPath()+"/logout.jsp");
 	}
-	
+
+	//디버깅
+	System.out.println("\n------------------------------------ deleteEmployeeAction - end ------------------------------------------------\n");
 %>

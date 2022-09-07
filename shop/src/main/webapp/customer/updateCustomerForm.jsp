@@ -3,9 +3,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
+//디버깅
+System.out.println("\n-------------------------------------updateCustomerForm - start ------------------------------------------------\n");
 //customer가 아닐 경우 접속 불가
 if (session.getAttribute("id") == null || (!((String) session.getAttribute("user")).equals("Customer"))) {
-	response.sendRedirect(request.getContextPath() + "/loginForm.jsp");
+	response.sendRedirect(request.getContextPath() + "/main.jsp");
 	return;
 }
 //디버깅
@@ -30,6 +32,8 @@ customer = customerService.selecCustomerOne(customerId);
 if (customer != null) {
 	System.out.println("고객 1 정보 출력 성공!");
 }
+//디버깅
+System.out.println("\n----------------------------------updateCustomerForm - end ---------------------------------------\n");
 %>
 <%@ include file="/inc/header.jsp"%>
 <!-- main -->

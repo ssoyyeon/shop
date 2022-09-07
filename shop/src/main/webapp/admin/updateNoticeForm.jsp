@@ -6,14 +6,18 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/inc/header.jsp"%>
 <%
+
+	// 디버깅
+	System.out.println("\n-------------------------------updateNoticeForm start-------------------------------------------\n");
+
 	//로그인 전이거나 스텝이 아니면 로그인 페이지로 돌아가기
 	if(session.getAttribute("id") == null || session.getAttribute("user").equals("Customer")){
-		response.sendRedirect(request.getContextPath()+"/noticeList.jsp");
+		response.sendRedirect(request.getContextPath()+"/main.jsp");
 		return;
 	} 
 	// active가 Y이 아니면 접속 불가
 	if(! session.getAttribute("active").equals("Y")){
-		response.sendRedirect(request.getContextPath() + "/noticeList.jsp");
+		response.sendRedirect(request.getContextPath() + "/main.jsp");
 		return;
 	}
 	// 디버깅
@@ -35,7 +39,9 @@
 	System.out.println("noticeTitle : " + noticeTitle);
 	System.out.println("noticeContent : " + noticeContent);
 	
-	
+
+	// 디버깅
+	System.out.println("\n-------------------------------updateNoticeForm end------------------------------------------\n");
 %>
 <!-- main -->
 <div class="container">

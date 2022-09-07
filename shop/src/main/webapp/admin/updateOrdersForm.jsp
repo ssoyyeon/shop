@@ -5,9 +5,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
+	// 디버깅
+	System.out.println("\n------------------------------updateOrdersForm start-------------------------------------\n");
+	
 	//로그인 전이거나 스텝이 아니면 로그인 페이지로 돌아가기
 	if (session.getAttribute("id") == null || session.getAttribute("user").equals("Customer")) {
-		response.sendRedirect(request.getContextPath() + "/loginForm.jsp");
+		response.sendRedirect(request.getContextPath() + "/main.jsp");
 		return;
 	}
 	// active가 Y이 아니면 접속 불가
@@ -20,8 +23,6 @@
 	System.out.println("user : " + session.getAttribute("user"));
 	System.out.println(session.getAttribute("active"));
 	
-	// 디버깅
-	System.out.println("\n\n------------------------------updateOrdersForm start-------------------------------------");
 	// 인코딩
 	request.setCharacterEncoding("utf-8");
 	

@@ -11,11 +11,11 @@
 	pageEncoding="UTF-8"%>
 <%
 // 디버깅
-System.out.println("\n----------------------------------cutomerGoodsOne - start ---------------------------------");
+System.out.println("\n----------------------------------cutomerGoodsOne - start ------------------------------------\n");
 
 // 로그인 전이면 로그인 페이지로 재요청
 if (session.getAttribute("id") == null) {
-	response.sendRedirect(request.getContextPath() + "/loginForm.jsp");
+	response.sendRedirect(request.getContextPath() + "/main.jsp");
 	return;
 }
 // 디버깅
@@ -49,7 +49,7 @@ if (list != null) {
 }
 
 // 디버깅
-System.out.println("----------------------------------cutomerGoodsOne - end ---------------------------------\n");
+System.out.println("\n----------------------------------cutomerGoodsOne - end ---------------------------------------\n");
 %>
 <%@ include file="/inc/header.jsp"%>
 <!-- main -->

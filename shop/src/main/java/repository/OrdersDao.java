@@ -28,7 +28,7 @@ public class OrdersDao {
 		// 실행할 쿼리
 		String sql = "SELECT o.order_no ordersNo, o.create_date orderDate, o.order_price orderPrice , o.order_quantity orderQuantity,"
 				+ " o.order_addr orderAddress, o.detail_addr detailAddress, o.order_state orderState, o.update_date updateDate,"
-				+ " g.goods_no goodsNo , c.customer_id customerId , gi.content_type orderImg" + " FROM orders o"
+				+ " g.goods_no goodsNo , g.goods_name goodsName , c.customer_id customerId , gi.content_type orderImg" + " FROM orders o"
 				+ " INNER JOIN goods g ON o.goods_no = g.goods_no"
 				+ " INNER JOIN customer c ON o.customer_id = c.customer_id"
 				+ " INNER JOIN goods_img gi ON g.goods_no = gi.goods_no" + " WHERE o.order_no = ?";
@@ -64,6 +64,7 @@ public class OrdersDao {
 				map.put("orderPrice", rs.getString("orderPrice"));
 				map.put("orderQuantity", rs.getString("orderQuantity"));
 				map.put("goodsNo", rs.getString("goodsNo"));
+				map.put("goodsName", rs.getString("goodsName"));
 				map.put("orderState", rs.getString("orderState"));
 				map.put("orderDate", rs.getString("orderDate"));
 				map.put("orderPrice", rs.getString("orderPrice"));

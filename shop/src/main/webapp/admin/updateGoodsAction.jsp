@@ -8,7 +8,7 @@
 <%@ page import="java.net.URLEncoder"%>
 <%
 	// 디버깅
-	System.out.println("\n\n---------------------------------------------------updateGoodsAction");
+	System.out.println("\n-------------------------------updateGoodsAction start-------------------------------------------\n");
 
 	// cos 라이브러리 사용하기
 	String dir = request.getServletContext().getRealPath("/upload");
@@ -84,5 +84,8 @@
 	
 	// 수정 후 페이지 재요청
 	response.sendRedirect(request.getContextPath() + "/admin/adminGoodsList.jsp");
+
+	// 디버깅
+	System.out.println("\n-------------------------------updateGoodsAction end-------------------------------------------\n");
 %>
 

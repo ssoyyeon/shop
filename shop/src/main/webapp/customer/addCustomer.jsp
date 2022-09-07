@@ -2,10 +2,14 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="/inc/header.jsp"%>
 <%
+	//디버깅
+	System.out.println("\n----------------------------------addCustomer - end ---------------------------------\n");
 	// 요청값 처리
 	String idck = request.getParameter("idck");
 	// 디버깅
 	System.out.println(" addCustomer - Id : " + idck);
+	// 디버깅
+	System.out.println("\n----------------------------------addCustomer - end ---------------------------------\n");
 %>
 <body>
 	<!-- 회원가입 폼 -->

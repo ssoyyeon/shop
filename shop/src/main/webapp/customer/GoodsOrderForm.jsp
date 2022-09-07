@@ -9,11 +9,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-System.out.println("\n-----------------------cutomerGoodsOne start--------------------------------");
+System.out.println("\n--------------------------------cutomerGoodsOne start----------------------------------------------\n");
 
 //customer가 아닐 경우 접속 불가
 if (session.getAttribute("id") == null || (!((String) session.getAttribute("user")).equals("Customer"))) {
-	response.sendRedirect(request.getContextPath() + "/loginForm.jsp");
+	response.sendRedirect(request.getContextPath() + "/main.jsp");
 	return;
 }
 //디버깅
@@ -43,7 +43,7 @@ List<Map<String, Object>> list = ReviewService.getReviewListByGoods(goodsNo);
 if (list != null) {
 	System.out.println("리뷰보기 성공");
 }
-System.out.println("\n-----------------------cutomerGoodsOne end--------------------------------");
+System.out.println("\n-------------------------------cutomerGoodsOne end--------------------------------------------\n");
 %>
 <%@ include file="/inc/header.jsp"%>
 <!-- main -->

@@ -4,6 +4,8 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="service.GoodsService"%>
 <%
+//디버깅
+System.out.println("\n----------------------------------customerGoodsList- start ------------------------------------------\n");
 //인코딩
 request.setCharacterEncoding("utf-8");
 
@@ -56,8 +58,8 @@ list = goodsService.selectCutomerGoodsListByPage(rowPerPage, currentPage, goodsL
 // 페이징 마지막 페이지 메서드 호출
 int lastPage = goodsService.lastPage(rowPerPage, currentPage);
 
-// 디버깅
-System.out.println("----------------------------------cutomerGoodsList - end---------------------------------");
+//디버깅
+System.out.println("\n----------------------------------customerGoodsList- end ------------------------------------------\n");
 %>
 <!-- 분리하면 servlet / 연계기술 forword(request, response) / jsp -->
 <!-- 모델값을 전달하기 위한 것, 객체로 전달 request.setAttribute( )   -> request가 끝나면 같이 사라짐 -->

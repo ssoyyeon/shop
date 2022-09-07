@@ -3,6 +3,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
+
+	// 디버깅
+	System.out.println("\n-------------------------------updateNoticeAction start-------------------------------------------\n");
+
 	System.out.println("\nupdateNoticeAction");
 	//인코딩
 	request.setCharacterEncoding("utf-8");
@@ -28,4 +32,7 @@
 		System.out.println("공지사항 수정 성공");
 		response.sendRedirect(request.getContextPath() + "/noticeList.jsp");
 	}
+	
+	// 디버깅
+	System.out.println("\n-------------------------------updateNoticeAction end-------------------------------------------\n");
 %>

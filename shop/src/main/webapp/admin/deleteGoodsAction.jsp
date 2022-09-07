@@ -1,7 +1,9 @@
 <%@page import="service.GoodsService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
+<%	
+	//디버깅
+	System.out.println("\n------------------------------------ deleteGoodsAction - start ------------------------------------------------\n");
 	// 요청값 처리
 	int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
 	// 디버깅
@@ -15,4 +17,8 @@
 		System.out.println("상픔 삭제 성공");
 		response.sendRedirect(request.getContextPath() + "/adminGoodsList.jsp");
 	}
+	
+
+	//디버깅
+	System.out.println("\n------------------------------------ deleteGoodsAction - end ------------------------------------------------\n");
 %>

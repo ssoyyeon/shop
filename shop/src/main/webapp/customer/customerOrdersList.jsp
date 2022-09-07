@@ -9,11 +9,11 @@
 	pageEncoding="UTF-8"%>
 <%
 // 디버깅
-System.out.println("----------------------------------customerOrderOne - start ---------------------------------");
+System.out.println("\n----------------------------------customerOrderOne - start -----------------------------------\n");
 
 //로그인 전이거나 고객이 아니면 로그인 페이지로 돌아가기
 if (session.getAttribute("id") == null || !(session.getAttribute("user").equals("Customer"))) {
-	response.sendRedirect(request.getContextPath() + "/loginForm.jsp");
+	response.sendRedirect(request.getContextPath() + "/main.jsp");
 	return;
 }
 //디버깅
@@ -51,7 +51,7 @@ System.out.println("customerMemberList - lastPage : " + lastPage);
 // 고객 1인 상품 리스트 list = 모델값
 List<Map<String, Object>> list = ordersService.selectOrdersListByCustomer(customerId);
 // 디버깅
-System.out.println("----------------------------------customerOrderOne - end ---------------------------------");
+System.out.println("\n----------------------------------customerOrderOne - end -----------------------------------------\n");
 %>
 <%@ include file="/inc/header.jsp"%>
 <!-- 분리하면 servlet / 연계기술 forword(request, response) / jsp -->

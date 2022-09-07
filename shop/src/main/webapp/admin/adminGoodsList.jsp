@@ -6,9 +6,11 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%
+	//디버깅
+	System.out.println("\n-------------------------------------admainGoodsList- start ------------------------------------------------\n");
 	//admin이 아닐 경우 접속 불가
 	if (session.getAttribute("id") == null && ((String) session.getAttribute("user")).equals("customer")) {
-		response.sendRedirect(request.getContextPath() + "/loginForm.jsp");
+		response.sendRedirect(request.getContextPath() + "/main.jsp");
 		return;
 	}
 	// 디버깅
@@ -36,7 +38,7 @@
 	int lastPage = goodsService.lastPage(rowPerPage, currentPage);
 	
 	// 디버깅
-	System.out.println("----------------------------------adminGoodsList - end ---------------------------------");
+	System.out.println("\n-------------------------------------adminGoodsList - end ---------------------------------------------\n");
 %>
 
 <%@ include file="/inc/header.jsp"%>

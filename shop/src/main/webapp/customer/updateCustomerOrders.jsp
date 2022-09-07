@@ -6,11 +6,11 @@
 <%@ include file="/inc/header.jsp"%>
 <%
 // 디버깅
-System.out.println("\n----------------------------------updateCustomerOrders- start ---------------------------------");
+System.out.println("\n----------------------------------updateCustomerOrders- start ---------------------------------------\n");
 
 // 로그인 전이면 로그인 페이지로 재요청
 if (session.getAttribute("id") == null) {
-	response.sendRedirect(request.getContextPath() + "/loginForm.jsp");
+	response.sendRedirect(request.getContextPath() + "/main.jsp");
 	return;
 }
 // 디버깅
@@ -35,7 +35,7 @@ if (map != null) {
 }
 
 //디버깅
-System.out.println("----------------------------------updateCustomerOrders- end ---------------------------------\n");
+System.out.println("\n-----------------------------------------updateCustomerOrders- end ---------------------------------------\n");
 %>
 <!-- main -->
 <div class="container">

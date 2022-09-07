@@ -3,6 +3,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
+
+	//디버깅
+	System.out.println("\n------------------------------------ signEmployeeAction - start ------------------------------------------------\n");
+
 	// 인코딩
 	request.setCharacterEncoding("utf-8");
 
@@ -32,4 +36,8 @@
 	if(row != 0){
 		response.sendRedirect(request.getContextPath() + "/loginForm.jsp");
 	}
+	
+	//디버깅
+	System.out.println("\n------------------------------------ signEmployeeAction - end------------------------------------------------\n");
+
 %>

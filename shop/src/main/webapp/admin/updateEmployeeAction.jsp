@@ -8,7 +8,7 @@
     pageEncoding="UTF-8"%>
 <%
 	//디버깅
-	System.out.println("\n\n----------------------------------updateMemberAction- start ---------------------------------"); 
+	System.out.println("\n----------------------------------updateMemberAction- start ---------------------------------\n"); 
 
 	//인코딩
 	request.setCharacterEncoding("utf-8");
@@ -32,5 +32,5 @@
 	}
 	
 	//디버깅
-	System.out.println("----------------------------------updateMemberAction- end ---------------------------------\n\n"); 
+	System.out.println("\n----------------------------------updateMemberAction- end ---------------------------------\n"); 
 %>

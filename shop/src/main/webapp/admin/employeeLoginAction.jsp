@@ -5,6 +5,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
+	//디버깅
+	System.out.println("\n------------------------------------ employeeLoginAction - start ------------------------------------------------\n");
+
 	// 인코딩
 	request.setCharacterEncoding("utf-8");
 	
@@ -45,4 +48,7 @@
 		System.out.println("로그인 실패!");
 		response.sendRedirect(request.getContextPath() + "/loginForm.jsp");
 	}
+	
+	//디버깅
+	System.out.println("\n------------------------------------ employeeLoginAction - end ------------------------------------------------\n");
 %>

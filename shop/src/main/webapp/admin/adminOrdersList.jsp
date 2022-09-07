@@ -8,9 +8,12 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%
+	//디버깅
+	System.out.println("\n-------------------------------------adminOrdersList - start ------------------------------------------------\n");
+
 	//admin이 아닐 경우 접속 불가
 	if (session.getAttribute("id") == null || ((String) session.getAttribute("user")).equals("Customer")) {
-		response.sendRedirect(request.getContextPath() + "/loginForm.jsp");
+		response.sendRedirect(request.getContextPath() + "/main.jsp");
 		return;
 	}
 	// active가 Y이 아니면 접속 불가
@@ -56,6 +59,8 @@
 	if (list != null) {
 		System.out.println("orderList 출력 성공!");
 	}
+	//디버깅
+	System.out.println("\n-------------------------------------adminOrdersList - end ------------------------------------------------\n");
 %>
 <%@ include file="/inc/header.jsp"%>
 <!-- 메인내용 -->

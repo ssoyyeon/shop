@@ -1,9 +1,11 @@
 <%@page import="vo.Customer"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
+	//디버깅
+	System.out.println("\n------------------------------------ deletCustomerForm - start ------------------------------------------------\n");
 	//admin이 아닐 경우 접속 불가
 	if (session.getAttribute("id") == null || ((String) session.getAttribute("user")).equals("customer")) {
-		response.sendRedirect(request.getContextPath() + "/loginForm.jsp");
+		response.sendRedirect(request.getContextPath() + "/main.jsp");
 		return;
 	}
 	// active가 Y이 아니면 접속 불가
@@ -15,6 +17,9 @@
 	System.out.println("id : " + session.getAttribute("id"));
 	System.out.println("user : " + session.getAttribute("user"));
 	System.out.println("active : " + session.getAttribute("active"));
+	
+	//디버깅
+	System.out.println("\n------------------------------------ deleteCustomerForm - end ------------------------------------------------\n");
 %>
 <%@ include file="/inc/header.jsp"%>
 <body>

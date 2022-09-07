@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
+	//디버깅
+	System.out.println("\n-------------------------------------addNoticeForm - start ------------------------------------------------\n");
 	// 로그인 전이거나 스텝이 아니면 로그인 페이지로 돌아가기
 	if(session.getAttribute("id") == null || session.getAttribute("user").equals("Customer") ){
-		response.sendRedirect(request.getContextPath()+"/noticeList.jsp");
+		response.sendRedirect(request.getContextPath()+"/main.jsp");
 		return;
 	} 
 	// active가 Y이 아니면 접속 불가
@@ -15,6 +17,8 @@
 	System.out.println("user : " + session.getAttribute("user"));
 	System.out.println(session.getAttribute("active"));
 	
+	//디버깅
+	System.out.println("\n-------------------------------------addNoticeForm - end ------------------------------------------------\n");
 %>
 <%@ include file="/inc/header.jsp"%>
 
@@ -45,7 +49,7 @@
 				</table>
 				<br>
 				<br>
-				<button type="submit" class="btn btn-success" style="float: right; margin-right: 3%; margin-bottom:5%;" id="addNoticeBtn">확인</button>
+				<button type="submit" class="btn" style="background-color:black; color:white; float: right; margin-right: 3%; margin-bottom:5%;" id="addNoticeBtn">확인</button>
 			</form>
 		</div>
 	</div>

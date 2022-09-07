@@ -6,11 +6,11 @@
 	pageEncoding="UTF-8"%>
 <%
 //디버깅
-System.out.println("\n----------------------------------cartListOne- start ---------------------------------");
+System.out.println("\n----------------------------------cartListOne- start -------------------------------------\n");
 
 // 로그인 전, 고객이 아니면 접속 불가
 if (session.getAttribute("id") == null || ((String) session.getAttribute("user")).equals("Employee")) {
-	response.sendRedirect(request.getContextPath() + "/loginForm.jsp");
+	response.sendRedirect(request.getContextPath() + "/main.jsp");
 	return;
 }
 // 디버깅
@@ -57,7 +57,7 @@ if (cartList != null) {
 }
 
 //디버깅
-System.out.println("----------------------------------cartListOne- end ---------------------------------\n");
+System.out.println("\n----------------------------------cartListOne- end --------------------------------------\n");
 %>
 <%@ include file="/inc/header.jsp"%>
 <body>

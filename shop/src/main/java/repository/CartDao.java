@@ -14,8 +14,9 @@ import vo.Cart;
 public class CartDao {
 	private DBUtil dbUtil = new DBUtil();
 
-	// 장바구니 리스트
-	public List<Map<String, Object>> selectCartList(Connection conn, String customerId)
+	
+	// 고객 1 전체 장바구니 리스트
+	public List<Map<String, Object>> selectCartListByCustomer(Connection conn, String customerId)
 			throws ClassNotFoundException, SQLException {
 		// 리턴값 반환할 객체
 		List<Map<String, Object>> list = new ArrayList<>();
@@ -25,7 +26,7 @@ public class CartDao {
 		this.dbUtil = new DBUtil();
 		// 쿼리
 		String sql = "SELECT c.goods_no goodsNo, c.cart_quantity cartQuantity, g.goods_price goodsPrice, goods_name goodsName"
-				+ " FROM cart c INNER JOIN goods g USING(goods_no) WHERE customer_id = ? ";
+				+ " FROM cart c INNER JOIN goods g USING(goods_no) WHERE customer_id = ?";
 
 		try {
 			// DB 연결
@@ -36,6 +37,67 @@ public class CartDao {
 			stmt = conn.prepareStatement(sql);
 			// ?값 설정
 			stmt.setString(1, customerId);
+			// 디버깅
+			System.out.println("CartDao - selectCartList - stmt : " + stmt);
+
+			// 쿼리 실행
+			rs = stmt.executeQuery();
+			
+			// list에 값 담기
+			while (rs.next()) {
+				Map<String, Object> map = new HashMap<>();
+				map.put("goodsNo", rs.getInt("goodsNo"));
+				map.put("cartQuantity", rs.getInt("cartQuantity"));
+				map.put("goodsPrice", rs.getString("goodsPrice"));
+				map.put("goodsName", rs.getString("goodsName"));
+				list.add(map);
+			}
+			// 디버깅
+			System.out.println("CartDao - selectCartList - list : " + list);
+			
+		} finally {
+			// DB 자원해제
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return list;
+	} // end selectCartList
+	
+	// 장바구니 리스트
+	public List<Map<String, Object>> selectCartList(Connection conn, Cart paramCart)
+			throws ClassNotFoundException, SQLException {
+		// 리턴값 반환할 객체
+		List<Map<String, Object>> list = new ArrayList<>();
+		// DB 자원
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		this.dbUtil = new DBUtil();
+		// 쿼리
+		String sql = "SELECT c.goods_no goodsNo, c.cart_quantity cartQuantity, g.goods_price goodsPrice, goods_name goodsName"
+				+ " FROM cart c INNER JOIN goods g USING(goods_no) WHERE customer_id = ?  AND goods_no = ?";
+
+		try {
+			// DB 연결
+			conn = dbUtil.getConnection();
+			// 디버깅
+			System.out.println("CartDao - selectCartList DB 연결");
+			// 쿼리 담기
+			stmt = conn.prepareStatement(sql);
+			// ?값 설정
+			stmt.setString(1, paramCart.getCustomerId());
+			stmt.setInt(2, paramCart.getGoodsNo());
 			// 디버깅
 			System.out.println("CartDao - selectCartList - stmt : " + stmt);
 

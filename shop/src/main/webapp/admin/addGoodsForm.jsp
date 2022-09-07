@@ -1,20 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
+	//디버깅
+	System.out.println("\n-------------------------------------addGoodsForm - start ------------------------------------------------\n");
 	//admin이 아닐 경우 접속 불가
 	if (session.getAttribute("id") == null || ((String) session.getAttribute("user")).equals("customer")) {
-		response.sendRedirect(request.getContextPath() + "/loginForm.jsp");
+		response.sendRedirect(request.getContextPath() + "/main.jsp");
 		return;
 	}
 	// active가 Y이 아니면 접속 불가
 	if(! session.getAttribute("active").equals("Y")){
-		response.sendRedirect(request.getContextPath() + "/noticeList.jsp");
+		response.sendRedirect(request.getContextPath() + "/customer.jsp");
 		return;
 	}
 	// 디버깅
 	System.out.println("id : " + session.getAttribute("id"));
 	System.out.println("user : " + session.getAttribute("user"));
 	System.out.println("active : " + session.getAttribute("active"));
-	
+
+	//디버깅
+	System.out.println("\n-------------------------------------addGoodsForm end ------------------------------------------------\n");
 %>
 <%@ include file="/inc/header.jsp"%>
 
@@ -53,7 +57,7 @@
 				</table>
 				<br>
 				<br>
-				<button type="button" class="btn btn-outline-success" style="float: right; margin-right: 3%; margin-bottom:5%;" id="addGoodsBtn">업로드</button>
+				<button type="button" class="btn" style="background-color:black; color:white; vfloat: right; margin-right: 3%; margin-bottom:5%;" id="addGoodsBtn">업로드</button>
 			</form>
 		</div>
 	</div>

@@ -2,11 +2,11 @@
     pageEncoding="UTF-8"%>
 <%
 	//디버깅
-	System.out.println("\n----------------------------------addGoodsReview - start ---------------------------------");
+	System.out.println("\n----------------------------------addGoodsReview - start ------------------------------------\n");
 
 	//로그인 전이거나 고객이 아니면 로그인 페이지로 돌아가기
 	if(session.getAttribute("id") == null || !(session.getAttribute("user").equals("Customer"))){
-		response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
+		response.sendRedirect(request.getContextPath()+"/main.jsp");
 		return;
 	} 
 	//디버깅
@@ -27,7 +27,7 @@
 	System.out.println("orderNo : " + orderNo);
 	
 	//디버깅
-	System.out.println("----------------------------------addGoodsReview - end ---------------------------------\n");
+	System.out.println("\n----------------------------------addGoodsReview - end -------------------------------------\n");
 %>    
 <%@ include file="/inc/header.jsp"%>
 <!-- main -->
