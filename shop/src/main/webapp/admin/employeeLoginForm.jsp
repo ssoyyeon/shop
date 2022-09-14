@@ -34,7 +34,7 @@
 								<div >
 									<br> 
 									<button type="button" class="btn" 
-										id="employeeLoginBtn" class="btn" style=" color: white; background-color: black; float: right; margin-top:5%;" >login</button>
+										id="employeeLoginBtn" class="btn" style=" color: white; background-color: black; float: right; margin-top:5%; margin-right:3%;" >login</button>
 								</div>
 							</form>
 						</div>

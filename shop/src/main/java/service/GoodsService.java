@@ -16,7 +16,7 @@ public class GoodsService {
 	private GoodsDao goodsDao;
 	private GoodsImgDao goodsImgDao;
 
-	// 공지사항 삭제
+	// 상품 삭제
 	public int deleteGoods(int goodsNo) throws Exception {
 		// 리턴 반환할 변수
 		int goods = 0;
@@ -66,30 +66,7 @@ public class GoodsService {
 		}
 		return goods;
 	} // end deleteGoods
-	/*
-	 * // 검색어로 상품 검색 public List<Map<String, Object>>
-	 * selectCutomerGoodsListBySearch(int rowPerPage, int currentPage, String word,
-	 * String GoodsListSort) { // 리턴값 반환할 객체 List<Map<String, Object>> map = null;
-	 * // DB 자원 Connection conn = null; DBUtil dbUtil = new DBUtil(); try { // DB 연결
-	 * conn = dbUtil.getConnection(); conn.setAutoCommit(false); // excuteUpdate()
-	 * 실행 시 자동 커밋을 막음 // 디버깅
-	 * System.out.println(" GoodsService - selectCutomerGoodsListByPage - DB 연결");
-	 * 
-	 * // 시작행 int beginRow = (currentPage - 1) * rowPerPage; // 디버깅
-	 * System.out.println(" GoodsService - beginRow : " + beginRow);
-	 * 
-	 * // 메서드를 불러오기 위한 객체 생성 후 호출 this.goodsDao = new GoodsDao(); map =
-	 * goodsDao.selectCutomerGoodsListByPage(conn, rowPerPage, beginRow,
-	 * GoodsListSort,word);
-	 * 
-	 * // 상품리스트 출력 실패시 오류 생성 if (map == null) { throw new Exception(); } } catch
-	 * (Exception e) { e.printStackTrace(); try { conn.rollback(); } catch
-	 * (SQLException e1) { e1.printStackTrace(); } } finally { try { // DB 자원해제
-	 * conn.close(); } catch (SQLException e) { e.printStackTrace(); } } return map;
-	 * }
-	 */
 	// 검색어로 상품 검색
-
 	public List<Map<String, Object>> selectCutomerGoodsListBySearch(int rowPerPage, int currentPage, String word) {
 		// 리턴값 반환할 객체
 		List<Map<String, Object>> map = null;
@@ -396,7 +373,7 @@ public class GoodsService {
 	} // end selectgoodsOne
 
 	// 상품정보 수정하기
-	public void modifyGoods(Goods paragoods, GoodsImg paragoodsImg) {
+	public void modifyGoods(Goods paragoods) {
 		Connection conn = null;
 		DBUtil dbUtil = new DBUtil();
 		this.goodsDao = new GoodsDao();
@@ -411,10 +388,12 @@ public class GoodsService {
 
 			// 수정하기 메서드 호출
 			goodsDao.updateGoods(conn, paragoods);
-			goodsImgDao.updateGoodsImg(conn, paragoodsImg);
+			/*
+			 * goodsImgDao.updateGoodsImg(conn, paragoodsImg);
+			 */
 
 			// 상품 상세보기 실행 실패시 오류 생성
-			if (goodsDao.updateGoods(conn, paragoods) == 0 || goodsImgDao.updateGoodsImg(conn, paragoodsImg) == 0) {
+			if (goodsDao.updateGoods(conn, paragoods) == 0) {
 				throw new Exception();
 			}
 

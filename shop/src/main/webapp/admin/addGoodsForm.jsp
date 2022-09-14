@@ -7,11 +7,6 @@
 		response.sendRedirect(request.getContextPath() + "/main.jsp");
 		return;
 	}
-	// active가 Y이 아니면 접속 불가
-	if(! session.getAttribute("active").equals("Y")){
-		response.sendRedirect(request.getContextPath() + "/customer.jsp");
-		return;
-	}
 	// 디버깅
 	System.out.println("id : " + session.getAttribute("id"));
 	System.out.println("user : " + session.getAttribute("user"));
@@ -57,7 +52,7 @@
 				</table>
 				<br>
 				<br>
-				<button type="button" class="btn" style="background-color:black; color:white; vfloat: right; margin-right: 3%; margin-bottom:5%;" id="addGoodsBtn">업로드</button>
+				<button type="button" class="btn" style="background-color:black; color:white; float: right; margin-right: 3%; margin-bottom:5%;" id="addGoodsBtn">Add Goods</button>
 			</form>
 		</div>
 	</div>

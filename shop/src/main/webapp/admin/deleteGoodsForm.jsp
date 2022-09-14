@@ -11,7 +11,7 @@
 	}
 	// active가 Y이 아니면 접속 불가
 	if(! session.getAttribute("active").equals("Y")){
-		response.sendRedirect(request.getContextPath() + "/noticeList.jsp");
+		response.sendRedirect(request.getContextPath() + "/main.jsp");
 		return;
 	}
 	// 디버깅
@@ -19,17 +19,14 @@
 	System.out.println("user : " + session.getAttribute("user"));
 	System.out.println("active : " + session.getAttribute("active"));
 	
-	
-	System.out.println("\ndeleteGoodsList");
-	
 	// 인코딩
 	request.setCharacterEncoding("utf-8");
-	
+
 	// 요청값 처리
 	int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
 	// 디버깅
 	System.out.println("goodsNo : " + goodsNo);
-	
+
 	//디버깅
 	System.out.println("\n------------------------------------ deleteGoodsForm -  end------------------------------------------------\n");
 %>    
@@ -50,8 +47,8 @@
 				<fieldset >
 					<h2 style="margin-bottom:3%;"><b style="color:#673ab7;"><%=goodsNo %>번</b> 상품을 삭제하시겠습니까?</h2>
 					<button type="submit" class="btn btn-outline-danger" style="float: center;">네.</button>
-					<a href="<%=request.getContextPath()%>/noticeList.jsp">
-					<button type="button" class="btn" style=" color: white; background-color: black; float: center;">아니오.</button>
+					<a href="<%=request.getContextPath()%>/admin/adminGoodsList.jsp">
+					<button type="button" class="btn btn-outline-dark" style=" color:black; float: center;">아니오.</button>
 					</a> 
 					<br><br><br>			
 				</fieldset>

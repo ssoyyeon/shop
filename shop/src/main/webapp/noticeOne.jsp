@@ -78,7 +78,7 @@
 	<div>
 		<br> <br> 
 <%
-		if(session.getAttribute("user").equals("Employee") && session.getAttribute("active").equals("Y")){
+		if(session.getAttribute("user").equals("Employee")){
 %>
 		<a href="<%=request.getContextPath()%>/noticeList.jsp">
 			<button type="submit" class="btn btn" style="float: right;  background-color:black; color:white;">noticeList</button>

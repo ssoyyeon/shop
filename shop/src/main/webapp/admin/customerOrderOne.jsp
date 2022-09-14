@@ -130,7 +130,7 @@ System.out.println("\n---------------------------------------customerOrderOne - 
 			<hr>
 			<%
 			// 상품목록/등록/수정(품절)/삭제(장바구니, 주문이 없는경우)
-			if (list.isEmpty()) {
+			if (session.getAttribute("id") == null || list.isEmpty()) {
 			%>
 			<p style="font-size: 25px;  margin-bottom: 6%; margin-top: 6%; text-align: center;"><b>주문한 상품이 없습니다.</b></p>
 			<%

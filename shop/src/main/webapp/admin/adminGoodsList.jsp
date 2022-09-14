@@ -6,39 +6,39 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%
-	//디버깅
-	System.out.println("\n-------------------------------------admainGoodsList- start ------------------------------------------------\n");
-	//admin이 아닐 경우 접속 불가
-	if (session.getAttribute("id") == null && ((String) session.getAttribute("user")).equals("customer")) {
-		response.sendRedirect(request.getContextPath() + "/main.jsp");
-		return;
-	}
-	// 디버깅
-	System.out.println(session.getAttribute("id"));
-	
-	// 인코딩
-	request.setCharacterEncoding("utf-8");
-	
-	// 현재 페이지
-	int currentPage = 1;
-	// 받아오는 페이지가 있을 경우
-	if (request.getParameter("currentPage") != null) {
-		currentPage = Integer.parseInt(request.getParameter("currentPage"));
-	}
-	
-	// rowPerPage 처음에 값을 지정하여 변하지 않으므로 상수로 선언
-	final int rowPerPage = 10;
-	
-	// 쿼리 실행을 위한 객체 생성
-	GoodsService goodsService = new GoodsService();
-	// 상품리스트 
-	List<Goods> list = null;
-	list = goodsService.selectGoodsListbyPage(rowPerPage, currentPage);
-	// 페이징 마지막 페이지 메서드 호출
-	int lastPage = goodsService.lastPage(rowPerPage, currentPage);
-	
-	// 디버깅
-	System.out.println("\n-------------------------------------adminGoodsList - end ---------------------------------------------\n");
+//로그인 전이거나 스텝이 아니면 로그인 페이지로 돌아가기
+if (session.getAttribute("id") == null || session.getAttribute("user").equals("Customer")) {
+	response.sendRedirect(request.getContextPath() + "/main.jsp");
+	return;
+}
+// 디버깅
+System.out.println(session.getAttribute("id"));
+System.out.println(session.getAttribute("user"));
+
+// 인코딩
+request.setCharacterEncoding("utf-8");
+
+// 현재 페이지
+int currentPage = 1;
+// 받아오는 페이지가 있을 경우
+if (request.getParameter("currentPage") != null) {
+	currentPage = Integer.parseInt(request.getParameter("currentPage"));
+}
+
+// rowPerPage 처음에 값을 지정하여 변하지 않으므로 상수로 선언
+final int rowPerPage = 10;
+
+// 쿼리 실행을 위한 객체 생성
+GoodsService goodsService = new GoodsService();
+// 상품리스트 
+List<Goods> list = null;
+list = goodsService.selectGoodsListbyPage(rowPerPage, currentPage);
+// 페이징 마지막 페이지 메서드 호출
+int lastPage = goodsService.lastPage(rowPerPage, currentPage);
+
+// 디버깅
+System.out.println(
+		"\n-------------------------------------adminGoodsList - end ---------------------------------------------\n");
 %>
 
 <%@ include file="/inc/header.jsp"%>
@@ -46,19 +46,19 @@
 <div class="container">
 	<div class="row">
 		<!-- 메인페이지 -->
-		<div class="col-lg-12" style="margin-bottom: 6%; margin-top: 6%; background-color: #E9EDF1; text-align: center;">
+		<div class="col-lg-12"
+			style="margin-bottom: 6%; margin-top: 6%; background-color: #E9EDF1; text-align: center;">
 			<h2 style="font-size: 40px; margin-top: 5%;">
 				<b>GOODS LIST</b>
 			</h2>
 			<p>
 				<a href="<%=request.getContextPath()%>/admin/addGoodsForm.jsp">
 					<button type="submit" class="btn"
-						style="float: right; margin-bottom: 3%; margin-right: 5%; margin-bottom:3%; background-color:black; color:white;">AddGoods</button>
+						style="float: right; margin-bottom: 3%; margin-right: 5%; margin-bottom: 3%; background-color: black; color: white;">AddGoods</button>
 				</a>
 			</p>
 			<br>
 			<hr>
-			<!-- 상품목록/등록/수정(품절)/삭제(장바구니, 주문이 없는경우) -->
 			<table class="table table-hover table-striped">
 				<thead>
 					<tr>

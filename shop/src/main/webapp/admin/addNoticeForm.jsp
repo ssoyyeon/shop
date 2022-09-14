@@ -7,15 +7,9 @@
 		response.sendRedirect(request.getContextPath()+"/main.jsp");
 		return;
 	} 
-	// active가 Y이 아니면 접속 불가
-	if(! (session.getAttribute("active").equals("Y")) ){
-		response.sendRedirect(request.getContextPath() + "/noticeList.jsp");
-		return;
-	}
  	// 디버깅
 	System.out.println("id : " + session.getAttribute("id"));
 	System.out.println("user : " + session.getAttribute("user"));
-	System.out.println(session.getAttribute("active"));
 	
 	//디버깅
 	System.out.println("\n-------------------------------------addNoticeForm - end ------------------------------------------------\n");

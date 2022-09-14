@@ -9,7 +9,6 @@
 <%
 	// 디버깅
 	System.out.println("\n-------------------------------updateGoodsAction start-------------------------------------------\n");
-
 	// cos 라이브러리 사용하기
 	String dir = request.getServletContext().getRealPath("/upload");
 	// 디버깅
@@ -39,7 +38,6 @@
 	String contentType = mRequest.getContentType("imgFile");
 	String originFilename = mRequest.getOriginalFileName("originFilename");
 	String filename = mRequest.getFilesystemName("imgFile");
-
 	// 디버깅
 	System.out.println("updateGoodsAction - originFilename : " + originFilename);
 	System.out.println("updateGoodsAction - filename : " + filename);
@@ -55,37 +53,14 @@
 	// 디버깅
 	System.out.println("updateGoodsAction - goods : " + goods);
 	
-	// 이미지 객체에 담기
-	GoodsImg goodsImg = new GoodsImg();
-	goodsImg.setGoodsNo(goodsNo);
-	goodsImg.setContentFile(contentType);
-	goodsImg.setOrignFilename(originFilename);
-	goodsImg.setFilename(filename);
-	// 디버깅
-	System.out.println("addGoodsAction - goodsImg : " + goodsImg);
 	
 	// 메서드실행
 	GoodsService goodsService = new GoodsService();
-	goodsService.modifyGoods(goods, goodsImg);
-	
-	// 이미지 파일이 아닐 경우 막기
-	if(!(contentType.equals("image/gif") || contentType.equals("image/png") || contentType.equals("image/jpeg") || contentType.equals("image/jpg"))){
-		// 이미 업로드된 파일을 삭제
-		File f = new File(dir + "/" + filename);
-		if(f.exists()){ // 파일이 존재하면 삭제
-			f.delete();
-		}
-		
-		// 에러메세지
-		String errorMsg = URLEncoder.encode("이미지파일만 업로드가능합니다", "UTF-8");
-		response.sendRedirect(request.getContextPath() + "/admin/adminGoodsForm.jsp?errorMsg=" + errorMsg);
-		return;
-	}
-	
+	// goodsService.modifyGoods(goods, goodsImg);
+	goodsService.modifyGoods(goods);
+
 	// 수정 후 페이지 재요청
 	response.sendRedirect(request.getContextPath() + "/admin/adminGoodsList.jsp");
-
 	// 디버깅
 	System.out.println("\n-------------------------------updateGoodsAction end-------------------------------------------\n");
 %>
-

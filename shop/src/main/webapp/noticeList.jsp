@@ -51,8 +51,7 @@
 				</h2>
 				<%
 				//admin이 아닐 경우 공지사항 추가 접속 불가
-				if (session.getAttribute("id") != null && session.getAttribute("user").equals("Employee")
-						&& session.getAttribute("active").equals("Y")) {
+				if (session.getAttribute("id") != null && session.getAttribute("user").equals("Employee")) {
 				%>
 
 				<p>
