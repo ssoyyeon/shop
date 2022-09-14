@@ -5,7 +5,8 @@
 	pageEncoding="UTF-8"%>
 <%
 // 디버깅
-System.out.println("\n--------------------------------------cartList start-------------------------------------------\n");
+System.out
+		.println("\n--------------------------------------cartList start-------------------------------------------\n");
 
 // 로그인 전, 고객이 아니면 접속 불가
 if (session.getAttribute("id") == null || ((String) session.getAttribute("user")).equals("Employee")) {
@@ -19,36 +20,19 @@ System.out.println("user : " + session.getAttribute("user"));
 //인코딩
 request.setCharacterEncoding("utf-8");
 
-// 변수 가져오기
-String customerId = ((String) session.getAttribute("id"));
-// 디버깅
-System.out.println("CartList - customerId : " + customerId);
+// 변수 가져오기 - 세션 아이디값
+Cart cart = new Cart();
+cart.setCustomerId((String) session.getAttribute("id"));
 
-// 페이징
-// 한 페이지 당 보여질 게시물 수
-final int rowPerPage = 10;
-
-// 현재 페이지
-int currentPage = 1;
-// 받아오는 페이지 값이 있다면 현재 페이지 변경
-if (request.getParameter("currentPage") != null) {
-	currentPage = Integer.parseInt(request.getParameter("currentPage"));
-}
 // 디버깅
-System.out.println("CartList - currentPage : " + currentPage);
+System.out.println("CartList - customerId : " + cart.getCustomerId());
 
 // 메서드 호출을 위한 객체 생성
 Cartservice cartService = new Cartservice();
 
-// 마지막 페이지 메서드 호출 
-int lastPage = cartService.lastPage(rowPerPage, currentPage, customerId);
-// 디버깅
-System.out.println("CartList - lastPage : " + lastPage);
-
-
 // 장바구니 리스트 호출
 List<Map<String, Object>> list = new ArrayList<>();
-list = cartService.selectCartListByCustomer(customerId);
+list = cartService.selectCartListByCustomer(cart);
 // 디버깅
 System.out.println("CartList - list : " + list);
 
@@ -69,7 +53,8 @@ System.out.println("\n--------------------------------------cartList end--------
 			%>
 			<div class="col-lg-12"
 				style="margin-top: 10%; background-color: #E9EDF1; text-align: center;">
-				<h2 style="font-size: 40px; margin-top: 5%; height: 213px;">
+				<h2
+					style="font-size: 40px; margin-top: 5%; margin-bottom: 5%; height: 213px;">
 					<b>장바구니에 담긴 상품이 없습니다.</b>
 				</h2>
 				<a href="<%=request.getContextPath()%>/main.jsp"><button
@@ -82,9 +67,9 @@ System.out.println("\n--------------------------------------cartList end--------
 			<div class="col-lg-12"
 				style="margin-top: 10%; background-color: #E9EDF1; text-align: center;">
 				<h2 style="font-size: 40px; margin-top: 5%;">
-					<b><%=customerId%>'s Cart List</b>
+					<b><%=session.getAttribute("id")%>'s Cart List</b>
 				</h2>
-				<form
+				<form id="ordersGoodsForm"
 					action="<%=request.getContextPath()%>/customer/cartListAction.jsp"
 					method="post">
 					<table class="table table-striped">
@@ -103,23 +88,23 @@ System.out.println("\n--------------------------------------cartList end--------
 							for (Map<String, Object> n : list) {
 							%>
 							<tr>
-								<td>
-									<input type="checkbox" name="goodsNo" value="<%=n.get("goodsNo")%>">
+								<td><input type="checkbox" name="goodsNo"
+									value="<%=n.get("goodsNo")%>"></td>
+								<td><input type="hidden" name=goodsName
+									value="<%=n.get("goodsName")%>"><%=n.get("goodsName")%>
 								</td>
-								<td>
-									<input type="hidden" name=goodsName value="<%=n.get("goodsName")%>"><%=n.get("goodsName")%>
+								<td><input type="hidden" name="cartQuantity"
+									value="<%=n.get("cartQuantity")%>"><%=n.get("cartQuantity")%>
 								</td>
-								<td>
-									<input type="hidden" name="cartQuantity" value="<%=n.get("cartQuantity")%>"><%=n.get("cartQuantity")%>
-								</td>
-								<td><input type="hidden" name="goodsPrice" value="<%=n.get("goodsPrice")%>"><%=n.get("goodsPrice")%>won</td>
+								<td><input type="hidden" name="goodsPrice"
+									value="<%=n.get("goodsPrice")%>"><%=n.get("goodsPrice")%>won</td>
 								<td><a
 									href="<%=request.getContextPath()%>/customer/deleteCarListForm.jsp?goodsNo=<%=n.get("goodsNo")%>">
-										<button type="submit" class="btn btn-danger"
+										<button type="button" class="btn" id="deleteBtn"
 											style="color: white; background-color: black;">Delete</button>
 								</a> <a
 									href="<%=request.getContextPath()%>/customer/updateCartQuantity.jsp?goodsNo=<%=n.get("goodsNo")%>&cartQuantity=<%=n.get("cartQuantity")%>&">
-										<button type="submit" class="btn btn-warning"
+										<button type="button" class="btn" id="modifyBtn"
 											style="color: white; background-color: black;">Modify</button>
 								</a></td>
 							</tr>
@@ -128,7 +113,7 @@ System.out.println("\n--------------------------------------cartList end--------
 							%>
 						</tbody>
 					</table>
-					<button type="submit" class="btn"
+					<button type="button" class="btn" id="ordersGoodsbtn"
 						style="width: 300px; font-size: 50px; border: 2px solid; margin-top: 6%; margin-bottom: 3%; float: center; background-color: white; border-color: black;">
 						<b>Order</b>
 					</button>
@@ -140,49 +125,20 @@ System.out.println("\n--------------------------------------cartList end--------
 			%>
 		</div>
 		<!--  end row -->
-		<!-- 페이징 -->
-		<!-- 페이징 -->
-		<!-- 페이징 -->
-		<div class="container" style="text-align: center; margin-top: 5%;">
-			<%
-			if (currentPage > 1) {
-			%>
-			<a
-				href="<%=request.getContextPath()%>/customer/cartList.jsp?currentPage=<%=currentPage - 1%>">
-				<button type="submit" class="btn btn-secondary">Pre</button>
-			</a>
-			<%
-			} else {
-			%>
-			<a
-				href="<%=request.getContextPath()%>/customer/cartList.jsp?currentPage=<%=currentPage - 1%>">
-				<button type="submit" class="btn btn-secondary" disabled="disabled">Pre</button>
-			</a>
-			<%
-			}
-			if (currentPage < lastPage) {
-			// 디버깅
-			System.out.println("lastPage : " + lastPage);
-			System.out.println("currentPage : " + currentPage);
-			%>
-			<a
-				href="<%=request.getContextPath()%>/customer/cartList.jsp?currentPage=<%=currentPage + 1%>">
-				<button type="submit" class="btn btn-dark">Next</button>
-			</a>
-
-			<%
-			} else {
-			%>
-			<a
-				href="<%=request.getContextPath()%>/customer/cartList.jsp?currentPage=<%=currentPage%>">
-				<button type="submit" class="btn btn-dark" disabled="disabled">Next</button>
-			</a>
-			<%
-			}
-			%>
-		</div>
 	</div>
 	<!-- end container -->
 	<%@ include file="/inc/footer.jsp"%>
 </body>
+<script>
+	$('#ordersGoodsbtn').click(function() {
+		alert('주문하시겠습니까?');
+		$('#ordersGoodsForm').submit();
+	});
+	$('#deleteBtn').click(function() {
+		$('#deleteBtn').submit();
+	});
+	$('#modifyBtn').click(function() {
+		$('#modifyBtn').submit();
+	});
+</script>
 </html>

@@ -228,6 +228,40 @@ public class EmployeeService {
 		return list;
 	} // end selectEmployeeList
 
+	// 관리자 비밀번호 수정
+	public int modifyMemberPw(String password, String employeeId) throws ClassNotFoundException, SQLException {
+		// 리턴값 반환 변수
+		int modifyMemberPw = 0;
+		// DB 자원
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = null;
+
+		try {
+			// DB 연결
+			conn = dbUtil.getConnection();
+			// 디버깅
+			System.out.println("modifyMemberPw - DB 연결");
+			
+			// 메서드 호출을 위한 객체 생성
+			EmployeeDao employeeDao = new EmployeeDao();
+			
+			// 비밀번호 변경 메서드 호출
+			modifyMemberPw = employeeDao.updateMemberPw(conn, password, employeeId);
+
+		} catch (Exception e) {
+			// console에 예외메세지 출력
+			e.printStackTrace();
+		} finally {
+			try {
+				// DB 자원해제
+				conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return modifyMemberPw;
+	} // end modifyMemberPw
+	
 	// 관리자 멤버 수정
 	public int modifyMember(String employeeId, String active) throws ClassNotFoundException, SQLException {
 		// 리턴값 반환 변수

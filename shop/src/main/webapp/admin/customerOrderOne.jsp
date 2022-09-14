@@ -31,6 +31,18 @@ String customerId = request.getParameter("customerId");
 // 디버깅
 System.out.println("customerId : " + customerId);
 
+//한 페이지당 게시물 수
+int ROW_PER_PAGE = 20;
+if (request.getParameter("ROW_PER_PAGE") != null) {
+	ROW_PER_PAGE = Integer.parseInt(request.getParameter("ROW_PER_PAGE"));
+}
+
+//현재페이지
+int currentPage = 1;
+if (request.getParameter("currentPage") != null) {
+	currentPage = Integer.parseInt(request.getParameter("currentPage"));
+}
+
 // 쿼리 실행을 위한 객체 생성
 OrdersService ordersService = new OrdersService();
 CustomerService customerService = new CustomerService();
@@ -39,7 +51,7 @@ CustomerService customerService = new CustomerService();
 Customer customer = customerService.selecCustomerOne(customerId);
 
 // 고객 1인 주문 리스트 list = 모델값
-List<Map<String, Object>> list = ordersService.selectOrdersListByCustomer(customerId);
+List<Map<String, Object>> list = ordersService.selectOrdersListByEmployee(customerId);
 // 디버깅
 System.out.println("\n---------------------------------------customerOrderOne - end ----------------------------------------\n");
 %>
@@ -159,7 +171,7 @@ System.out.println("\n---------------------------------------customerOrderOne - 
 		</div>
 	</div>
 	<a href="<%=request.getContextPath()%>/admin/customerMemberList.jsp">
-		<button type="submit" class="btn btn-success"
+		<button type="submit" class="btn"
 			style="float: right; color: white; background-color: black;">CustomerList</button>
 	</a>
 </div>

@@ -11,7 +11,8 @@
 	pageEncoding="UTF-8"%>
 <%
 // 디버깅
-System.out.println("\n----------------------------------cutomerGoodsOne - start ------------------------------------\n");
+System.out
+		.println("\n----------------------------------cutomerGoodsOne - start ------------------------------------\n");
 
 // 로그인 전이면 로그인 페이지로 재요청
 if (session.getAttribute("id") == null) {
@@ -49,7 +50,8 @@ if (list != null) {
 }
 
 // 디버깅
-System.out.println("\n----------------------------------cutomerGoodsOne - end ---------------------------------------\n");
+System.out
+		.println("\n----------------------------------cutomerGoodsOne - end ---------------------------------------\n");
 %>
 <%@ include file="/inc/header.jsp"%>
 <!-- main -->
@@ -116,43 +118,55 @@ System.out.println("\n----------------------------------cutomerGoodsOne - end --
 <div class="container">
 	<div class="row">
 		<div class="col-lg-12"
-			style="margin-top: 3%; background-color: #E9EDF1;">
+			style="margin-top: 5%; background-color: #E9EDF1;">
 			<h3 style="font-size: 40px; text-align: center; margin-top: 5%;">
 				<b>Review</b>
 			</h3>
 			<hr>
 			<br> <br>
 			<div>
+				<%
+				// 리뷰가 없는 경우
+				if (session.getAttribute("id") == null || list.isEmpty()) {
+					System.out.println("list : " + list);
+				%>
+				<div class="col-lg-12"
+					style="margin-top: 3%; background-color: #E9EDF1; text-align: center;">
+					<p style="font-size: 25px; margin-top: 5%; height: 70px;">
+						<b>리뷰가 없습니다.</b>
+					</p>
+					<a href="<%=request.getContextPath()%>/main.jsp"><button
+							type="button" class="btn btn-dark" style="margin-bottom:10%;">홈으로 가기</button></a>
+				</div>
+
+				<%
+				} else {
+				%>
 				<table class="table table-hover table-striped"
 					style="text-align: center;">
-					<tr>
-						<th><b>orderNo</b></th>
-						<th><b>reviewContent</b></th>
-						<th><b>createDate </b></th>
-						<th><b>updateDate </b></th>
-					</tr>
-					<%
-					// 리뷰가 없는 경우
-					if (session.getAttribute("id") == null && list.isEmpty()) {
-						System.out.println("list : " + list);
-					%>
-					<tr>
-						<td>리뷰가 없습니다.</td>
-					</tr>
-					<%
-					} else {
-					for (Map<String, Object> m : list) {
-					%>
-					<tr>
-						<td><%=m.get("orderNo")%></td>
-						<td><%=m.get("reviewContent")%></td>
-						<td><%=m.get("createDate")%></td>
-						<td><%=m.get("updateDate")%></td>
-					</tr>
-					<%
-					}
-					}
-					%>
+					<thead>
+						<tr>
+							<th><b>orderNo</b></th>
+							<th><b>reviewContent</b></th>
+							<th><b>createDate </b></th>
+							<th><b>updateDate </b></th>
+						</tr>
+					</thead>
+					<tbody>
+						<%
+						for (Map<String, Object> m : list) {
+						%>
+						<tr>
+							<td><%=m.get("orderNo")%></td>
+							<td><%=m.get("reviewContent")%></td>
+							<td><%=m.get("createDate")%></td>
+							<td><%=m.get("updateDate")%></td>
+						</tr>
+						<%
+						}
+						}
+						%>
+					</tbody>
 				</table>
 			</div>
 		</div>

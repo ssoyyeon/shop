@@ -251,7 +251,9 @@ public class CustomerService {
 
 	// 회원탈퇴
 	// 탈퇴하기 위해서는 외래키로 묶여있는 cart, orders 먼저 삭제 해야 함.
-	public boolean removeCustomer(Customer paramCustomer) {
+	public int removeCustomer(Customer paramCustomer) {
+		// 리턴값 반환할 변수
+		int remove = 0;
 		// 예외를 보고하는게 throws, 스스로 예외처리가 try,catch
 		// DB 자원
 		Connection conn = null;
@@ -264,33 +266,35 @@ public class CustomerService {
 			// 디버깅
 			System.out.println("removeCustomer - DB 연결");
 
-			// cart 삭제 메서드 호출
-			/*
-			 * // 장바구니 삭제 메서드 호출 CartDao.deletecartList(conn, getgoodsNo, customerId);
-			 * 
-			 * // orders 삭제 메서드 호출 OrdersDao.deleteCustomerOrder(conn, orderNo);
-			 */
 			// customer 메서드를 호출하는 객체를 생성
 			CustomerDao customerDao = new CustomerDao();
 
 			// 실행
-			customerDao.deleteCustomer(conn, paramCustomer);
+			remove = customerDao.deleteCustomer(conn, paramCustomer);
 			// 디버깅
-			System.out.println("remove result" + customerDao.deleteCustomer(conn, paramCustomer));
-
+			System.out.println("remove result" + remove);
+			
+			
 			// 아이디 탈퇴 실패했다면 throw를 생성해 던짐.
-			if (customerDao.deleteCustomer(conn, paramCustomer) == 0) {
+			if (remove == 0) {
+				// 디버깅
+				System.out.println("아이디 탈퇴 실패");
 				throw new Exception();
 			} else { // 탈퇴 성공시
+
+				// 디버깅
+				System.out.println("removeCustomer - paramCustomer.getCustomerId() : " + paramCustomer.getCustomerId());
+				
 				// 탈퇴한 아이디를 넣는 메서드를 호출하는 객체를 생성하고 실행
 				OutIdDao outIdDao = new OutIdDao();
 				// 탈퇴 아이디 입력 실패했다면 throw 예외 생성 후 처리
-				if (outIdDao.insertOutId(conn, paramCustomer.getCustomerId()) == 0) {
+				outIdDao.insertOutId(conn,paramCustomer.getCustomerId());
+				
+				// 탈퇴 아이디 추가 실패시 오류 생성
+				if(outIdDao.insertOutId(conn,paramCustomer.getCustomerId()) == 0){
 					throw new Exception();
 				}
 			}
-			// 디버깅
-			System.out.println("removeCustomer - paramCustomer.getCustomerId() : " + paramCustomer.getCustomerId());
 			
 			// 커밋
 			conn.commit();
@@ -303,7 +307,6 @@ public class CustomerService {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			return false; // 탈퇴 실패
 		} finally {
 			try {
 				// DB 자원해제
@@ -312,7 +315,7 @@ public class CustomerService {
 				e.printStackTrace();
 			}
 		}
-		return true; // 탈퇴 성공
+		return remove; 
 	} // end remeveCustomer
 
 	// loginAction.jsp 호출

@@ -39,7 +39,7 @@
 			<br> <br>
 			<form action="<%=request.getContextPath()%>/customer/deleteCustomerOrdersAction.jsp?orderNo=<%=orderNo%>" method="post" style="text-align: center; margin-bottom:5%;">
 				<fieldset >
-					<h2 style="margin-bottom:3%;"><b style="color:#673ab7;"><%=orderNo%>번</b> 주문을 삭제하시겠습니까?</h2>
+					<h2 style="margin-bottom:3%;"><b style="color:#673ab7;"><%=orderNo%>번</b> 주문을 취소하시겠습니까?</h2>
 					<button type="submit" class="btn btn-outline-danger" style="float: center;">네.</button>
 					<a href="<%=request.getContextPath()%>/customerOrdersList.jsp">
 					<button type="button" class="btn btn-outline-dark" style="float: center;">아니오.</button>

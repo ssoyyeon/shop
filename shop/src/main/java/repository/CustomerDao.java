@@ -69,7 +69,7 @@ public class CustomerDao {
 		// DB 연결
 		conn = dbUtil.getConnection();
 		// 디버깅
-		System.out.println("CustomerDao - removeCustomerPw DB- 연결");
+		System.out.println("CustomerDao - removeCustomerById DB- 연결");
 
 		try {
 			// 쿼리 넣기
@@ -77,14 +77,14 @@ public class CustomerDao {
 			// ? 값 설정
 			stmt.setString(1, customerId);
 			// 디버깅
-			System.out.println("removeCustomerPw : " + stmt);
+			System.out.println("removeCustomerById : " + stmt);
 			
 			// 뭐리 실행
 			customer = stmt.executeUpdate();
 			// 디버깅
 
 			if(customer != 0){
-			System.out.println("CustomerDao - removeCustomerPw 삭제 성공");
+			System.out.println("CustomerDao - removeCustomerById 삭제 성공");
 			}else {
 				System.out.println("customer : " + customer + "삭제 실패");
 			}
@@ -365,6 +365,8 @@ public class CustomerDao {
 			stmt.setString(1, paramCustomer.getCustomerId());
 			stmt.setString(2, paramCustomer.getCustomerPass());
 			// 디버깅
+			System.out.println("deleteCustomer - customerId : " + paramCustomer.getCustomerId());
+			System.out.println("deleteCustomer - customerPass : " + paramCustomer.getCustomerPass());
 			System.out.println("deleteCustomer - stmt : " + stmt);
 
 			// 쿼리 실행

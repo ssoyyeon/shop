@@ -198,7 +198,7 @@ public class NoticeService {
 	}
 	
 	// 공지사항 리스트
-	public List<Map<String, Object>> selectNoticeList(int rowPerPage, int currentPage) throws Exception {
+	public List<Map<String, Object>> selectNoticeList(int ROW_PER_PAGE, int currentPage) throws Exception {
 		List<Map<String, Object>> list = null;
 		Connection conn = null;
 		DBUtil dbUtil = new DBUtil();
@@ -210,18 +210,18 @@ public class NoticeService {
 			System.out.println("NoticeService - selectNoticeList DB 연결 성공!!!!!!!!!!");
 
 			// 시작하는 행
-			int beginRow = (currentPage - 1) * rowPerPage;
+			int beginRow = (currentPage - 1) * ROW_PER_PAGE;
 
 			// 메서드 호출을 위한 객체 생성
 			NoticeDao noticeDao = new NoticeDao();
 			// 공지사항 리스트 메서드 호출
-			list = noticeDao.selectNoticeList(conn, rowPerPage, beginRow);
+			list = noticeDao.selectNoticeList(conn, ROW_PER_PAGE, beginRow);
 			System.out.println(list);
 
 			// 디버깅
 			System.out.println("currentPage : " + currentPage);
 			System.out.println("beginRow : " + beginRow);
-			System.out.println("rowPerPage : " + rowPerPage);
+			System.out.println("rowPerPage : " + ROW_PER_PAGE);
 
 			// 리스트 추출을 실패한다면 오류 생성
 			if (list == null) {
@@ -243,7 +243,7 @@ public class NoticeService {
 	} // end selectNoticeList
 
 	// 마지막 페이지
-	public int lastPage(int rowPerPage, int currentPage) throws Exception {
+	public int lastPage(final int ROW_PER_PAGE) throws Exception {
 		int lastPage = 0;
 		Connection conn = null;
 		DBUtil dbUtil = new DBUtil();
@@ -257,7 +257,7 @@ public class NoticeService {
 			NoticeDao noticeDao = new NoticeDao();
 
 			// lastPage 구하는 메서드 호출
-			lastPage = noticeDao.lastPage(conn, rowPerPage);
+			lastPage = noticeDao.lastPage(conn, ROW_PER_PAGE);
 			// lastPage 실패시 오류 생성
 			if (lastPage == 0) {
 				throw new Exception();

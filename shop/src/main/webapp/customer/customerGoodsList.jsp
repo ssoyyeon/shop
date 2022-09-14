@@ -5,7 +5,8 @@
 <%@ page import="service.GoodsService"%>
 <%
 //디버깅
-System.out.println("\n----------------------------------customerGoodsList- start ------------------------------------------\n");
+System.out.println(
+		"\n----------------------------------customerGoodsList- start ------------------------------------------\n");
 //인코딩
 request.setCharacterEncoding("utf-8");
 
@@ -59,7 +60,8 @@ list = goodsService.selectCutomerGoodsListByPage(rowPerPage, currentPage, goodsL
 int lastPage = goodsService.lastPage(rowPerPage, currentPage);
 
 //디버깅
-System.out.println("\n----------------------------------customerGoodsList- end ------------------------------------------\n");
+System.out.println(
+		"\n----------------------------------customerGoodsList- end ------------------------------------------\n");
 %>
 <!-- 분리하면 servlet / 연계기술 forword(request, response) / jsp -->
 <!-- 모델값을 전달하기 위한 것, 객체로 전달 request.setAttribute( )   -> request가 끝나면 같이 사라짐 -->
@@ -78,30 +80,27 @@ System.out.println("\n----------------------------------customerGoodsList- end -
 						<div class="title-left">
 							<h3 style="font-size: 20px; text-align: center;">Categories</h3>
 						</div>
-						<div class="list-group list-group-collapse list-group-sm list-group-tree"
+						<div
+							class="list-group list-group-collapse list-group-sm list-group-tree"
 							id="list-group-men" data-children=".sub-men">
 							<div class="list-group-collapse sub-men">
 								<a class="list-group-item list-group-item-action"
 									href="#sub-men1" data-toggle="collapse" aria-expanded="true"
-									aria-controls="sub-men1"> Clothing 
-								</a>
+									aria-controls="sub-men1"> Clothing </a>
 								<div class="collapse show" id="sub-men1"
 									data-parent="#list-group-men">
 									<div class="list-group">
 										<a
 											href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?goodsListSort=<%=goodsListSort%>&category=<%=category%>&kind=<%=kind%>"
-											class="list-group-item list-group-item-action active">All Clothing
-										</a> 
-										<a href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?goodsListSort=<%=goodsListSort%>&kind=<%=kind%>&category=top"
+											class="list-group-item list-group-item-action active">All
+											Clothing </a> <a
+											href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?goodsListSort=<%=goodsListSort%>&kind=<%=kind%>&category=top"
 											class="list-group-item list-group-item-action">Top &
-											T-shirt
-										</a> <a
+											T-shirt </a> <a
 											href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?goodsListSort=<%=goodsListSort%>&kind=<%=kind%>&category=jersey"
-											class="list-group-item list-group-item-action">Jersey 
-										</a> <a
+											class="list-group-item list-group-item-action">Jersey </a> <a
 											href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?goodsListSort=<%=goodsListSort%>&kind=<%=kind%>&category=pants"
-											class="list-group-item list-group-item-action">Pants 
-										</a> <a
+											class="list-group-item list-group-item-action">Pants </a> <a
 											href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?goodsListSort=<%=goodsListSort%>&kind=<%=kind%>&category=ck"
 											class="list-group-item list-group-item-action">Socks</a>
 									</div>
@@ -109,41 +108,37 @@ System.out.println("\n----------------------------------customerGoodsList- end -
 							</div>
 							<div class="list-group-collapse sub-men">
 								<a class="list-group-item list-group-item-action"
-									href="#sub-men2"
-									data-toggle="collapse" aria-expanded="true"
-									aria-controls="sub-men2">Shoes 
-								</a>
+									href="#sub-men2" data-toggle="collapse" aria-expanded="true"
+									aria-controls="sub-men2">Shoes </a>
 								<div class="collapse show" id="sub-men2"
 									data-parent="#list-group-men">
 									<div class="list-group">
 										<a
 											href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?goodsListSort=<%=goodsListSort%>&kind=<%=kind%>&category=shoes"
 											class="list-group-item list-group-item-action active">
-											All Shoes
-										</a> <a
+											All Shoes </a> <a
 											href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?goodsListSort=<%=goodsListSort%>&kind=<%=kind%>&category=running"
-											class="list-group-item list-group-item-action"> Running
-										</a> <a
+											class="list-group-item list-group-item-action"> Running </a>
+										<a
 											href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?goodsListSort=<%=goodsListSort%>&kind=<%=kind%>&category=sports"
 											class="list-group-item list-group-item-action"> Training
 										</a> <a
 											href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?goodsListSort=<%=goodsListSort%>&kind=<%=kind%>&category=walking"
-											class="list-group-item list-group-item-action"> Walking
-										</a> <a
+											class="list-group-item list-group-item-action"> Walking </a>
+										<a
 											href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?goodsListSort=<%=goodsListSort%>&kind=<%=kind%>&category=sandals"
-											class="list-group-item list-group-item-action"> Sandals
-										</a>
+											class="list-group-item list-group-item-action"> Sandals </a>
 									</div>
 								</div>
 							</div>
 							<div class="list-group-collapse sub-men">
 								<a class="list-group-item list-group-item-action"
-									href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?goodsListSort=<%=goodsListSort%>&kind=<%=kind%>&category=bags">Bags 
+									href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?goodsListSort=<%=goodsListSort%>&kind=<%=kind%>&category=bag">Bags
 								</a>
 							</div>
 						</div>
 					</div>
-					<hr style="border:1px solid; color:black;">
+					<hr style="border: 1px solid; color: black;">
 				</div>
 			</div>
 			<!--  end side bar -->
@@ -221,8 +216,9 @@ System.out.println("\n----------------------------------customerGoodsList- end -
 										</a>
 									</div>
 									<div><%=m.get("goodsName")%></div>
-									<div><%=m.get("goodsPrice")%></div> <!-- 품절 여부 --> <%
- if (m.get("soldOut").equals("Y")) {
+									<div><%=m.get("goodsPrice")%></div> <!-- 품절 여부 --> 
+									<%
+ 									if (m.get("soldOut").equals("Y")) {
  %>
 									<div>
 										<b style="color: red;">SoldOut</b>
@@ -289,7 +285,7 @@ System.out.println("\n----------------------------------customerGoodsList- end -
 			System.out.println("currentPage : " + currentPage);
 			%>
 			<a
-				href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?currentPage=<%=currentPage + 1%>">
+				href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?category=<%=category%>&kind=<%=kind%>currentPage=<%=currentPage + 1%>">
 				<button type="submit" class="btn btn-dark">Next</button>
 			</a>
 
@@ -297,7 +293,7 @@ System.out.println("\n----------------------------------customerGoodsList- end -
 			} else {
 			%>
 			<a
-				href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?currentPage=<%=currentPage%>">
+				href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?category=<%=category%>&kind=<%=kind%>currentPage=<%=currentPage%>">
 				<button type="submit" class="btn btn-dark" disabled="disabled">Next</button>
 			</a>
 			<%

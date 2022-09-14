@@ -13,10 +13,6 @@
 								<b>Welcome To NNIKE</b>
 							</h2>
 							<div style="margin-top: 8%; font-size: 33px;">
-								<a href="<%=request.getContextPath()%>/join.jsp"
-									style=" margin-right: 5%;  color: white;"> <b style="color: grey">﻿▶ </b><b>
-										Sign up</b>
-								</a>
 								<a
 									href="<%=request.getContextPath()%>/admin/employeeLoginForm.jsp"
 									style="margin-right: 5%; color: white;"> <b

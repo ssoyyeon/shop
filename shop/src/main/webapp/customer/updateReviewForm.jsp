@@ -94,13 +94,13 @@
 		<div
 			style="float: right; margin-top: 5%; margin-left: 75%; margin-bottom: 6%;">
 			<a href="#">
-				<button type="button" class="btn btn-warning" style="color: white">AddCart</button>
+				<button type="button" class="btn" style=" color: white; background-color: black;">AddCart</button>
 			</a> <a href="#">
-				<button type="button" class="btn btn-success"
-					style="background-color: darkorange; border-color: darkorange">GoodsOrder</button>
+				<button type="button" class="btn"
+					style= "color: white; background-color: black;">GoodsOrder</button>
 			</a> <a
 				href="#p">
-				<button type="button" class="btn btn-success">GoodsList</button>
+				<button type="button" class="btn" style=" color: white; background-color: black;">GoodsList</button>
 			</a>
 		</div>
 		<br> <br>
@@ -134,8 +134,8 @@
 						<td><%=m.get("createDate")%></td>
 						<td><%=m.get("updateDate")%></td>
 						<td>
-							<button type="submit" class="btn btn-warning">Modify</button>
-							<button type="button" class="btn btn-danger">Delete</button>
+							<button type="submit" class="btn" style=" color: white; background-color: black;">Modify</button>
+							<button type="button" class="btn" style=" color: white; background-color: black;">Delete</button>
 						</td>
 					</tr>
 					<%

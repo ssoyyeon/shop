@@ -83,7 +83,7 @@
 				<br><br>
 			</div>
 			<div  style=" float: right; margin-top:5%; margin-left: 86%;">
-			<a href="<%=request.getContextPath()%>/admin/updateCustomerForm.jsp?ordersNo=<%=map.get("ordersNo") %>" >
+			<a href="<%=request.getContextPath()%>/admin/updateOrdersForm.jsp?ordersNo=<%=map.get("ordersNo") %>" >
 				<button type="submit" class="btn" style=" color: white; background-color: black;" >Modify</button>	
 				</a>
 			<a href="<%=request.getContextPath()%>/admin/adminOrdersList.jsp">

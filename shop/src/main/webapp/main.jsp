@@ -46,28 +46,27 @@
 			<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
 				<div class="shop-cat-box">
 					<img class="img-fluid" src="images/mainTop.png" alt="mainTop"
-						style="height: 420px;" /> <a class="btn hvr-hover" href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp">view
-						more</a>
+						style="height: 420px;" /> <a class="btn hvr-hover" href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=w&category=clothing">
+						Women Goods View </a>
 				</div>
 			</div>
 			<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
 				<div class="shop-cat-box">
 					<img class="img-fluid" src="images/mainPants.png" alt="mainPants"
-						style="height: 420px;" /> <a class="btn hvr-hover" href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp">view
-						more</a>
+						style="height: 420px;" /> <a class="btn hvr-hover" href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=m&category=clothing">Men Goods View</a>
 				</div>
 			</div>
 			<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
 				<div class="shop-cat-box">
 					<img class="img-fluid" src="images/mainShoes.png" alt="mainShoes"
-						style="height: 420px;" /> <a class="btn hvr-hover" href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp">view
+						style="height: 420px;" /> <a class="btn hvr-hover" href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=kids&category=clothing">Kids Goods view
 						more</a>
 				</div>
 			</div>
 			<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
 				<div class="shop-cat-box">
 					<img class="img-fluid" src="images/mainbags.png" alt="mainbags"
-						style="height: 420px;" /> <a class="btn hvr-hover" href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp">view
+						style="height: 420px;" /> <a class="btn hvr-hover" href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=sale&category=clothing">Sale Goods View
 						more</a>
 				</div>
 			</div>

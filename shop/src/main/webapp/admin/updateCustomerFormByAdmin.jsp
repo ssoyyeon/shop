@@ -12,7 +12,7 @@
 	}
 	// active가 Y이 아니면 접속 불가
 	if(! session.getAttribute("active").equals("Y")){
-		response.sendRedirect(request.getContextPath() + "/noticeList.jsp");
+		response.sendRedirect(request.getContextPath() + "/main.jsp");
 		return;
 	}
 	// 디버깅

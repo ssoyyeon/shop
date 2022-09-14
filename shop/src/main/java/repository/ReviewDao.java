@@ -21,8 +21,9 @@ public class ReviewDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		// 쿼리
-		String sql = "SELECT order_no orderNo, review_content reviewContent,  goods_no goodsNo, create_date createDate,"
-				+ " update_date updateDate FROM review WHERE goods_no= ?";
+		String sql = "SELECT r.order_no orderNo, r.review_content reviewContent,  r.goods_no goodsNo, r.create_date createDate, "
+				+ "r.update_date updateDate, o.customer_id customerId FROM review r INNER JOIN orders o USING(order_no) "
+				+ "WHERE r.goods_no= ?";
 		try {
 			stmt = conn.prepareStatement(sql);
 			// 디버깅
@@ -38,6 +39,7 @@ public class ReviewDao {
 				m.put("reviewContent", rs.getString("reviewContent"));
 				m.put("createDate", rs.getString("createDate"));
 				m.put("updateDate", rs.getString("updateDate"));
+				m.put("customerId", rs.getString("customerId"));
 				list.add(m);
 				// 디버깅
 				System.out.println("ReviewDao - selectReviewList - list : " + list);
@@ -67,7 +69,7 @@ public class ReviewDao {
 		ResultSet rs = null;
 		// 쿼리
 		String sql = "SELECT order_no orderNo, review_content reviewContent,  goods_no goodsNo, create_date createDate, update_date updateDate "
-				+ "FROM review " + "WHERE order_no in (SELECT order_no  FROM orders where customer_id = ?)";
+				+ "FROM review " + "WHERE order_no in (SELECT order_no  FROM orders where customer_id = ?) ";
 		/*
 		 * 
 		 * SELECT * FROM orders WHERE customer_id='q'
@@ -117,19 +119,22 @@ public class ReviewDao {
 	}
 
 	// 전체 리뷰 리스트 조회
-	public List<Map<String, Object>> selectReviewList(Connection conn) throws SQLException {
+	public List<Map<String, Object>> selectReviewList(Connection conn, int ROW_PER_PAGE , int beginRow) throws SQLException {
 		// 리턴할 객체 생성
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		// DB 자원
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		// 쿼리
-		String sql = "SELECT order_no orderNo, review_content reviewContent,  goods_no goodsNo, create_date createDate, update_date updateDate FROM review";
-
+		String sql = "SELECT r.order_no orderNo, r.review_content reviewContent,  r.goods_no goodsNo, r.create_date createDate, r.update_date updateDate "
+				+ ", o.customer_id customerId FROM review r INNER JOIN orders o USING(order_no) ORDER BY r.create_date DESC LIMIT ?,?";
 		try {
 			stmt = conn.prepareStatement(sql);
 			// 디버깅
 			System.out.println("ReviewDao - selectReviewList - DB 연결");
+			// ? setter
+			stmt.setInt(1, beginRow);
+			stmt.setInt(2, ROW_PER_PAGE);
 			// 디버깅
 			System.out.println("ReviewDao - selectReviewList - stmt : " + stmt);
 			rs = stmt.executeQuery();
@@ -141,6 +146,7 @@ public class ReviewDao {
 				m.put("reviewContent", rs.getString("reviewContent"));
 				m.put("createDate", rs.getString("createDate"));
 				m.put("updateDate", rs.getString("updateDate"));
+				m.put("customerId", rs.getString("customerId"));
 				list.add(m);
 				// 디버깅
 				System.out.println("ReviewDao - selectReviewList - list : " + list);
@@ -215,6 +221,39 @@ public class ReviewDao {
 		}
 		return list;
 	} // end selectReviewListByIdGoods
+
+	// D 고객 1 전체 리뷰 삭제
+	public int deleteReviewByCustomer(Connection conn, String customerId) throws Exception {
+		// 리턴값 반환할 변수
+		int row = 0;
+		// DB 자원
+		PreparedStatement stmt = null;
+		// 쿼리
+		String sql = "DELETE FROM review WHERE customer_id=?";
+		try {
+			stmt = conn.prepareStatement(sql);
+			// 디버깅
+			System.out.println("ReviewDao - deleteReviewByCustomer - DB 연결");
+
+			// ? 값 setter
+			stmt.setString(1, customerId);
+			// 디버깅
+			System.out.println("ReviewDao - deleteReviewByCustomer - stmt : " + stmt);
+
+			// 쿼리 실행
+			row = stmt.executeUpdate();
+			// 디버깅
+			if (row == 0) {
+				System.out.println("고객 1 전체 리뷰 삭제 실패!");
+			}
+		} finally {
+			// DB 자원 해제
+			if (stmt != null) {
+				stmt.close();
+			}
+		}
+		return row;
+	} // end deleteReviewByCustomer
 
 	// D 리뷰 삭제
 	public int deleteReview(Connection conn, int goodsNo, String customerId) throws Exception {
@@ -319,67 +358,8 @@ public class ReviewDao {
 		return row;
 	} // end updateReview
 
-	// 공지사항 리스트
-	public List<Map<String, Object>> selectNoticeList(Connection conn, int rowPerPage, int beginRow)
-			throws SQLException, ClassNotFoundException {
-		List<Map<String, Object>> list = new ArrayList<>();
-		DBUtil dbUtil = new DBUtil();
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		String sql = " SELECT notice_no noticeNo, notice_title noticeTitle, notice_content noticeContent, create_date createDate"
-				+ " FROM notice ORDER BY notice_no DESC LIMIT ?,?";
-		/*
-		 * SELECT notice_no noticeNo, notice_title noticeTitle, notice_content
-		 * noticeContent, create_date createDate FROM notice ORDER BY notice_no DESC
-		 * LIMIT ?,?
-		 */
-		conn = dbUtil.getConnection();
-		// 디버깅
-		System.out.println("NoticeDao - selectNoticeList DB 연결 성공!!!!!!!!!!");
-		try {
-			stmt = conn.prepareStatement(sql);
-			// ?값 설정
-			stmt.setInt(1, beginRow);
-			stmt.setInt(2, rowPerPage);
-			// 디버깅
-			System.out.println("NoticeDao - stmt : " + stmt);
-
-			// 쿼리 실행
-			rs = stmt.executeQuery();
-
-			while (rs.next()) {
-				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("noticeNo", rs.getInt("noticeNo"));
-				map.put("noticeTitle", rs.getString("noticeTitle"));
-				map.put("createDate", rs.getString("createDate"));
-				map.put("noticeContent", rs.getString("noticeContent"));
-				map.put("createDate", rs.getString("createDate"));
-				list.add(map);
-				// 디버깅
-				System.out.println("Map<String, Object> map : " + map);
-			}
-		} finally {
-			// DB 자원해제
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			if (stmt != null) {
-				try {
-					stmt.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return list;
-	} // end selectNoticeList
-
 	// 마지막 페이지
-	public int lastPage(Connection conn, int rowPerPage) throws ClassNotFoundException, SQLException {
+	public int lastPage(Connection conn, final int ROW_PER_PAGE) throws ClassNotFoundException, SQLException {
 		// 리턴값 반환할 변수
 		int lastPage = 0;
 		// 전체 게시물 수
@@ -392,7 +372,7 @@ public class ReviewDao {
 
 		conn = dbUtil.getConnection();
 		// 디버깅
-		System.out.println("NoticeDao - lastPage DB 연결 성공!!!!!!!!!!");
+		System.out.println("ReviewDao - lastPage DB 연결 성공!!!!!!!!!!");
 
 		try {
 			stmt = conn.prepareStatement(sql);
@@ -403,18 +383,18 @@ public class ReviewDao {
 			if (rs.next()) {
 				totalRow += rs.getInt("count(*)");
 				// 디버깅
-				System.out.println("NoticeDao - totalRow  : " + totalRow);
+				System.out.println("ReviewDao - totalRow  : " + totalRow);
 			}
 
 			// 마지막 페이지 구하기
-			lastPage = totalRow / rowPerPage;
-			// 마지막페이지가 rowPerPage로 떨어지지 않을 떼
-			if (totalRow % rowPerPage != 0) {
+			lastPage = totalRow / ROW_PER_PAGE;
+			// 마지막페이지가 ROW_PER_PAGE로 떨어지지 않을 떼
+			if (totalRow % ROW_PER_PAGE != 0) {
 				lastPage += 1;
 			}
 
 			// 디버깅
-			System.out.println("NoticeDao - lastPage : " + lastPage);
+			System.out.println("ReviewDao - lastPage : " + lastPage);
 		} finally {
 			// DB 자원해제
 			if (rs != null) {

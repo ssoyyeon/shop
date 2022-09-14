@@ -28,6 +28,15 @@
 	if (customer != 0) {
 		System.out.println("멤버 삭제 성공");
 		response.sendRedirect(request.getContextPath() + "/admin/customerMemberList.jsp");
+	}else {
+		// 디버깅
+		System.out.println("customer : " + customer);
+	%>
+	<script>
+		alert("계정 삭제 실패!");
+		location.href = "<%=request.getContextPath()%>/admin/customerMemberList.jsp";
+	</script>
+	<%
 	}
 	
 	//디버깅

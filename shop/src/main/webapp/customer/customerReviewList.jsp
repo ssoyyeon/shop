@@ -25,25 +25,10 @@ String customerId = ((String) session.getAttribute("id"));
 // 디버깅
 System.out.println("customerReivewList - customerId : " + customerId);
 
-// 현재 페이지 구하기
-int currentPage = 1;
-// 받아오는 페이지가 있을 경우
-if (request.getParameter("currentPage") != null) {
-	currentPage = Integer.parseInt(request.getParameter("currentPage"));
-}
-// 디버깅
-System.out.println("customerMemberList - currentPage : " + currentPage);
-
-// 페이지 당 보여질 행 갯수
-final int rowPerPage = 10;
 
 // 쿼리 실행을 위한 객체 생성
 ReviewService reviewService = new ReviewService();
 
-// lastPage 구하는 메서드 호출
-int lastPage = reviewService.lastPage(rowPerPage, currentPage);
-// 디버깅
-System.out.println("customerMemberList - lastPage : " + lastPage);
 
 // 고객 1인 리뷰 list = 모델값
 List<Map<String, Object>> list = new ArrayList<>();
@@ -106,10 +91,10 @@ System.out.println("\n----------------------------------customerReivewList - end
 						<td><%=o.get("updateDate")%></td>
 						<td><a
 							href="<%=request.getContextPath()%>/customer/updateReviewForm.jsp?orderNo=<%=o.get("orderNo")%>&goodsNo=<%=o.get("goodsNo")%>">
-								<button type="submit" class="btn btn-warning">Modify</button>
+								<button type="submit" class="btn" style="background-color:black; color:white;">Modify</button>
 						</a><a
 							href="<%=request.getContextPath()%>/customer/deleteReviewAction.jsp?orderNo=<%=o.get("orderNo")%>&goodsNo=<%=o.get("goodsNo")%>">
-								<button type="submit" class="btn btn-danger">Delete</button>
+								<button type="submit" class="btn" style="background-color:black; color:white;">Delete</button>
 						</a></td>
 					</tr>
 					<%

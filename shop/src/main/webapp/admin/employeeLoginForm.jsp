@@ -25,11 +25,14 @@
 									<input type="password" name="employeePass" id="employeePass"
 										placeholder="Please enter Your Password" class="form-control">
 								</div>
-								<div>
-									<br> <a
-										href="<%=request.getContextPath()%>/admin/addEmployee.jsp">
-										<button type="submit" class="btn" style=" color: white; background-color: black; float: right; margin-top:5%;">Sign-up</button>
-									</a>
+								<div style="float: left; margin-left:3%;  margin-top:3%; font-weight: bolder; ">
+								<p> 총관리자 <br> Id:   admin <br> Pw:   1234 </p>
+								</div>
+								<div  style="float: left; margin-left:3%;  margin-top:3%; font-weight: bolder; ">
+								<p> 매니저<br> Id:   m1m1 <br> Pw:   1234</p>
+								</div>
+								<div >
+									<br> 
 									<button type="button" class="btn" 
 										id="employeeLoginBtn" class="btn" style=" color: white; background-color: black; float: right; margin-top:5%;" >login</button>
 								</div>

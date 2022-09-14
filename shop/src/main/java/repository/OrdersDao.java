@@ -51,7 +51,7 @@ public class OrdersDao {
 			// ? 값 설정
 			stmt.setInt(1, ordersNo);
 			// 디버깅
-			System.out.println("OrdersDao - selectOrdersOne stmt : " + stmt);
+			System.out.println("OrdersDao - selectOrdersOne -  stmt : " + stmt);
 
 			// 주문 상세보기 쿼리 실행
 			rs = stmt.executeQuery();
@@ -59,7 +59,6 @@ public class OrdersDao {
 			if (rs.next()) {
 				map = new HashMap<String, Object>();
 				map.put("ordersNo", rs.getString("ordersNo"));
-				map.put("detailAddress", rs.getString("detailAddress"));
 				map.put("orderDate", rs.getString("orderDate"));
 				map.put("orderPrice", rs.getString("orderPrice"));
 				map.put("orderQuantity", rs.getString("orderQuantity"));
@@ -70,9 +69,10 @@ public class OrdersDao {
 				map.put("orderPrice", rs.getString("orderPrice"));
 				map.put("customerId", rs.getString("customerId"));
 				map.put("orderAddress", rs.getString("orderAddress"));
+				map.put("detailAddress", rs.getString("detailAddress"));
 				map.put("orderImg", rs.getString("orderImg"));
 				// 디버깅
-				System.out.println(map);
+				System.out.println("OrdersDao - selectOrdersOne - map : " + map);
 			}
 
 			// 디버깅
@@ -171,14 +171,64 @@ public class OrdersDao {
 		return map;
 	} // end ordersCustomerOne
 
-	// lastPage 페이지 구하기 메서드
-	public int lastPage(Connection conn, final int ROW_PER_PAGE) throws ClassNotFoundException, SQLException {
+	// 관리자용 주문 lastPage 페이지 구하기 메서드
+		public int lastPageByEmployee(Connection conn, final int ROW_PER_PAGE) throws ClassNotFoundException, SQLException {
+			int lastpage = 0;
+			int totalRow = 0;
+			DBUtil dbUtil = new DBUtil();
+			PreparedStatement stmt = null;
+			ResultSet rs = null;
+			String sql = "SELECT count(*) FROM orders";
+
+			conn = dbUtil.getConnection();
+			// 디버깅
+			System.out.println("OrdersDao - DB 연결");
+
+			try {
+				// 쿼리 담기
+				stmt = conn.prepareStatement(sql);
+				// 디버깅
+				System.out.println("OrdersDao - stmt : " + stmt);
+
+				// 전체 행의 수를 구하기 위한 쿼리 실행
+				rs = stmt.executeQuery();
+				if (rs.next()) {
+					totalRow = rs.getInt("count(*)");
+				}
+
+				// 디버깅
+				System.out.println("OrdersDao - totalRow  : " + totalRow);
+				System.out.println("OrdersDao - ROW_PER_PAGE  : " + ROW_PER_PAGE);
+				// 마지막 페이지
+				lastpage = totalRow / ROW_PER_PAGE;
+				// 페이지가 rowPerPage로 나눠떨어지지 않아도 페이지 구현을 위해 1개 추가
+				if (totalRow % ROW_PER_PAGE != 0) {
+					lastpage += 1;
+				}
+
+				// 디버깅
+				System.out.println("OrdersDao - lastPage : " + lastpage);
+
+			} finally {
+				if (stmt != null) {
+					stmt.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+			}
+			return lastpage;
+		} // end lastPageByEmployee
+	
+	
+	// 고객1 주문 lastPage 페이지 구하기 메서드
+	public int lastPage(Connection conn, final int ROW_PER_PAGE, String customerId) throws ClassNotFoundException, SQLException {
 		int lastpage = 0;
 		int totalRow = 0;
 		DBUtil dbUtil = new DBUtil();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT count(*) FROM orders";
+		String sql = "SELECT count(*) FROM orders where customer_id = ?";
 
 		conn = dbUtil.getConnection();
 		// 디버깅
@@ -187,8 +237,9 @@ public class OrdersDao {
 		try {
 			// 쿼리 담기
 			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, customerId);
 			// 디버깅
-			System.out.println("OrdersDao - lastPage : " + stmt);
+			System.out.println("OrdersDao - stmt : " + stmt);
 
 			// 전체 행의 수를 구하기 위한 쿼리 실행
 			rs = stmt.executeQuery();
@@ -221,7 +272,7 @@ public class OrdersDao {
 	} // end lastPage
 
 	// 5-1) 전체 주문 목록(관리자)
-	public List<Map<String, Object>> selectOrdersList(Connection conn, int rowPerPage, int beginRow)
+	public List<Map<String, Object>> selectOrdersList(Connection conn, final int ROW_PER_PAGE, int beginRow)
 			throws ClassNotFoundException, SQLException {
 		List<Map<String, Object>> list = new ArrayList<>(); // 다형성
 		DBUtil dbUtil = new DBUtil();
@@ -246,7 +297,7 @@ public class OrdersDao {
 			// 쿼리 담기
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, beginRow);
-			stmt.setInt(2, rowPerPage);
+			stmt.setInt(2, ROW_PER_PAGE);
 			// 디버깅
 			System.out.println("selectOrdersList - stmt : " + stmt);
 
@@ -282,8 +333,8 @@ public class OrdersDao {
 		return list;
 	} // end selectOrdersList
 
-	// 2-1) 고객 한명의 주문 목록(관리자, 고객)
-	public List<Map<String, Object>> selectOrdersListByCustomer(Connection conn, String customerId)
+	// 2-1) 고객 한명의 주문 목록( 고객)
+	public List<Map<String, Object>> selectOrdersListByCustomer(Connection conn, String customerId, final int ROW_PER_PAGE, int beginRow)
 			throws SQLException, ClassNotFoundException {
 		// 리턴값 주문 목록을 받아 올 객체
 		List<Map<String, Object>> list = new ArrayList<>(); // 다형성
@@ -293,7 +344,7 @@ public class OrdersDao {
 		String sql = "SELECT o.order_no orderNo, g.goods_no goodsNo, o.customer_id customerId, o.order_price orderPrice, "
 				+ " o.order_addr orderAddress, o.detail_addr detailAddress, o.order_quantity orderQuantity, o.order_state orderState, o.update_date updateDate, o.create_date createDate"
 				+ " FROM orders o INNER JOIN goods g" + " ON o.goods_no = g.goods_no WHERE customer_id = ?"
-				+ " ORDER BY o.create_date DESC";
+				+ " ORDER BY o.create_date DESC LIMIT ?,?";
 		/*
 		 * SELECT o.order_no odersNo, g.goods_no goodsNo, o.customer_id customerId ,
 		 * o.order_price orderPrice, o.order_address orderAddress, o.order_quantity
@@ -308,6 +359,9 @@ public class OrdersDao {
 			// 쿼리 담기
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, customerId);
+			stmt.setInt(2, beginRow);
+			stmt.setInt(3, ROW_PER_PAGE);
+			
 			// 디버깅
 			System.out.println("selectOrdersListByCustomer - stmt : " + stmt);
 
@@ -342,9 +396,71 @@ public class OrdersDao {
 		}
 		return list;
 	} // end selectOrdersListByCustomer
+	
+	// 2-1) 고객 한명의 주문 목록(관리자)
+		public List<Map<String, Object>> selectOrdersListByEmployee(Connection conn, String customerId)
+				throws SQLException, ClassNotFoundException {
+			// 리턴값 주문 목록을 받아 올 객체
+			List<Map<String, Object>> list = new ArrayList<>(); // 다형성
+			DBUtil dbUtil = new DBUtil();
+			PreparedStatement stmt = null;
+			ResultSet rs = null;
+			String sql = "SELECT o.order_no orderNo, g.goods_no goodsNo, o.customer_id customerId, o.order_price orderPrice, "
+					+ " o.order_addr orderAddress, o.detail_addr detailAddress, o.order_quantity orderQuantity, o.order_state orderState, o.update_date updateDate, o.create_date createDate"
+					+ " FROM orders o INNER JOIN goods g" + " ON o.goods_no = g.goods_no WHERE customer_id = ?"
+					+ " ORDER BY o.create_date";
+			/*
+			 * SELECT o.order_no odersNo, g.goods_no goodsNo, o.customer_id customerId ,
+			 * o.order_price orderPrice, o.order_address orderAddress, o.order_quantity
+			 * orderQuantity, o.order_state orderState, o.update_date updateDate,
+			 * o.create_date createDate FROM orders o INNER JOIN goods g ON o.goods_no =
+			 * g.goods_no WHERE customer_id = ? ORDER BY o.create_date DESC LIMIT ?, ?
+			 */
+			conn = dbUtil.getConnection();
+			// 디버깅
+			System.out.println("selectOrdersListByCustomer - DB 연결");
+			try {
+				// 쿼리 담기
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, customerId);
+				
+				// 디버깅
+				System.out.println("selectOrdersListByCustomer - stmt : " + stmt);
+
+				// 쿼리 실행
+				rs = stmt.executeQuery();
+				while (rs.next()) {
+					// 값 설정할 객체
+					Map<String, Object> map = new HashMap<>();
+					map.put("orderNo", rs.getString("orderNo"));
+					map.put("goodsNo", rs.getString("goodsNo"));
+					map.put("customerId", rs.getString("customerId"));
+					map.put("orderPrice", rs.getString("orderPrice"));
+					map.put("orderAddress", rs.getString("orderAddress"));
+					map.put("detailAddress", rs.getString("detailAddress"));
+					map.put("orderQuantity", rs.getString("orderQuantity"));
+					map.put("orderState", rs.getString("orderState"));
+					map.put("updateDate", rs.getString("updateDate"));
+					map.put("createDate", rs.getString("createDate"));
+					// 설정한 값을 반환할 객체에 넣어줌
+					list.add(map);
+					// 디버깅
+					System.out.println("고객 한명의 주문 목록 : " + list);
+				}
+			} finally {
+				// DB 자원해제
+				if (rs != null) {
+					rs.close();
+				}
+				if (stmt != null) {
+					stmt.close();
+				}
+			}
+			return list;
+		} // end selectOrdersListByCustomer
 
 	// 관리자 주문 수정하기
-	public int updateOrdersList(Connection conn, Map<String, Object> map) throws ClassNotFoundException, SQLException {
+	public int updateOrdersList(Connection conn, String orderState ,int ordersNo) throws ClassNotFoundException, SQLException {
 		// 리턴값 주문 목록을 받아 올 객체
 		int updateOrders = 0;
 		// DB 자원
@@ -356,16 +472,15 @@ public class OrdersDao {
 		conn = dbUtil.getConnection();
 		// 디버깅
 		System.out.println("updateOrdersList - DB 연결");
-		System.out.println(map);
 		try {
 			// 쿼리 담기
 			stmt = conn.prepareStatement(sql);
 			// ? 값 설정
-			stmt.setString(1, (String) map.get("orderState"));
-			stmt.setInt(2, (int) map.get("ordersNo"));
+			stmt.setString(1, orderState);
+			stmt.setInt(2, ordersNo);
 			// 디버깅
-			System.out.println("updateOrdersList - orderState : " + map.get("orderState"));
-			System.out.println("updateOrdersList - ordersNo : " + map.get("ordersNo"));
+			System.out.println("updateOrdersList - orderState : " + orderState);
+			System.out.println("updateOrdersList - ordersNo : " + ordersNo);
 			System.out.println("updateOrdersList - stmt : " + stmt);
 
 			// 쿼리 실행
@@ -421,15 +536,15 @@ public class OrdersDao {
 		return updateCustomerOrders;
 	} // end updateCustomerOrder
 
-	// 고객1 주문 취소하기
-	public int deleteCustomerOrder(Connection conn, int orderNo) throws ClassNotFoundException, SQLException {
+	// 고객1 주문1 취소하기
+	public int deleteCustomerOrder(Connection conn, int orderNo, String customerId) throws ClassNotFoundException, SQLException {
 		// 리턴값 주문 목록을 받아 올 객체
 		int deleteCustomerOrders = 0;
 		// DB 자원
 		DBUtil dbUtil = new DBUtil();
 		PreparedStatement stmt = null;
 		// 쿼리문
-		String sql = "DELETE from orders WHERE  order_no = ?";
+		String sql = "DELETE from orders WHERE order_no = ? AND customer_id= ?";
 
 		conn = dbUtil.getConnection();
 		// 디버깅
@@ -440,6 +555,7 @@ public class OrdersDao {
 			stmt = conn.prepareStatement(sql);
 			// ? 값 설정
 			stmt.setInt(1, orderNo);
+			stmt.setString(2, customerId);
 			// 디버깅
 			System.out.println("OrdersDao - deleteCustomerOrder - stmt : " + stmt);
 
@@ -454,6 +570,39 @@ public class OrdersDao {
 		return deleteCustomerOrders;
 	} // end deleteCustomerOrder
 
+	// 고객1 전체 주문 취소하기
+		public int deleteOrderByCustomer(Connection conn, String customerId) throws ClassNotFoundException, SQLException {
+			// 리턴값 주문 목록을 받아 올 객체
+			int deleteOrderByCustomer = 0;
+			// DB 자원
+			DBUtil dbUtil = new DBUtil();
+			PreparedStatement stmt = null;
+			// 쿼리문
+			String sql = "DELETE from orders WHERE customer_id= ?";
+
+			conn = dbUtil.getConnection();
+			// 디버깅
+			System.out.println("OrdersDao - deleteOrderByCustomer - DB 연결");
+
+			try {
+				// 쿼리 담기
+				stmt = conn.prepareStatement(sql);
+				// ? 값 설정
+				stmt.setString(1, customerId);
+				// 디버깅
+				System.out.println("OrdersDao - deleteOrderByCustomer - stmt : " + stmt);
+
+				// 쿼리 실행
+				deleteOrderByCustomer = stmt.executeUpdate();
+			} finally {
+				// DB 자원해제
+				if (stmt != null) {
+					stmt.close();
+				}
+			}
+			return deleteOrderByCustomer;
+		} // end deleteOrderByCustomer
+	
 	// 상품 주문하기
 	public int insertCustomerOrders(Connection conn, Orders order) throws ClassNotFoundException, SQLException {
 		// 리턴값 주문 목록을 받아 올 객체
@@ -462,7 +611,7 @@ public class OrdersDao {
 		DBUtil dbUtil = new DBUtil();
 		PreparedStatement stmt = null;
 		// 쿼리문
-		String sql = "INSERT INTO orders (goods_no, customer_id, order_price, order_addr,detail_addr, order_quantity, order_state, update_date, create_date)"
+		String sql = "INSERT INTO orders (goods_no, customer_id, order_price, order_addr, detail_addr, order_quantity, order_state, update_date, create_date)"
 				+ " VALUES (?, ?, ?, ?, ?, ?, '배송전', now(), now())";
 
 		conn = dbUtil.getConnection();

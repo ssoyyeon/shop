@@ -40,19 +40,19 @@ if (request.getParameter("currentPage") != null) {
 System.out.println("reivewListByEmployee - currentPage : " + currentPage);
 
 // 페이지 당 보여질 행 갯수
-final int rowPerPage = 10;
+final int ROW_PER_PAGE = 10;
 
 // 쿼리 실행을 위한 객체 생성
 ReviewService reviewService = new ReviewService();
 
 // lastPage 구하는 메서드 호출
-int lastPage = reviewService.lastPage(rowPerPage, currentPage);
+int lastPage = reviewService.lastPage(ROW_PER_PAGE);
 // 디버깅
 System.out.println("reivewListByEmployee - lastPage : " + lastPage);
 
-// 고객 1인 리뷰 list = 모델값
+// 전체 리뷰 list = 모델값
 List<Map<String, Object>> list = new ArrayList<>();
-list = reviewService.getReviewList();
+list = reviewService.getReviewList(currentPage, ROW_PER_PAGE);
 // 리뷰 조회 성공 시 디버깅
 if (list != null) {
 	System.out.println("고객 전체 리뷰 list 조회 성공");
@@ -81,6 +81,7 @@ System.out.println("\n----------------------------------reivewListByEmployee - e
 						<th><b>orderNo</b></th>
 						<th><b>goodsNo</b></th>
 						<th><b>reviewContent</b></th>
+						<th><b>customerId</b></th>
 						<th><b>createDate </b></th>
 						<th><b>updateDate </b></th>
 					</tr>
@@ -98,10 +99,11 @@ System.out.println("\n----------------------------------reivewListByEmployee - e
 						<%
 						}
 						%>
-						<td><a href="<%=request.getContextPath()%>/customer/customerOrdersOne.jsp?orderNo=<%=o.get("orderNo")%>"> <%=o.get("orderNo")%>
-						</a></td>
-						<td><%=o.get("goodsNo")%></td>
+						<td><%=o.get("orderNo")%>
+						</td>
+						<td><a href="<%=request.getContextPath()%>/admin/adminGoodsOne.jsp?goodsNo=<%=o.get("goodsNo")%>"> <%=o.get("goodsNo")%></a></td>
 						<td><%=o.get("reviewContent")%></td>
+						<td><a href="<%=request.getContextPath()%>/admin/customerOrderOne.jsp?customerId=<%=o.get("customerId")%>"><%=o.get("customerId")%></a></td>
 						<td><%=o.get("createDate")%></td>
 						<td><%=o.get("updateDate")%></td>
 					</tr>

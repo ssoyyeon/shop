@@ -3,25 +3,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-	//디버깅
-	System.out.println("\n-------------------------------------adminIndex - start ------------------------------------------------\n");
-	//admin이 아닐 경우 접속 불가
-	if (session.getAttribute("id") == null || ((String) session.getAttribute("user")).equals("customer")) {
-		response.sendRedirect(request.getContextPath()+"/main.jsp");
-		return;
-	}
-	// active가 Y이 아니면 접속 불가
-	if (!session.getAttribute("active").equals("Y")) {
-		response.sendRedirect(request.getContextPath() + "/loginForm.jsp");
-		return;
-	}
-	// 디버깅
-	System.out.println("id : " + session.getAttribute("id"));
-	System.out.println("user : " + session.getAttribute("user"));
-	System.out.println("active : " + session.getAttribute("active"));
-	
-	//디버깅
-	System.out.println("\n-------------------------------------adminIndex- end ------------------------------------------------\n");
+//디버깅
+System.out.println(
+		"\n-------------------------------------adminIndex - start ------------------------------------------------\n");
+//admin이 아닐 경우 접속 불가
+if (session.getAttribute("id") == null || ((String) session.getAttribute("user")).equals("customer")) {
+	response.sendRedirect(request.getContextPath() + "/main.jsp");
+	return;
+}
+
+// 디버깅
+System.out.println("id : " + session.getAttribute("id"));
+System.out.println("user : " + session.getAttribute("user"));
+
+//디버깅
+System.out.println(
+		"\n-------------------------------------adminIndex- end ------------------------------------------------\n");
 %>
 <%@ include file="/inc/header.jsp"%>
 <!-- main -->
@@ -50,12 +47,23 @@
 				</tr>
 			</table>
 		</div>
-		<div style="float: right; margin-top: 7%; margin-left: 82%;">
-			<a href="<%=request.getContextPath()%>/logout.jsp">
-				<button type="button" class="btn btn" style="color:white; background-color:black;">Logout</button>
-			</a> <a href="<%=request.getContextPath()%>/admin/deleteEmployeeIdForm.jsp">
-				<button class="btn btn" type="submit" style="color:white; background-color:black;">DeleteAccount</button> <br>
-				<br>
+
+		<div style="float: right; margin-top: 7%; margin-left:75%;">
+			<%
+			if (!session.getAttribute("active").equals("Y")) {
+			%>
+			<a
+				href="<%=request.getContextPath()%>/admin/deleteEmployeeIdForm.jsp">
+				<button class="btn btn" type="submit"
+					style="color: white; background-color: black;">DeleteAccount</button>
+			</a>
+			<%
+}
+%>
+			<a
+				href="<%=request.getContextPath()%>/admin/updateEmployeePwForm.jsp?employeeId=<%=session.getAttribute("id")%>">
+				<button class="btn btn" type="submit"
+					style="color: white; background-color: black;">ModifyPassword</button>
 			</a>
 		</div>
 	</div>

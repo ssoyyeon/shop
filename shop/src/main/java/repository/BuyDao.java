@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +17,7 @@ public class BuyDao {
 	public List<Map<String, Object>> selectBuyByCartList(Connection conn, List<Cart> cartList)
 			throws ClassNotFoundException, SQLException {
 		// 리턴값 반환할 객체
-		List<Map<String, Object>> list = null;
+		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
 		// DB 자원
 		PreparedStatement stmt = null;
 		ResultSet rs = null;

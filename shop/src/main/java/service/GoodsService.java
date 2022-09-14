@@ -136,8 +136,8 @@ public class GoodsService {
 	}
 
 	// 고객 상품 리스트 분기
-	public List<Map<String, Object>> selectCutomerGoodsListByPage(int rowPerPage, int currentPage,
-			String GoodsListSort , String category, String kind) {
+	public List<Map<String, Object>> selectCutomerGoodsListByPage(int rowPerPage, int currentPage, String GoodsListSort,
+			String category, String kind) {
 		// 리턴값 반환할 객체
 		List<Map<String, Object>> map = null;
 		// DB 자원
@@ -289,20 +289,21 @@ public class GoodsService {
 		try {
 			// DB 연결
 			conn = dbUtil.getConnection();
-			// excuteQuery() 실행 시 자동 커밋을 막음
-			conn.setAutoCommit(false);
 			// 디버깅
 			System.out.println("service lastPage - DB 연결");
 
+			// 시작행
+			int beginRow = (currentPage - 1) * rowPerPage;
+			// 디버깅
+			System.out.println(" GoodsService - beginRow : " + beginRow);
+
 			// lastPage를 구하기 위한 메서드 호출
-			lastPage = goodsDao.lastPage(conn, rowPerPage);
+			lastPage = goodsDao.lastPage(conn, rowPerPage, beginRow);
 
 			// lastPage 쿼리 실행 실패시 오류 생성
 			if (lastPage == 0) {
 				throw new Exception();
 			}
-			// 커밋
-			conn.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

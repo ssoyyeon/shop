@@ -11,19 +11,14 @@
 	// 인코딩
 	request.setCharacterEncoding("utf-8");
 	
-	// 전송받은 값 map에 셋팅
-	Map<String, Object> map = new HashMap<>();
-	map.put("ordersNo", request.getParameter("ordersNo"));
-	map.put("goodsNo", Integer.parseInt(request.getParameter("goodsNo")));
-	map.put("orderQuantity", Integer.parseInt(request.getParameter("orderQuantity")));
-	map.put("orderPrice", Integer.parseInt(request.getParameter("orderPrice")));
-	map.put("orderState", request.getParameter("orderState"));
-	// 디버깅
-	System.out.println("adminOrdersList map : " + map);
+	// 요청값 처리
+	String orderState = request.getParameter("orderState");
+	int ordersNo = Integer.parseInt(request.getParameter("ordersNo"));
+
 	
 	// 수정하기 메서드 호출
 	OrdersService ordersService = new OrdersService();
-	int updateOrders = ordersService.updateOrdersList(map);
+	int updateOrders = ordersService.updateOrdersList(orderState,ordersNo);
 	
 	// 수정하기 성공 시 페이지 재요청
 	if(updateOrders != 0){

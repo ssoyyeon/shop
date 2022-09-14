@@ -72,19 +72,24 @@ public class ReviewService {
 	} // end getReviewListById
 
 	// 전체 리뷰 리스트 조회
-	public List<Map<String, Object>> getReviewList() throws SQLException {
+	public List<Map<String, Object>> getReviewList(int currentPage, int ROW_PER_PAGE) throws SQLException {
 		// 리턴할 객체 생성
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		// DB 자원
 		Connection conn = null;
-		
+
 		try {
 			conn = new DBUtil().getConnection();
 			// 디버깅
 			System.out.println("getReviewList DB 연결");
 
+			// 시작행
+			int beginRow = (currentPage - 1) * ROW_PER_PAGE;
+			// 디버깅
+			System.out.println(" ReviewService - beginRow : " + beginRow);
+
 			// 리뷰 리스트 호출
-			list = new ReviewDao().selectReviewList(conn);
+			list = new ReviewDao().selectReviewList(conn, ROW_PER_PAGE, beginRow);
 
 			// 리뷰 리스트 호출 실패시 오류 생성
 			if (list == null) {
@@ -98,7 +103,7 @@ public class ReviewService {
 				conn.close();
 			}
 		}
-		
+
 		return list;
 	} // end getReviewList
 
@@ -161,6 +166,35 @@ public class ReviewService {
 		return row;
 	} // end removeReview
 
+	// 고객1 리뷰 전체 삭제 : D
+	public int removeReviewByCustomer(String customerId) throws Exception {
+		// 리턴값 반환할 변수
+		int row = 0;
+		// DB 자원
+		Connection conn = null;
+
+		try {
+			// DB 연결
+			conn = new DBUtil().getConnection();
+			// 디버깅
+			System.out.println("removeReviewByCustomer DB 연결");
+			// 고객 1 전체 리뷰 삭제 메서드 실행
+			row = new ReviewDao().deleteReviewByCustomer(conn, customerId);
+			// 고객 1 전체 리뷰 삭제 실패시 오류 생성
+			if (row == 0) {
+				throw new Exception();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// DB 자원해제
+			if (conn != null) {
+				conn.close();
+			}
+		}
+		return row;
+	} // end removeReviewByCustomer
+
 	// U 리뷰 수정
 	public int modifyReview(Review review) throws Exception {
 		// 리턴값 반환할 변수
@@ -220,7 +254,7 @@ public class ReviewService {
 	} // end modifyReview
 
 	// 마지막 페이지
-	public int lastPage(int rowPerPage, int currentPage) throws Exception {
+	public int lastPage(final int ROW_PER_PAGE) throws Exception {
 		int lastPage = 0;
 		Connection conn = null;
 		DBUtil dbUtil = new DBUtil();
@@ -234,7 +268,7 @@ public class ReviewService {
 			ReviewDao reviewDao = new ReviewDao();
 
 			// lastPage 구하는 메서드 호출
-			lastPage = reviewDao.lastPage(conn, rowPerPage);
+			lastPage = reviewDao.lastPage(conn, ROW_PER_PAGE);
 			// lastPage 실패시 오류 생성
 			if (lastPage == 0) {
 				throw new Exception();

@@ -46,9 +46,9 @@ public class OrdersService {
 		}
 		return list;
 	} // end selectOrdersOne
-		
+
 	// 관리자용 주문 리스트
-	public List<Map<String, Object>> selectOrdersList(int rowPerPage, int currentPage)
+	public List<Map<String, Object>> selectOrdersList(final int ROW_PER_PAGE, int currentPage)
 			throws ClassNotFoundException, SQLException {
 		// 리턴값을 반환할 객체
 		List<Map<String, Object>> list = null;
@@ -63,18 +63,18 @@ public class OrdersService {
 			System.out.println("OrdersService selectOrdersList - DB 연결");
 
 			// 시작페이지
-			int beginRow = (currentPage - 1) * rowPerPage;
+			int beginRow = (currentPage - 1) * ROW_PER_PAGE;
 
 			// 객체 생성 후 Dao 메서드 호출
 			this.ordersDao = new OrdersDao();
 			// 주문 리스트 호출
-			list = ordersDao.selectOrdersList(conn, rowPerPage, beginRow);
+			list = ordersDao.selectOrdersList(conn, ROW_PER_PAGE, beginRow);
 			System.out.println(list);
 
 			// 디버깅
 			System.out.println("currentPage : " + currentPage);
 			System.out.println("beginRow : " + beginRow);
-			System.out.println("rowPerPage : " + rowPerPage);
+			System.out.println("rowPerPage : " + ROW_PER_PAGE);
 
 			// 주문내역 출력 실패시 오류 생성
 			if (list == null) {
@@ -95,8 +95,8 @@ public class OrdersService {
 		return list;
 	} // end selectOrdersList
 
-	// 관리자 주문 수정하기
-	public int updateOrdersList(Map<String, Object> map) {
+	// 관리자 배송현황 수정하기
+	public int updateOrdersList(String orderState ,int ordersNo) {
 		// 리턴값을 반환할 객체
 		int updateOrders = 0;
 		// DB 자원
@@ -115,7 +115,7 @@ public class OrdersService {
 			// 객체 생성 후 Dao 메서드 호출
 			this.ordersDao = new OrdersDao();
 			// 주문 리스트 호출
-			updateOrders = ordersDao.updateOrdersList(conn, map);
+			updateOrders = ordersDao.updateOrdersList(conn, orderState, ordersNo);
 
 			// 주문상태 변경 실패시 오류 생성
 			if (updateOrders == 0) {
@@ -145,11 +145,11 @@ public class OrdersService {
 		return updateOrders;
 	} // end updateOrdersList
 
-	// 2-1) 고객 한명의 주문 목록(관리자, 고객)
-	public List<Map<String, Object>> selectOrdersListByCustomer(String customerId) {
+	// 2-1) 고객 한명의 주문 목록( 고객)
+	public List<Map<String, Object>> selectOrdersListByCustomer(String customerId, int currentPage, final int ROW_PER_PAGE) {
 		// 리턴값을 반환할 객체
 		List<Map<String, Object>> list = new ArrayList<>();
-		;
+
 		// DB 자원
 		Connection conn = null;
 		DBUtil dbUtil = new DBUtil();
@@ -160,10 +160,15 @@ public class OrdersService {
 			// 디버깅
 			System.out.println("OrdersService - selectOrdersListByCustomer - DB 연결");
 
+			// 시작하는 행
+			int beginRow = (currentPage - 1) * ROW_PER_PAGE;
+			// 디버깅
+			System.out.println("selectOrdersListByCustomer - beginRow : " + beginRow);
+
 			// 객체 생성 후 Dao 메서드 호출
 			this.ordersDao = new OrdersDao();
 			// 주문 리스트 호출
-			list = ordersDao.selectOrdersListByCustomer(conn, customerId);
+			list = ordersDao.selectOrdersListByCustomer(conn, customerId, ROW_PER_PAGE, beginRow);
 
 			// 디버깅
 			if (list == null) {
@@ -187,8 +192,50 @@ public class OrdersService {
 
 	}
 
-	// lastPage 구하기
-	public int lastPage(int currentPage, final int ROW_PER_PAGE) {
+	// 2-1) 고객 한명의 주문 목록(관리자)
+	public List<Map<String, Object>> selectOrdersListByEmployee(String customerId) {
+		// 리턴값을 반환할 객체
+		List<Map<String, Object>> list = new ArrayList<>();
+		;
+		// DB 자원
+		Connection conn = null;
+		DBUtil dbUtil = new DBUtil();
+
+		try {
+			// DB 연결
+			conn = dbUtil.getConnection();
+			// 디버깅
+			System.out.println("OrdersService - selectOrdersListByEmployee - DB 연결");
+
+			// 객체 생성 후 Dao 메서드 호출
+			this.ordersDao = new OrdersDao();
+			// 주문 리스트 호출
+			list = ordersDao.selectOrdersListByEmployee(conn, customerId);
+
+			// 디버깅
+			if (list == null) {
+				throw new Exception();
+			}
+			// 디버깅
+			System.out.println("selectOrdersListByEmployee - customerId : " + customerId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				// DB 자원해제
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+
+	} // end selectOrdersListByEmployee
+
+	// 고객용 lastPage 구하기
+	public int lastPage(final int ROW_PER_PAGE, String customerId) {
 		// 리턴값을 반환하기 위한 변수
 		int lastpage = 0;
 		// DB 자원
@@ -204,7 +251,7 @@ public class OrdersService {
 			OrdersDao ordersDao = new OrdersDao();
 
 			// lastPage 구하는 메서드 호출
-			lastpage = ordersDao.lastPage(conn, ROW_PER_PAGE);
+			lastpage = ordersDao.lastPage(conn, ROW_PER_PAGE, customerId);
 
 			// lastPage 실패시 오류 생성
 			if (lastpage == 0) {
@@ -226,7 +273,46 @@ public class OrdersService {
 		return lastpage;
 	} // end lastPage
 
-	// 고객1 주문 수정하기
+	// 관지자용 lastPage 구하기
+	public int lastPageByEmployee(final int ROW_PER_PAGE) {
+		// 리턴값을 반환하기 위한 변수
+		int lastpage = 0;
+		// DB 자원
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = null;
+
+		try {
+			conn = dbUtil.getConnection();
+			// 디버깅
+			System.out.println("OrdersService lastPage - DB 연결");
+
+			// 메서드 호출을 위한 객체 생성
+			OrdersDao ordersDao = new OrdersDao();
+
+			// lastPage 구하는 메서드 호출
+			lastpage = ordersDao.lastPageByEmployee(conn, ROW_PER_PAGE);
+
+			// lastPage 실패시 오류 생성
+			if (lastpage == 0) {
+				throw new Exception();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				// DB 자원해제
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} // end finally
+
+		return lastpage;
+	} // end lastPage
+
+	// 고객1 주문수량 수정하기
 	public int modifyCustomerOrder(int orderNo, int orderQuantity) {
 		// 리턴값을 반환하기 위한 변수
 		int modifyCustomerOrders = 0;
@@ -265,8 +351,8 @@ public class OrdersService {
 		return modifyCustomerOrders;
 	} // end modifyCustomerOrder
 
-	// 고객1 주문 취소하기
-	public int removeCustomerOrder(int orderNo) throws ClassNotFoundException, SQLException {
+	// 고객1 주문1 취소하기
+	public int removeCustomerOrder(int orderNo, String customerId) throws ClassNotFoundException, SQLException {
 		// 리턴값을 반환하기 위한 변수
 		int removeCustomerOrders = 0;
 		// DB 자원
@@ -282,7 +368,7 @@ public class OrdersService {
 			// 객체 생성 후 Dao 메서드 호출
 			this.ordersDao = new OrdersDao();
 			// 주문 취소 메서드 호출
-			removeCustomerOrders = ordersDao.deleteCustomerOrder(conn, orderNo);
+			removeCustomerOrders = ordersDao.deleteCustomerOrder(conn, orderNo, customerId);
 
 			// 디버깅
 			if (removeCustomerOrders == 0) {
@@ -305,6 +391,47 @@ public class OrdersService {
 		}
 		return removeCustomerOrders;
 	} // removeCustomerOrder
+
+	// 고객1 전체 주문 취소하기
+	public int removeOrderByCustomer(String customerId) throws ClassNotFoundException, SQLException {
+		// 리턴값을 반환하기 위한 변수
+		int removeCustomerByOrders = 0;
+		// DB 자원
+		Connection conn = null;
+		DBUtil dbUtil = new DBUtil();
+
+		try {
+			// DB 연결
+			conn = dbUtil.getConnection();
+			// 디버깅
+			System.out.println("OrdersService - removeOrderByCustomer - DB 연결");
+
+			// 객체 생성 후 Dao 메서드 호출
+			this.ordersDao = new OrdersDao();
+			// 주문 취소 메서드 호출
+			removeCustomerByOrders = ordersDao.deleteOrderByCustomer(conn, customerId);
+
+			// 디버깅
+			if (removeCustomerByOrders == 0) {
+				// 삭제 실패시 오류 생성
+				throw new Exception();
+			}
+			// 디버깅
+			System.out.println("removeOrderByCustomer - customerId : " + customerId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				// DB 자원해제
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return removeCustomerByOrders;
+	} // removeOrderByCustomer
 
 	// 상품 주문하기
 	public int insertCustomerOrders(Orders order) {

@@ -150,7 +150,7 @@ public class NoticeDao {
 	} // end noticeListOne
 
 	// 공지사항 리스트
-	public List<Map<String, Object>> selectNoticeList(Connection conn, int rowPerPage, int beginRow)
+	public List<Map<String, Object>> selectNoticeList(Connection conn, int ROW_PER_PAGE, int beginRow)
 			throws SQLException, ClassNotFoundException {
 		List<Map<String, Object>> list = new ArrayList<>();
 		DBUtil dbUtil = new DBUtil();
@@ -170,7 +170,7 @@ public class NoticeDao {
 			stmt = conn.prepareStatement(sql);
 			// ?값 설정
 			stmt.setInt(1, beginRow);
-			stmt.setInt(2, rowPerPage);
+			stmt.setInt(2, ROW_PER_PAGE);
 			// 디버깅
 			System.out.println("NoticeDao - stmt : " + stmt);
 
@@ -209,7 +209,7 @@ public class NoticeDao {
 	} // end selectNoticeList
 
 	// 마지막 페이지
-	public int lastPage(Connection conn, int rowPerPage) throws ClassNotFoundException, SQLException  {
+	public int lastPage(Connection conn, final int ROW_PER_PAGE) throws ClassNotFoundException, SQLException  {
 		// 리턴값 반환할 변수
 		int lastPage = 0;
 		// 전체 게시물 수 
@@ -237,9 +237,9 @@ public class NoticeDao {
 			}
 
 			// 마지막 페이지 구하기
-			lastPage = totalRow / rowPerPage;
+			lastPage = totalRow / ROW_PER_PAGE;
 			// 마지막페이지가 rowPerPage로 떨어지지 않을 떼
-			if (totalRow % rowPerPage != 0) {
+			if (totalRow % ROW_PER_PAGE != 0) {
 				lastPage += 1;
 			}
 

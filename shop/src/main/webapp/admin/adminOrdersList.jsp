@@ -39,19 +39,19 @@
 	System.out.println("orderList - currentPage : " + currentPage);
 	
 	// 페이지 당 보여질 행 갯수
-	final int rowPerPage = 10;
+	final int ROW_PER_PAGE = 10;
 	
 	// 쿼리 실행을 위한 객체 생성
 	OrdersService ordersService = new OrdersService();
 	
 	// 마지막 페이지 호출
-	int lastPage = ordersService.lastPage(currentPage, rowPerPage);
+	int lastPage = ordersService.lastPageByEmployee(ROW_PER_PAGE);
 	// 디버깅
 	System.out.println("orderList - lastPage : " + lastPage);
 	
 	// 주문 리스트
 	List<Map<String, Object>> list = new ArrayList<>();
-	list = ordersService.selectOrdersList(rowPerPage, currentPage);
+	list = ordersService.selectOrdersList(ROW_PER_PAGE, currentPage);
 	// 디버깅
 	System.out.println("orderList - list : " + list);
 	

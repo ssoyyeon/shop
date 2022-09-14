@@ -107,7 +107,7 @@
 			<a href="<%=request.getContextPath()%>/admin/adminOrdersList.jsp">
 				<button type="submit" class="btn" style=" color: white; background-color: black; float: right; margin-bottom: 5%;">OrdersList</button>
 			</a> <a
-				href="<%=request.getContextPath()%>/admin/updateOrdersAction.jsp?orderNo=<%=map.get("ordersNo")%>">
+				href="<%=request.getContextPath()%>/admin/updateOrdersAction.jsp?ordersNo=<%=map.get("ordersNo")%>">
 				<button type="submit" class="btn" style=" color: white; background-color: black; float: right; margin-bottom: 5%;">ModifyOrders</button>
 			</a>
 		</div>

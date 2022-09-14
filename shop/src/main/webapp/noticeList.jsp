@@ -9,7 +9,7 @@
 	request.setCharacterEncoding("utf-8");
 	
 	// 한 페이지 당 보여질 게시물 수
-	final int rowPerPage = 10;
+	final int ROW_PER_PAGE = 10;
 	
 	// 현재 페이지
 	int currentPage = 1;
@@ -23,13 +23,13 @@
 	NoticeService noticeService = new NoticeService();
 	
 	// 마지막 페이지 메서드 호출 
-	int lastPage = noticeService.lastPage(rowPerPage, currentPage);
+	int lastPage = noticeService.lastPage(ROW_PER_PAGE);
 	// 디버깅
 	System.out.println("NoticeList - lastPage : " + lastPage);
 	
 	// 공지사항 리스트 호출
 	List<Map<String, Object>> list = new ArrayList<>();
-	list = noticeService.selectNoticeList(rowPerPage, currentPage);
+	list = noticeService.selectNoticeList(ROW_PER_PAGE, currentPage);
 	// 디버깅
 	System.out.println("NoticeList - list : " + list);
 	
@@ -57,8 +57,8 @@
 
 				<p>
 					<a href="<%=request.getContextPath()%>/admin/addNoticeForm.jsp">
-						<button type="submit" class="btn btn-success"
-							style="float: right; margin-bottom: 3%; margin-right: 5%;">Add
+						<button type="submit" class="btn"
+							style="float: right; margin-bottom: 3%; margin-right: 5%; background-color: black; color: white;">Add
 							Notice</button>
 					</a>
 				</p>

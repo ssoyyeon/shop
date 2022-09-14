@@ -79,13 +79,7 @@
 				</tr>
 			</table>
 		</div>
-		<div style="float: right; margin-top: 7%; margin-left: 65%;">
-			<a href="<%=request.getContextPath()%>/logout.jsp">
-				<button type="button" class="btn btn" style="color:white;background-color:black;">Logout</button>
-			</a> 
-			<a href="<%=request.getContextPath()%>/customer/customerReviewList.jsp?customerId=<%=customerId%>">
-				<button class="btn btn" type="submit" style="color:white;background-color:black; ">MyReview</button>
-			</a>
+		<div style="float: right; margin-top: 7%; margin-left: 75%;">
 			<a href="<%=request.getContextPath()%>/customer/updateCustomerForm.jsp?customerId=<%=customerId%>">
 				<button class="btn btn" type="submit" style="color:white;background-color:black;">ModifyAccount</button>
 			</a>

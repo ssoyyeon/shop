@@ -52,8 +52,8 @@
 			</h2>
 			<p>
 				<a href="<%=request.getContextPath()%>/admin/addGoodsForm.jsp">
-					<button type="submit" class="btn btn-success"
-						style="float: right; margin-bottom: 3%; margin-right: 5%; margin-bottom:3%;">AddGoods</button>
+					<button type="submit" class="btn"
+						style="float: right; margin-bottom: 3%; margin-right: 5%; margin-bottom:3%; background-color:black; color:white;">AddGoods</button>
 				</a>
 			</p>
 			<br>

@@ -680,7 +680,7 @@ public class GoodsDao {
 	} // end insertGoods
 
 	// lastPage 페이지 구하기 메서드
-	public int lastPage(Connection conn, int rowPerPage) throws ClassNotFoundException, SQLException {
+	public int lastPage(Connection conn, int rowPerPage, int beginRow) throws ClassNotFoundException, SQLException {
 		// 리턴 반환 변수
 		int lastPage = 0;
 		// 전체 행의 수

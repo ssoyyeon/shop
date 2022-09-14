@@ -9,11 +9,12 @@
 					style="height: 500px; background-color: #ced4da;">
 					<div class="form-block">
 						<div class="text-center mb-5">
-							<h2 style="margin-top: 8%; font-size:35px;">
+							<h2 style="margin-top: 8%; font-size: 35px;">
 								<b>CUSTOMER</b>
 							</h2>
 							<form class="form-group" id="customerLoginForm" method="post"
-								action="<%=request.getContextPath()%>/customer/customerLoginAction.jsp" style="margin-top:5%;">
+								action="<%=request.getContextPath()%>/customer/customerLoginAction.jsp"
+								style="margin-top: 5%;">
 								<div class="form-group">
 									<label for="customerId" style="float: left;">ID</label> <input
 										type="text" name="customerId" id="customerId"
@@ -24,15 +25,21 @@
 									<input type="password" class="form-control" id="customerPass"
 										placeholder="Please enter Your Password" name="customerPass">
 								</div>
+								<div
+									style="float: left; margin-left: 3%; margin-top: 3%; font-weight: bolder;">
+									<p>
+										고객 <br> Id: guest <br> Pw: 1234
+									</p>
+								</div>
 								<br>
 								<div>
 									<a
 										href="<%=request.getContextPath()%>/customer/addCustomer.jsp">
 										<button type="submit" class="btn btn-secondary"
-											style="float: right; margin-top:5%;">Sign-up</button>
+											style="float: right; margin-top: 5%;">Sign-up</button>
 									</a>
-									<button type="button" class="btn btn-dark"
-										id="cutomerLoginBtn" style="float: right; margin-top:5%;">login</button>
+									<button type="button" class="btn btn-dark" id="cutomerLoginBtn"
+										style="float: right; margin-top: 5%;">login</button>
 								</div>
 							</form>
 						</div>
@@ -54,5 +61,5 @@
 			$('#customerLoginForm').submit();
 		}
 	});
-</script>	
+</script>
 </html>

@@ -213,6 +213,42 @@ public class EmployeeDao {
 		return list;
 	} // end selectEmployeeList
 	
+	// 관리자 멤버 비밀번호 수정 
+	public int updateMemberPw(Connection conn , String password, String employeeIde) throws ClassNotFoundException, SQLException {
+		// 리턴값 반환 변수
+		int memberActive = 0;
+		// DB 자원
+		DBUtil dbUtil = new DBUtil();
+		PreparedStatement stmt = null;
+		// 쿼리
+		String sql = "UPDATE employee SET employee_pass= PASSWORD(?) WHERE employee_id = ?";
+		conn = dbUtil.getConnection();
+		// 디버깅
+		System.out.println("EmployeeDao - updateMemberPw - DB 연결");
+		
+		try {
+			// 쿼리 담기
+			stmt = conn.prepareStatement(sql);
+			// ? 값 설정
+			stmt.setString(1, password);
+			stmt.setString(2, employeeIde);
+			// 디버깅
+			System.out.println("EmployeeDao - updateMemberPw : " + stmt);
+			// 쿼리 실행
+			memberActive = stmt.executeUpdate();
+			// 디버깅	
+			 if(memberActive != 0) {
+				 System.out.println("EmployeeDao - updateMemberPw 성공! ");
+			 }
+		}finally {
+			if(stmt != null) {
+				stmt.close();
+			}
+		}
+		return memberActive;
+	} // end updateMemberPw
+		
+	
 	// 관리자 멤버 수정
 	public int updateMember(Connection conn , String employeeId, String active) throws ClassNotFoundException, SQLException {
 		// 리턴값 반환 변수

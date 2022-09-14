@@ -73,7 +73,7 @@ System.out.println("\n----------------------------------updateCustomerForm - end
 						</td>
 					</tr>
 				</table>
-				<button class="btn btn-warning" type="submit" style="color: white; float: right; margin-left: 70%; margin-bottom: 5%;" id="updateCustomerBtn">Modify</button>
+				<button class="btn" type="submit" style=" color: white; background-color: black; float: right; margin-left: 70%; margin-bottom: 5%;" id="updateCustomerBtn">Modify</button>
 			</form>
 		</div>
 

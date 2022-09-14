@@ -56,26 +56,11 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-					<%
-					if (session.getAttribute("id") != null && session.getAttribute("user").equals("Customer")) {
-					%>
 					<div class="right-phone-box">
 						<p>
 							Call US :- <a href="#"> +82 010 1234 5678</a>
 						</p>
 					</div>
-					<div class="our-link">
-						<ul>
-							<!-- <i class="fa fa-user s_color"></i> -->
-							<li><a href="#"><i class="fas fa-location-arrow"></i>
-									Our location</a></li>
-							<li><a href="#"><i class="fas fa-headset"></i> Contact
-									Us</a></li>
-						</ul>
-					</div>
-					<%
-					}
-					%>
 					<div class="text-slid-box" style="text-align: center;">
 						<div id="offer-box" class="carouselTicker">
 							<ul class="offer-box">
@@ -92,13 +77,27 @@
 					<div class="our-link" style="float: right;">
 						<div class="our-link">
 							<ul>
+								<!-- Menu- home -->
 								<li><a href="<%=request.getContextPath()%>/main.jsp">HOME</a></li>
 								<%
+								// Menu- home 
 								if (session.getAttribute("id") == null) {
 								%>
 								<li><a href="<%=request.getContextPath()%>/loginForm.jsp">LOGIN</a></li>
+								<li class="dropdown active"><a href="#"
+									class="nav-link dropdown-toggle arrow" data-toggle="dropdown">JOIN</a>
+									<ul class="dropdown-menu">
+										<li>
+											<a href="<%=request.getContextPath()%>/admin/addEmployee.jsp" style="color:black;">employee</a>
+										</li>
+										<li>
+											<a href="<%=request.getContextPath()%>/customer/addCustomer.jsp" style="color:black;">customer</a>
+										</li>
+									</ul>
+								</li>
 								<%
 								}
+								// Menu- index
 								if (session.getAttribute("id") != null && session.getAttribute("user").equals("Employee")) {
 								%>
 								<li><a
@@ -108,10 +107,11 @@
 								} else if (session.getAttribute("id") != null && session.getAttribute("user").equals("Customer")) {
 								%>
 								<li><a
-									href="<%=request.getContextPath()%>/customer/customerIndex.jsp">
-										My Account</a></li>
+									href="<%=request.getContextPath()%>/customer/customerMyPage.jsp">
+										My Page</a></li>
 								<%
 								}
+								// Menu- member 
 								if (session.getAttribute("id") != null && session.getAttribute("user").equals("Employee")) {
 								%>
 								<li><a
@@ -121,40 +121,40 @@
 									href="<%=request.getContextPath()%>/admin/employeeMemberList.jsp">EMPLOYEE
 								</a></li>
 								<%
+								}
 								if (session.getAttribute("id") != null && session.getAttribute("user").equals("Employee")) {
-									 %>
+								 %>
+								<!-- Menu- goods -->
 								<li><a
 									href="<%=request.getContextPath()%>/admin/adminGoodsList.jsp">GOODS
 								</a></li>
 								<%
-								} } if (session.getAttribute("id") != null &&
-								session.getAttribute("user").equals("Employee")) { %>
+								 } 
+								if (session.getAttribute("id") != null && session.getAttribute("user").equals("Employee")) { 
+								%>
 								<li><a
 									href="<%=request.getContextPath()%>/admin/adminOrdersList.jsp">ORDER
 								</a></li>
 								<%
-								} else if (session.getAttribute("id") != null && session.getAttribute("user").equals("Customer")) {
-								%>
-								<li><a
-									href="<%=request.getContextPath()%>/customer/customerOrdersList.jsp">ORDER
-								</a></li>
-								<%
 								}
-								if (session.getAttribute("id") != null &&
-								session.getAttribute("user").equals("Employee")) { %>
+								if (session.getAttribute("id") != null && session.getAttribute("user").equals("Employee")) { 
+								%>
 								<li><a
 									href="<%=request.getContextPath()%>/admin/reviewListByEmployee.jsp">REVIEW</a></li>
 								<%
 								}
-								if (session.getAttribute("id") != null && session.getAttribute("user").equals("Customer")) {
+								if (session.getAttribute("id") != null && session.getAttribute("user").equals("Employee")) { 
 								%>
-								<li><a
-									href="<%=request.getContextPath()%>/customer/cartList.jsp?">
-										CART </a></li>
+								<li><a href="<%=request.getContextPath()%>/noticeList.jsp">NOTICE</a></li>
+								<%
+								}
+								if (session.getAttribute("id") != null){
+								%>
+								<li><a href="<%=request.getContextPath()%>/logout.jsp">LOGOUT
+								</a></li>
 								<%
 								}
 								%>
-								<li><a href="<%=request.getContextPath()%>/noticeList.jsp">NOTICE</a></li>
 							</ul>
 						</div>
 					</div>
@@ -189,7 +189,7 @@ if (session.getAttribute("id") != null && session.getAttribute("user").equals("E
 					</button>
 					<a class="navbar-brand" href="index.html"><img
 						src="<%=request.getContextPath()%>/images/스우시3.svg" class="logo"
-						alt="logoImg" width=100 height=100 style="margin-left: -160%;"></a>
+						alt="logoImg" width=100 height=100 style="margin-left: -230%;"></a>
 
 				</div>
 				<!-- End Header Navigation -->
@@ -214,7 +214,7 @@ if (session.getAttribute("id") != null && session.getAttribute("user").equals("E
 								<li><a
 									href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=w&category=Shoes">Shoes</a></li>
 								<li><a
-									href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=all&category=Bags">Bags</a></li>
+									href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=all&category=Bag">Bags</a></li>
 							</ul></li>
 						<li class="dropdown active"><a href="#"
 							class="nav-link dropdown-toggle arrow" data-toggle="dropdown">Men</a>
@@ -224,7 +224,7 @@ if (session.getAttribute("id") != null && session.getAttribute("user").equals("E
 								<li><a
 									href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=m&category=Shoes">Shoes</a></li>
 								<li><a
-									href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=m&category=Bags">Bags</a></li>
+									href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=m&category=Bag">Bags</a></li>
 							</ul></li>
 						<li class="dropdown active"><a href="#"
 							class="nav-link dropdown-toggle arrow" data-toggle="dropdown">Kids</a>
@@ -234,7 +234,7 @@ if (session.getAttribute("id") != null && session.getAttribute("user").equals("E
 								<li><a
 									href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=kids&category=Shoes">Shoes</a></li>
 								<li><a
-									href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=kids&category=Bags">Bags</a></li>
+									href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=kids&category=Bag">Bags</a></li>
 							</ul></li>
 						<li class="dropdown active"><a href="#"
 							class="nav-link dropdown-toggle arrow" data-toggle="dropdown">Sale</a>
@@ -246,18 +246,18 @@ if (session.getAttribute("id") != null && session.getAttribute("user").equals("E
 									href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=sale&category=shoes">Shoes</a>
 								</li>
 								<li><a
-									href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=sale&category=bags">Bags</a>
+									href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=sale&category=bag">Bags</a>
 								</li>
 							</ul></li>
 					</ul>
 				</div>
-				<%
+				<%-- 		<%
 				if (session.getAttribute("id") != null && session.getAttribute("user").equals("Customer")) {
-				%>
+				%> --%>
 				<!-- /.navbar-collapse -->
 				<!-- Start Atribute Navigation -->
 				<div class="attr-nav"
-					style="margin-left: 159px; margin-right: -180px;">
+					style="margin-left: 210px; margin-right: -250px;">
 					<ul>
 						<%
 						//오늘 방문자수, 총 방문자수 메서드 호출을 위한 객체 생성
@@ -281,7 +281,7 @@ if (session.getAttribute("id") != null && session.getAttribute("user").equals("E
 				<!-- End Atribute Navigation -->
 			</div>
 			<%
-			}
+			//	}
 			%>
 		</nav>
 		<!-- End Navigation -->

@@ -19,10 +19,8 @@
 	
 	// 변수 가져오기
 	String customerId = ((String) session.getAttribute("id"));
-	int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
 	// 디버깅
 	System.out.println("customerId : " + customerId);
-	System.out.println("deleteCustomerAction - goodsNo : " + goodsNo);
 
 	// 디버깅
 	System.out.println("\n----------------------------------deleteCutomerForm - end ---------------------------------------\n");
@@ -39,7 +37,7 @@
 				<b>DELETE MY ACCOUNT</b>
 			</h2>
 			<form
-				action="<%=request.getContextPath()%>/customer/deleteCustomerAction.jsp?customerId=<%=customerId%>"
+				action="<%=request.getContextPath()%>/customer/deleteCustomerAction.jsp"
 				id="deleteCustomerForm" method="post" class="form-group">
 				<hr>
 				<br> <br>
@@ -58,12 +56,11 @@
 						<label for="ConfirmPassword"><b>Confirm password</b></label> <input
 							type="password" name="ConfirmPassword" id="ConfirmPassword"
 							class="form-control" placeholder="Please enter Your Password">
-							<input type="hidden" name="goodsNo" id="goodsNo" value="goodsNo">
 					</div>
 				</fieldset>
 				<br> <br>
-				<button type="button" class="btn btn-danger" id="deleteBtn"
-					style="float: right; margin-right: 3%; margin-bottom: 5%;">Delete</button>
+				<button type="button" class="btn" id="deleteBtn"
+					style="float: right; margin-right: 3%; margin-bottom: 5%; background-color:black; color:white; ">Delete</button>
 			</form>
 		</div>
 	</div>

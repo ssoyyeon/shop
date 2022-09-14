@@ -16,7 +16,7 @@ public class CartDao {
 
 	
 	// 고객 1 전체 장바구니 리스트
-	public List<Map<String, Object>> selectCartListByCustomer(Connection conn, String customerId)
+	public List<Map<String, Object>> selectCartListByCustomer(Connection conn, Cart cart)
 			throws ClassNotFoundException, SQLException {
 		// 리턴값 반환할 객체
 		List<Map<String, Object>> list = new ArrayList<>();
@@ -26,6 +26,7 @@ public class CartDao {
 		this.dbUtil = new DBUtil();
 		// 쿼리
 		String sql = "SELECT c.goods_no goodsNo, c.cart_quantity cartQuantity, g.goods_price goodsPrice, goods_name goodsName"
+				+ ", c.create_date createDate, c.update_date updateDate "
 				+ " FROM cart c INNER JOIN goods g USING(goods_no) WHERE customer_id = ?";
 
 		try {
@@ -36,7 +37,7 @@ public class CartDao {
 			// 쿼리 담기
 			stmt = conn.prepareStatement(sql);
 			// ?값 설정
-			stmt.setString(1, customerId);
+			stmt.setString(1, cart.getCustomerId());
 			// 디버깅
 			System.out.println("CartDao - selectCartList - stmt : " + stmt);
 
@@ -50,6 +51,8 @@ public class CartDao {
 				map.put("cartQuantity", rs.getInt("cartQuantity"));
 				map.put("goodsPrice", rs.getString("goodsPrice"));
 				map.put("goodsName", rs.getString("goodsName"));
+				map.put("createDate", rs.getString("createDate"));
+				map.put("updateDate", rs.getString("updateDate"));
 				list.add(map);
 			}
 			// 디버깅
@@ -86,6 +89,7 @@ public class CartDao {
 		this.dbUtil = new DBUtil();
 		// 쿼리
 		String sql = "SELECT c.goods_no goodsNo, c.cart_quantity cartQuantity, g.goods_price goodsPrice, goods_name goodsName"
+				+ ", c.create_date createDate, c.update_date updateDate "
 				+ " FROM cart c INNER JOIN goods g USING(goods_no) WHERE customer_id = ?  AND goods_no = ?";
 
 		try {
@@ -98,6 +102,7 @@ public class CartDao {
 			// ?값 설정
 			stmt.setString(1, paramCart.getCustomerId());
 			stmt.setInt(2, paramCart.getGoodsNo());
+			
 			// 디버깅
 			System.out.println("CartDao - selectCartList - stmt : " + stmt);
 
@@ -111,6 +116,8 @@ public class CartDao {
 				map.put("cartQuantity", rs.getInt("cartQuantity"));
 				map.put("goodsPrice", rs.getString("goodsPrice"));
 				map.put("goodsName", rs.getString("goodsName"));
+				map.put("createDate", rs.getString("createDate"));
+				map.put("updateDate", rs.getString("updateDate"));
 				list.add(map);
 			}
 			// 디버깅
@@ -283,15 +290,16 @@ public class CartDao {
 
 		conn = dbUtil.getConnection();
 		// 디버깅
-		System.out.println("OrdersDao - DB 연결");
+		System.out.println("CartDao - DB 연결");
 
+		
 		try {
 			// 쿼리 담기
 			stmt = conn.prepareStatement(sql);
 			// ?값 setter
 			stmt.setString(1, customerId);
 			// 디버깅
-			System.out.println("OrdersDao - lastPage : " + stmt);
+			System.out.println("CartDao - lastPage : " + stmt);
 
 			// 전체 행의 수를 구하기 위한 쿼리 실행
 			rs = stmt.executeQuery();
@@ -300,8 +308,8 @@ public class CartDao {
 			}
 
 			// 디버깅
-			System.out.println("OrdersDao - totalRow  : " + totalRow);
-			System.out.println("OrdersDao - ROW_PER_PAGE  : " + ROW_PER_PAGE);
+			System.out.println("CartDao - totalRow  : " + totalRow);
+			System.out.println("CartDao - ROW_PER_PAGE  : " + ROW_PER_PAGE);
 			// 마지막 페이지
 			lastpage = totalRow / ROW_PER_PAGE;
 			// 페이지가 rowPerPage로 나눠떨어지지 않아도 페이지 구현을 위해 1개 추가
@@ -310,8 +318,8 @@ public class CartDao {
 			}
 
 			// 디버깅
-			System.out.println("OrdersDao - lastPage : " + lastpage);
-
+			System.out.println("CartDao - lastPage : " + lastpage);
+			System.out.println("CartDao - ROW_PER_PAGE  : " + ROW_PER_PAGE);
 		} finally {
 			if (stmt != null) {
 				stmt.close();
@@ -323,7 +331,7 @@ public class CartDao {
 		return lastpage;
 	} // end lastPage
 	
-	// 장바구니 삭제
+	// 장바구니 상품1 삭제
 	public int deletecartList(Connection conn , int goodsNo, String customerId) throws ClassNotFoundException, SQLException {
 		// 리턴값 반환할 변수
 		int cartList = 0;
@@ -361,4 +369,43 @@ public class CartDao {
 		}
 		return cartList;
 	} // end deletecartList
+
+	// 장바구니 상품1 삭제
+		public int deletecartListByCustomer(Connection conn, String customerId) throws ClassNotFoundException, SQLException {
+			// 리턴값 반환할 변수
+			int cartList = 0;
+			// DB 자원
+			PreparedStatement stmt = null;
+			this.dbUtil = new DBUtil();
+			// 쿼리
+			String sql = "DELETE FROM cart WHERE customer_id = ? ";
+
+			try {
+				// DB 연결
+				conn = dbUtil.getConnection();
+				// 디버깅
+				System.out.println("CartDao - deletecartListByCustomer DB 연결");
+				// 쿼리 담기
+				stmt = conn.prepareStatement(sql);
+				// 쿼리값 설정
+				stmt.setString(1, customerId);
+				
+				// 쿼리 실행
+				cartList = stmt.executeUpdate();
+				// 디버깅
+				System.out.println("CartDao - deletecartListByCustomer - stmt : " + stmt);
+				
+			} finally {
+				// DB 자원해제
+				if (stmt != null) {
+					try {
+						stmt.close();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			return cartList;
+		} // end deletecartListByCustomer
+
 }

@@ -127,11 +127,11 @@ System.out.println("\n----------------------------------updateCartQuantity- end 
 					</table>
 
 					<div style="margin-top: 5%; margin-bottom: 5%; margin-left: 80%;">
-						<button type="submit" class="btn btn-warning"
-							style="color: white;">Modify</button>
+						<button type="submit" class="btn"
+							style="color: white; background-color:black">Modify</button>
 						<a href="<%=request.getContextPath()%>/customer/cartList.jsp">
-							<button type="button" class="btn btn-success"
-								style="color: white;">CartList</button>
+							<button type="button" class="btn"
+							style="color: white; background-color:black">CartList</button>
 						</a>
 					
 					</div>

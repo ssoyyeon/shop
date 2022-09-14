@@ -68,7 +68,7 @@ System.out.println("\n-----------------------------------------updateCustomerOrd
 						<td><%=map.get("orderAddress")%></td>
 					</tr>
 					<tr>
-						<td style="text-align: center;"><b>orderQuantity</b></td>
+						<td style="text-align: center;"><b>detailAddress</b></td>
 						<td><%=map.get("detailAddress")%></td>
 					</tr>
 					<tr>
@@ -83,10 +83,10 @@ System.out.println("\n-----------------------------------------updateCustomerOrd
 				</table>
 				<div style="margin-top:5%; margin-bottom:5%;">
 					<a href="<%=request.getContextPath()%>/customer/customerOrdersList.jsp">
-						<button type="submit" class="btn btn-success"
-							style="float: right; margin-bottom:5%;">OrderList</button>
+						<button type="submit" class="btn"
+							style="float: right; margin-bottom:5%;  color: white; background-color: black;">OrderList</button>
 					</a> 
-					<button type="submit" class="btn btn-warning" style="float: right;margin-bottom:5%; color:white; ">ModifyOrder</button>
+					<button type="submit" class="btn" style="float: right;margin-bottom:5%;  color: white; background-color: black; ">ModifyOrder</button>
 				</div>
 			</form>
 		</div>

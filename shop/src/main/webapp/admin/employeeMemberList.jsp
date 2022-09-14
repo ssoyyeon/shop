@@ -7,7 +7,8 @@
 	pageEncoding="UTF-8"%>
 <%
 //디버깅
-System.out.println("\n\n----------------------------------employeeMemberList- start ---------------------------------\n");
+System.out
+		.println("\n\n----------------------------------employeeMemberList- start ---------------------------------\n");
 
 //admin이 아닐 경우 접속 불가
 if (session.getAttribute("id") == null || ((String) session.getAttribute("user")).equals("customer")) {
@@ -82,6 +83,8 @@ System.out.println("\n----------------------------------employeeMemberList- end 
 						<th>createDate</th>
 						<th>updateDate</th>
 						<th>active</th>
+						<th></th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -93,70 +96,71 @@ System.out.println("\n----------------------------------employeeMemberList- end 
 						<td><%=o.get("employeeName")%></td>
 						<td><%=o.get("createDate")%></td>
 						<td><%=o.get("updateDate")%></td>
-						<td>
-							<form
-								action="<%=request.getContextPath()%>/admin/updateEmployeeAction.jsp"
-								method="post">
-								<input type="hidden" name="employeeId"
-									value="<%=o.get("employeeId")%>"> 
-									<select name="active" id="active">
-									<option value="none" selected disabled hidden><%=o.get("active")%></option>
-									<option value="Y">Y</option>
-									<option value="N">N</option>
-								</select>
-								<button type="submit" class="btn btn"  style="color: white; background-color: black;">Modify</button>
-							</form>
-						</td>
+						<td><input type="hidden" name="employeeId"
+							value="<%=o.get("employeeId")%>"> <%=o.get("active")%></td>
+						<%
+						if (!o.get("employeeName").equals("관리자")) {
+						%>
+						<td><a
+							href="<%=request.getContextPath()%>/admin/updateEmployeeForm.jsp">
+								<button type="submit" class="btn btn"
+									style="color: white; background-color: black;">Modify</button>
+						</a><a
+							href="<%=request.getContextPath()%>/admin/deleteEmployeeIdForm.jsp?employeeId=<%=o.get("employeeId")%>">
+								<button type="submit" class="btn btn"
+									style="color: white; background-color: black;">Delete</button>
+						</a></td>
 					</tr>
 					<%
+					}
 					}
 					%>
 				</tbody>
 			</table>
 		</div>
 		<!-- class="col-lg-12"  -->
-			<!-- 페이징 -->
+		<!-- 페이징 -->
 		<!-- 페이징 -->
 		<!-- 페이징 -->
 		<div class="container" style="text-align: center;">
-<%
+			<%
 			if (currentPage > 1) {
-%>
-				<a
-					href="<%=request.getContextPath()%>/admin/employeeMemberList.jsp?currentPage=<%=currentPage - 1%>">
-					<button type="submit" class="btn btn-secondary">Pre</button>
-				</a>
-<%
-			}else{
-
-%>
-				<a href="<%=request.getContextPath()%>/admin/employeeMemberList.jsp?currentPage=<%=currentPage - 1%>">
-					<button type="submit" class="btn btn-secondary" disabled="disabled">Pre</button>
-				</a>
-<%				
-				
+			%>
+			<a
+				href="<%=request.getContextPath()%>/admin/employeeMemberList.jsp?currentPage=<%=currentPage - 1%>">
+				<button type="submit" class="btn btn-secondary">Pre</button>
+			</a>
+			<%
+			} else {
+			%>
+			<a
+				href="<%=request.getContextPath()%>/admin/employeeMemberList.jsp?currentPage=<%=currentPage - 1%>">
+				<button type="submit" class="btn btn-secondary" disabled="disabled">Pre</button>
+			</a>
+			<%
 			}
 			if (currentPage < lastPage) {
 			// 디버깅
 			System.out.println("lastPage : " + lastPage);
 			System.out.println("currentPage : " + currentPage);
-%>
-				<a
-					href="<%=request.getContextPath()%>/admin/employeeMemberList.jsp?currentPage=<%=currentPage + 1%>">
-					<button type="submit" class="btn btn-dark">Next</button>
-				</a>
+			%>
+			<a
+				href="<%=request.getContextPath()%>/admin/employeeMemberList.jsp?currentPage=<%=currentPage + 1%>">
+				<button type="submit" class="btn btn-dark">Next</button>
+			</a>
 
-<%
-			}else{
-%>				
-				<a
+			<%
+			} else {
+			%>
+			<a
 				href="<%=request.getContextPath()%>/admin/employeeMemberList.jsp?currentPage=<%=currentPage%>">
 				<button type="submit" class="btn btn-dark" disabled="disabled">Next</button>
-				</a>
-<%			
+			</a>
+			<%
 			}
-%>
-		</div> <!--  end 페이징 -->	
+			%>
+		</div>
+		<!--  end 페이징 -->
 	</div>
 	<!-- end row -->
 </div>

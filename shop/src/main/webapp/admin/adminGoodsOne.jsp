@@ -20,7 +20,6 @@
 	System.out.println("id : " + session.getAttribute("id"));
 	System.out.println("user : " + session.getAttribute("user"));
 	
-	System.out.println("\nadminGoodsOne");
 	// 인코딩
 	request.setCharacterEncoding("utf-8");
 	
@@ -35,6 +34,8 @@
 	
 	Map<String, Object> map = new HashMap<>();
 	map = goodsService.selectGoodsAndImgOne(goodsNo);
+	// 디버깅
+	System.out.println("map : " + map);
 	
 	if (map != null) {
 		System.out.println("상품 상세보기 성공");
@@ -147,7 +148,7 @@
 				</table>
 			</div>
 		</div>
-		<%
+		<%-- <%
 		// 리뷰 삭제 조건
 		if (!(session.getAttribute("id") == null || ((String) session.getAttribute("user")).equals("customer")
 				|| !session.getAttribute("active").equals("Y"))) {
@@ -159,7 +160,7 @@
 		</a>
 		<%
 		}
-		%>
+		%> --%>
 		<!--  review end -->
 	</div>
 

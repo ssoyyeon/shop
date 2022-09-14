@@ -39,8 +39,11 @@ String customerId = ((String) session.getAttribute("id"));
 //디버깅
 System.out.println("customerId : " + customerId);
 
-// 메서드를  호출 위한 객체생성
+// 메서드 호출하기 위한 객체생성
 BuyService buyService = new BuyService();
+
+//디버깅
+System.out.println("cartList: " + session.getAttribute("cartList"));
 
 // 리턴할 객체 생성
 List<Map<String, Object>> list = null;
@@ -48,12 +51,12 @@ List<Map<String, Object>> list = null;
 // 리스트 준비
 List<Cart> cartList = new ArrayList<>();
 // 주문 리스트 넣어주기
-if((session.getAttribute("cartList") != null)){
-cartList = ((List<Cart>) request.getAttribute("cartList"));
-//디버깅
-System.out.println( request.getAttribute("cartList"));
+if ((session.getAttribute("cartList") != null)) {
+	cartList = (List<Cart>) session.getAttribute("cartList");
+	//디버깅
+	System.out.println("cartList" + cartList + "/" + (List<Cart>) session.getAttribute("cartList"));
 
-list = buyService.getBuyByCartList(cartList);
+	list = buyService.getBuyByCartList(cartList);
 }
 // 고객 정보 가져오기
 CustomerService customerService = new CustomerService();
@@ -76,49 +79,55 @@ System.out.println("\n---------------------------------buyGoods end-------------
 	<div class="container">
 		<form
 			action="<%=request.getContextPath()%>/customer/buyGoodsAction.jsp"
-			method="post">
+			id="addOrdersForm" method="post">
 			<div class="row">
 				<div class="col-md-6 mb-5 mb-md-0">
-					<h2 class="h3 mb-3 text-black">Orderer Information</h2>
+					<h2 class="h3 mb-3 text-black" style="margin-topr:7%;">Orderer Information</h2>
 					<div class="p-3 p-lg-5 border">
 						<div class="form-group row">
 							<div class="col-md-12">
-								<label for="customerName" class="text-black">Name <span
-									class="text-danger">*</span></label> <input type="text"
+								<label for="customerName" class="text-black" style="margin-topr:3%;"><b>Name</b>
+									<span class="text-danger">*</span></label> <input type="text"
 									class="form-control" id="customerName" name="customerName"
 									value="<%=customer.getCustomerName()%>" readonly>
 							</div>
 						</div>
 						<div class="form-group ">
-							<label for="customerTelephone" class="text-black">Phone <span
+							<label for="customeId" class="text-black" style="margin-topr:4%;"><b>Id</b> <span
 								class="text-danger">*</span></label> <input type="text"
+								class="form-control" id="customeId" name="customeId"
+								value="<%=customer.getCustomerId()%>" readonly>
+						</div>
+						<div class="form-group ">
+							<label for="customerTelephone" class="text-black" style="margin-topr:4%;"><b>Phone</b>
+								<span class="text-danger">*</span></label> <input type="text"
 								class="form-control" id="customerTelephone"
 								name="customerTelephone"
 								value="<%=customer.getCustomerTelephone()%>" readonly>
 						</div>
 
 						<!-- address -->
-						<label for="Address" class="text-black">Address</label> <input
-							type="text" id="sample2_address"
-							placeholder="Please enter Your Address" class="form-control"
-							name="orderAddress"><br> <input type="text"
-							id="sample2_detailAddress" readonly
-							placeholder="Please enter Your DetailAddress"
-							class="form-control" name="detailAddress"> <input
-							type="hidden" id="sample2_extraAddress" placeholder="참고항목">
-						<input type="hidden" id="sample2_postcode" placeholder="우편번호">
-						<input type="button" onclick="sample2_execDaumPostcode()"
-							value="Search" style="margin-left: 90%; margin-top: 5%;"><br>
-
-						<!-- iOS에서는 position:fixed 버그가 있음, 적용하는 사이트에 맞게 position:absolute 등을 이용하여 top,left값 조정 필요 -->
-						<div id="layer"
-							style="display: none; position: fixed; overflow: hidden; z-index: 1; -webkit-overflow-scrolling: touch;">
-							<img src="//t1.daumcdn.net/postcode/resource/images/close.png"
-								id="btnCloseLayer"
-								style="cursor: pointer; position: absolute; right: -3px; top: -3px; z-index: 1"
-								onclick="closeDaumPostcode()" alt="닫기 버튼">
+						<div class="form-group">
+							<label for="Address" class="text-black"  style="margin-top:4%;"><b>Address</b></label> <input
+								type="text" id="sample2_address"
+								placeholder="Please search Your Address" class="form-control"
+								name="address" readonly><br>
+				
+							<label for="detailAddress" class="text-black" style="margin-topr:4%;"><b>detailAddress</b></label>
+							<input type="text" id="sample2_detailAddress" placeholder="Please enter Your DetailAddress" class="form-control" name="detailAddress">
+							<input type="hidden" id="sample2_extraAddress" placeholder="참고항목">
+							<input type="hidden" id="sample2_postcode" placeholder="우편번호">
+							<input type="button" onclick="sample2_execDaumPostcode()"
+								value="Address Search" style="margin-left: 80%; margin-top: 11%; background-color:black; color:white"><br>
+							<!-- iOS에서는 position:fixed 버그가 있음, 적용하는 사이트에 맞게 position:absolute 등을 이용하여 top,left값 조정 필요 -->
+							<div id="layer"
+								style="display: none; position: fixed; overflow: hidden; z-index: 1; -webkit-overflow-scrolling: touch;">
+								<img src="//t1.daumcdn.net/postcode/resource/images/close.png"
+									id="btnCloseLayer"
+									style="cursor: pointer; position: absolute; right: -3px; top: -3px; z-index: 1"
+									onclick="closeDaumPostcode()" alt="닫기 버튼">
+							</div>
 						</div>
-
 					</div>
 				</div>
 				<div class="col-md-6">
@@ -129,7 +138,8 @@ System.out.println("\n---------------------------------buyGoods end-------------
 								<thead>
 									<tr>
 										<th>Product</th>
-										<th>Total</th>
+										<th>cartQuantity</th>
+										<th>Price</th>
 									</tr>
 								</thead>
 
@@ -138,70 +148,43 @@ System.out.println("\n---------------------------------buyGoods end-------------
 									for (Map<String, Object> m : list) {
 									%>
 									<tr>
-										<td><%=m.get("goodsName")%><strong class="mx-2">x</strong>
-											<%=m.get("cartQuantity")%></td>
-
-
+										<td><%=m.get("goodsName")%><strong class="mx-2">x</strong></td>
+										<td><%=m.get("cartQuantity")%></td>
 										<td><%=m.get("goodsPrice")%>won <input type="hidden"
-											name="orderPrice" value="<%=m.get("goodsPrice")%>"></td>
+											name="orderPrice" value="<%=m.get("goodsPrice")%>"> <input
+											type="hidden" name="cartQuantity"
+											value="<%=m.get("cartQuantity")%>"> <input
+											type="hidden" name="goodsNo" value="<%=m.get("goodsNo")%>"></td>
 									</tr>
 									<%
 									}
 									%>
-									<%-- 
-											<%
-												<td><%=cartList.get%></td>
-											// 상품 가격 
-											int Goodsprice = selectGoods.get("goodsPrice");
-											// 수량
-											int orderQuantity = selectGoods.get("orderQuantity");
-											//	총액 = 상품 가격 * 수량 
-											int subPrice =   Goodsprice * orderQuantity;
-											%> <%=subPrice%> --%>
-									<tr>
-										<td>Polo Shirt <strong class="mx-2">x</strong> 1
-										</td>
-										<td>$100.00</td>
-									</tr>
-									<tr>
-										<td class="text-black font-weight-bold"><strong>Cart
-												Subtotal</strong></td>
-										<td class="text-black">$350.00</td>
-									</tr>
-									<tr>
-										<td class="text-black font-weight-bold"><strong>Order
-												Total</strong></td>
-										<td class="text-black font-weight-bold"><strong>$350.00</strong></td>
-									</tr>
 								</tbody>
 							</table>
-							<div class="payment_item">
-								<div class="radion_btn">
-									<input type="radio" id="f-option5" name="selector"> <label
-										for="f-option5">Check payments</label>
-									<div class="check"></div>
-								</div>
-								<p>Please send a check to Store Name, Store Street, Store
-									Town, Store State / County, Store Postcode.</p>
-							</div>
-							<div class="payment_item active">
-								<div class="radion_btn">
-									<input type="radio" id="f-option6" name="selector"> <label
-										for="f-option6">Paypal </label> <img
-										src="img/product/card.jpg" alt="">
-									<div class="check"></div>
-								</div>
-								<p>Pay via PayPal; you can pay with your credit card if you
-									don’t have a PayPal account.</p>
-							</div>
-							<div class="creat_account">
-								<input type="checkbox" id="f-option4" name="selector"> <label
-									for="f-option4">I’ve read and accept the </label> <a href="#">terms
-									& conditions*</a>
-							</div>
+
+							<hr>
+							<hr>
 							<div class="form-group">
-								<button class="btn btn-primary btn-lg py-3 btn-block"
-									style="background-color: #6f6f6f; border-color: #6f6f6f; margin-top: 7%; margin-bottom: 7%;">
+								<label for="card-number"><b>Card Number</b><span
+									class="required">*</span></label> <input id="card-number"
+									class="form-control" type="tel"
+									placeholder="•••• •••• •••• ••••">
+							</div>
+							<div class="form-group half-width padding-right">
+								<label for="card-expiry"><b>Expiry (MM/YY)</b> <span
+									class="required">*</span></label> <input id="card-expiry"
+									class="form-control" type="tel" placeholder="MM / YY">
+							</div>
+							<div class="form-group half-width padding-left">
+								<label for="card-cvc"><b>Card Code</b> <span
+									class="required">*</span></label> <input id="card-cvc"
+									class="form-control" type="tel" maxlength="4" placeholder="CVC">
+							</div>
+
+							<div class="form-group">
+								<button class="btn btn-lg py-3 btn-block"
+									id="addOrdersBtn" type="button"
+									style="background-color:black; color:white; margin-top: 7%; margin-bottom: 7%;">
 									Order</button>
 							</div>
 						</div>
@@ -209,13 +192,28 @@ System.out.println("\n---------------------------------buyGoods end-------------
 				</div>
 			</div>
 		</form>
+		<!-- form -->
 	</div>
-	<!-- </form> -->
+	<!-- container -->
 </div>
+<!-- site-section -->
 <!-- end main -->
 <!-- footer -->
 <%@ include file="/inc/footer.jsp"%>
 </body>
+<script>
+	$('#addOrdersBtn').click(function() {
+		if ($('#sample2_address').val() == '') {
+			alert('주소를 입력하세요.');
+			$('#sample2_address').focus();
+		} else if ($('#sample2_detailAddress').val() == '') {
+			alert('상세주소를 입력하세요.');
+			$('#sample2_detailAddress').focus();
+		} else {
+			$('#addOrdersForm').submit();
+		}
+	});
+</script>
 <script
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>

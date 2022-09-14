@@ -7,14 +7,16 @@
 
 	//요청값 처리
 	int orderNo = Integer.parseInt(request.getParameter("orderNo"));
+	String customerId = ((String)session.getAttribute("id"));
 	// 디버깅
 	System.out.println("deleteCustomerOrders - orderNo : " + orderNo);
+	System.out.println("deleteCustomerOrders - customerId : " + customerId);
 	
 	// 주문삭제 메서드 호출할 객체 생성
 	OrdersService ordersService = new OrdersService();
 	
 	// 주문삭제 메서드 호출 
-	int row = ordersService.removeCustomerOrder(orderNo);
+	int row = ordersService.removeCustomerOrder(orderNo,customerId);
 	
 	// 디버깅
 	if (row != 0) {
