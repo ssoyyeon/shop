@@ -4,7 +4,7 @@
     pageEncoding="UTF-8"%>
 <%
 	//디버깅
-	System.out.println("\n\n----------------------------------updateCustomerAction- start ---------------------------------"); 
+	System.out.println("\n\n----------------------------------updateCustomerAction- start ------------------------------------\n"); 
 
 	//인코딩
 	request.setCharacterEncoding("utf-8");
@@ -12,15 +12,18 @@
 	// 요청값 처리
 	String customerId = request.getParameter("customerId");
 	String customerAddr = request.getParameter("customerAddr");
+	String detailAddr = request.getParameter("detailAddr");
 	String customerTelephone = request.getParameter("customerTelephone");
 	// 디버깅
 	System.out.println("updateMemberAction - customerId : " + customerId);
+	System.out.println("updateMemberAction - detailAddr : " + detailAddr);
 	System.out.println("updateMemberAction - customerAddr : " + customerAddr);
 	System.out.println("updateMemberAction - customerTelephone : " + customerTelephone);
 	
 	// modifyCustomerPw 매개변수 setter
 	Customer paracustomer = new Customer();
 	paracustomer.setCustomerId(customerId);
+	paracustomer.setDetailAddress(detailAddr);
 	paracustomer.setCustomerTelephone(customerTelephone);
 	paracustomer.setCustomerAddress(customerAddr);
 	
@@ -36,5 +39,5 @@
 	}
 	
 	//디버깅
-	System.out.println("----------------------------------updateCustomerAction- end ---------------------------------\n\n"); 
+	System.out.println("\n----------------------------------updateCustomerAction- end ------------------------------------\n"); 
 %>

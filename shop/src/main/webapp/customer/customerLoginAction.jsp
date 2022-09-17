@@ -31,12 +31,14 @@
 		System.out.println("로그인 성공!");
 		session.setAttribute("user", "Customer");
 		session.setAttribute("id", loginCustomer.getCustomerId());
+		session.setAttribute("pw", loginCustomer.getCustomerPass());
 		session.setAttribute("name", loginCustomer.getCustomerName());
 		response.sendRedirect(request.getContextPath() + "/customer/customerIndex.jsp");
 
 		System.out.println("-------------- session.getAttribute() ----------------");
 		System.out.println("customer user : " + session.getAttribute("user") );
 		System.out.println("customer id : " + session.getAttribute("id") );
+		System.out.println("customer pw : " + session.getAttribute("pw") );
 		System.out.println("customer name : " + session.getAttribute("name") );
 		
 	}else{

@@ -27,6 +27,7 @@ System.out.println("addCutomerOrdersAction - goodsNo : " + goodsNo);
 System.out.println("addCutomerOrdersAction - customerId : " + customerId);
 System.out.println("addCutomerOrdersAction - address : " + address);
 System.out.println("addCutomerOrdersAction - detailAddress : " + detailAddress);
+System.out.println("addCutomerOrdersAction - cartQuantity : " + cartQuantity);
 System.out.println(Arrays.toString(orderPrice));
 
 // session 안에 cartList 가져오기

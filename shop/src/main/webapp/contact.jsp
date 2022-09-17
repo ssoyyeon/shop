@@ -34,15 +34,15 @@
 						<div class="col-md-12">
 							<div class="form-group">
 								<input type="text" class="form-control" id="subject" name="name"
-									placeholder="Subject" required
-									data-error="Please enter your Subject">
+									placeholder="Title" required
+									data-error="Please enter your Title">
 								<div class="help-block with-errors"></div>
 							</div>
 						</div>
 						<div class="col-md-12">
 							<div class="form-group">
 								<textarea class="form-control" id="message"
-									placeholder="Your Message" rows="4"
+									placeholder="Message" rows="4"
 									data-error="Write your message" required></textarea>
 								<div class="help-block with-errors"></div>
 							</div>

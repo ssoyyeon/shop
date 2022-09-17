@@ -6,7 +6,8 @@
 	pageEncoding="UTF-8"%>
 <%
 // 디버깅
-System.out.println("\n----------------------------------customerReivewList - start -------------------------------------\n");
+System.out.println(
+		"\n----------------------------------customerReivewList - start -------------------------------------\n");
 
 //로그인 전이거나 고객이 아니면 로그인 페이지로 돌아가기
 if (session.getAttribute("id") == null || !(session.getAttribute("user").equals("Customer"))) {
@@ -25,10 +26,8 @@ String customerId = ((String) session.getAttribute("id"));
 // 디버깅
 System.out.println("customerReivewList - customerId : " + customerId);
 
-
 // 쿼리 실행을 위한 객체 생성
 ReviewService reviewService = new ReviewService();
-
 
 // 고객 1인 리뷰 list = 모델값
 List<Map<String, Object>> list = new ArrayList<>();
@@ -38,7 +37,8 @@ if (list != null) {
 	System.out.println("고객 1인 리뷰 list 조회 성공");
 }
 // 디버깅
-System.out.println("\n----------------------------------customerReivewList - end --------------------------------------\n");
+System.out.println(
+		"\n----------------------------------customerReivewList - end --------------------------------------\n");
 %>
 <%@ include file="/inc/header.jsp"%>
 <!-- 분리하면 servlet / 연계기술 forword(request, response) / jsp -->
@@ -49,14 +49,35 @@ System.out.println("\n----------------------------------customerReivewList - end
 <!-- 메인내용 -->
 <div class="container">
 	<div class="row">
+		<!-- 로그인이 되어있지 않으면 리뷰리스트 보여주지 않음 -->
+		<%
+		// 리뷰가 비었다면
+		if (session.getAttribute("id") == null || list.isEmpty()) {
+		%>
+		<div class="col-lg-12"
+			style="margin-top: 10%; background-color: #E9EDF1; text-align: center;">
+			<h2 style="font-size: 40px; margin-top: 5%; height: 213px;">
+				<b>리뷰가 없습니다.</b>
+			</h2>
+			<a href="<%=request.getContextPath()%>/main.jsp"
+				style="margin-bottom: 5%;">
+				<button type="button" class="btn btn-dark"
+					style="margin-bottom: 5%;">홈으로 가기</button>
+			</a>
+		</div>
+		<%
+		} else {
+		%>
 		<!-- 메인페이지 -->
 		<div class="col-lg-12"
 			style="margin-bottom: 6%; margin-top: 5%; background-color: #E9EDF1;">
-			<h2 style="font-size: 40px; text-align: center; margin-top: 5%; margin-bottom: 5%;">
+			<h2
+				style="font-size: 40px; text-align: center; margin-top: 5%; margin-bottom: 5%;">
 				<strong><%=customerId%>'s ReviewList</strong>
 			</h2>
 			<hr>
-			<table class="table table-hover table-striped" style="text-align: center;">
+			<table class="table table-hover table-striped"
+				style="text-align: center;">
 				<thead>
 					<tr>
 						<th><b>orderNo</b></th>
@@ -91,10 +112,12 @@ System.out.println("\n----------------------------------customerReivewList - end
 						<td><%=o.get("updateDate")%></td>
 						<td><a
 							href="<%=request.getContextPath()%>/customer/updateReviewForm.jsp?orderNo=<%=o.get("orderNo")%>&goodsNo=<%=o.get("goodsNo")%>">
-								<button type="submit" class="btn" style="background-color:black; color:white;">Modify</button>
+								<button type="submit" class="btn"
+									style="background-color: black; color: white;">Modify</button>
 						</a><a
 							href="<%=request.getContextPath()%>/customer/deleteReviewAction.jsp?orderNo=<%=o.get("orderNo")%>&goodsNo=<%=o.get("goodsNo")%>">
-								<button type="submit" class="btn" style="background-color:black; color:white;">Delete</button>
+								<button type="submit" class="btn"
+									style="background-color: black; color: white;">Delete</button>
 						</a></td>
 					</tr>
 					<%
@@ -103,6 +126,9 @@ System.out.println("\n----------------------------------customerReivewList - end
 				</tbody>
 			</table>
 		</div>
+		<%
+		}
+		%>
 	</div>
 </div>
 <%@ include file="/inc/footer.jsp"%>

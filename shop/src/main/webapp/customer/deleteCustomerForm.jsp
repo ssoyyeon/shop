@@ -3,27 +3,32 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-	//디버깅
-	System.out.println("\n----------------------------------deleteCustomerForm - end ------------------------------------------\n");
-	// customer가 아닐 경우 접속 불가
-	if (session.getAttribute("id") == null || (!((String) session.getAttribute("user")).equals("Customer"))) {
-		response.sendRedirect(request.getContextPath() + "/main.jsp");
-		return;
-	}
-	// 디버깅
-	System.out.println("id : " + session.getAttribute("id"));
-	System.out.println("user : " + session.getAttribute("user"));
-	
-	//인코딩
-	request.setCharacterEncoding("utf-8");
-	
-	// 변수 가져오기
-	String customerId = ((String) session.getAttribute("id"));
-	// 디버깅
-	System.out.println("customerId : " + customerId);
+//디버깅
+System.out.println(
+		"\n----------------------------------deleteCustomerForm - end ------------------------------------------\n");
+// customer가 아닐 경우 접속 불가
+if (session.getAttribute("id") == null || (!((String) session.getAttribute("user")).equals("Customer"))) {
+	response.sendRedirect(request.getContextPath() + "/main.jsp");
+	return;
+}
+// 디버깅
+System.out.println("id : " + session.getAttribute("id"));
+System.out.println("user : " + session.getAttribute("user"));
 
-	// 디버깅
-	System.out.println("\n----------------------------------deleteCutomerForm - end ---------------------------------------\n");
+//인코딩
+request.setCharacterEncoding("utf-8");
+
+// 변수 가져오기
+String customerId = ((String) session.getAttribute("id"));
+String customerPw = ((String) session.getAttribute("pw"));
+//디버깅
+System.out.println("customerId : " + customerId);
+//디버깅
+System.out.println("customerPw : " + customerPw);
+
+// 디버깅
+System.out.println(
+		"\n----------------------------------deleteCutomerForm - end ---------------------------------------\n");
 %>
 <%@ include file="/inc/header.jsp"%>
 <!-- main -->
@@ -45,7 +50,8 @@
 					<div>
 						<label for="customerId"><b>customerId</b></label> <input
 							type="text" name="customerId" value="<%=customerId%>"
-							class="form-control" readonly>
+							class="form-control" readonly> <input type="hidden"
+							name="customerPw" value="<%=customerPw%>">
 					</div>
 					<div>
 						<label for="customerPass"><b>Password</b></label> <input
@@ -60,7 +66,7 @@
 				</fieldset>
 				<br> <br>
 				<button type="button" class="btn" id="deleteBtn"
-					style="float: right; margin-right: 3%; margin-bottom: 5%; background-color:black; color:white; ">Delete</button>
+					style="float: right; margin-right: 3%; margin-bottom: 5%; background-color: black; color: white;">Delete</button>
 			</form>
 		</div>
 	</div>

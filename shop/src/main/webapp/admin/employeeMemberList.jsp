@@ -106,7 +106,7 @@ System.out.println("\n----------------------------------employeeMemberList- end 
 								<button type="submit" class="btn btn"
 									style="color: white; background-color: black;">Modify</button>
 						</a><a
-							href="<%=request.getContextPath()%>/admin/deleteEmployeeIdForm.jsp?employeeId=<%=o.get("employeeId")%>">
+							href="<%=request.getContextPath()%>/admin/deleteEmployeeForm.jsp?employeeId=<%=o.get("employeeId")%>">
 								<button type="submit" class="btn btn"
 									style="color: white; background-color: black;">Delete</button>
 						</a></td>

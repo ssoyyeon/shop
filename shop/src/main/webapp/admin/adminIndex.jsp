@@ -53,7 +53,7 @@ System.out.println(
 			if (!session.getAttribute("active").equals("Y")) {
 			%>
 			<a
-				href="<%=request.getContextPath()%>/admin/deleteEmployeeIdForm.jsp">
+				href="<%=request.getContextPath()%>/admin/deleteEmployeeForm.jsp">
 				<button class="btn btn" type="submit"
 					style="color: white; background-color: black;">DeleteAccount</button>
 			</a>

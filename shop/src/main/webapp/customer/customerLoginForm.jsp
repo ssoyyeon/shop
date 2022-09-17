@@ -33,11 +33,6 @@
 								</div>
 								<br>
 								<div>
-									<a
-										href="<%=request.getContextPath()%>/customer/addCustomer.jsp">
-										<button type="submit" class="btn btn-secondary"
-											style="float: right; margin-top: 5%;">Sign-up</button>
-									</a>
 									<button type="button" class="btn btn-dark" id="cutomerLoginBtn"
 										style="float: right; margin-top: 5%;">login</button>
 								</div>

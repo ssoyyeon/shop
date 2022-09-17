@@ -49,16 +49,17 @@ System.out.println("\n--------------------------------------cartList end--------
 		<div class="row">
 			<!-- 로그인이 되어있지 않으면 장바구니리스트 보여주지 않음 -->
 			<%
+			// 장바구니가 비었다면
 			if (session.getAttribute("id") == null || list.isEmpty()) {
 			%>
 			<div class="col-lg-12"
 				style="margin-top: 10%; background-color: #E9EDF1; text-align: center;">
 				<h2
-					style="font-size: 40px; margin-top: 5%; margin-bottom: 5%; height: 213px;">
+					style="font-size: 40px; margin-top: 5%; height: 213px;">
 					<b>장바구니에 담긴 상품이 없습니다.</b>
 				</h2>
-				<a href="<%=request.getContextPath()%>/main.jsp"><button
-						type="button" class="btn btn-dark">홈으로 가기</button></a>
+				<a href="<%=request.getContextPath()%>/main.jsp" style="margin-bottom: 5%;"> <button
+						type="button" class="btn btn-dark" style="margin-bottom: 5%;">홈으로 가기</button></a>
 			</div>
 			<%
 			} else {

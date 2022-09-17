@@ -27,30 +27,6 @@ System.out.println("deleteCustomerAction -  paramCustomer :" + paramCustomer.get
 
 // 메서드를 호출하기 위한 객체 생성 후 호출
 CustomerService customerSerivce = new CustomerService();
-Cartservice cartservice = new Cartservice();
-OrdersService orderService = new OrdersService();
-ReviewService reviewService = new ReviewService();
-
-// customer 계정 삭제 전 customer cart 기록 삭제
-cartservice.removecartListByCustomer(customerId);
-// 디버깅
-if (cartservice.removecartListByCustomer(customerId) != 0) {
-	System.out.println("customer cart 기록 삭제 성공");
-}
-
-// customer 계정 삭제 전 customer order 기록 삭제
-orderService.removeOrderByCustomer(customerId);
-// 디버깅
-if (orderService.removeOrderByCustomer(customerId) != 0) {
-	System.out.println("customer order 기록 삭제 성공");
-}
-
-// customer 계정 삭제 전 customer review 기록 삭제
-reviewService.removeReviewByCustomer(customerId);
-// 디버깅
-if (reviewService.removeReviewByCustomer(customerId) != 0) {
-	System.out.println("customer review 기록  삭제 성공");
-}
 
 // 성공시 페이지 재요청하기 위한 변수 선언
 int removeCustomer = customerSerivce.removeCustomer(paramCustomer);
@@ -62,6 +38,7 @@ if (removeCustomer != 0) {
 	System.out.println("remove 성공");
 	session.invalidate(); // 세션 비우기
 	response.sendRedirect(request.getContextPath() + "/main.jsp");
+
 }
 // 디버깅
 System.out

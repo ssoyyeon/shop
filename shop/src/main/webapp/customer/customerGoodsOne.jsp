@@ -101,7 +101,7 @@ System.out
 				<button type="submit" class="btn btn"
 					style="color: white; background-color: black;">AddCart</button>
 			</a> <a
-				href="<%=request.getContextPath()%>/customer/addCustomerOrders.jsp?goodsNo=<%=goodsNo%>">
+				href="<%=request.getContextPath()%>/customer/directBuy.jsp?goodsNo=<%=goodsNo%>">
 				<button type="submit" class="btn btn"
 					style="color: white; background-color: black;">GoodsOrder</button>
 			</a> <a

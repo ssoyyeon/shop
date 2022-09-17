@@ -58,7 +58,7 @@ System.out.println("\n\n----------------------------------deleteEmployeeForm- st
 								style="float: center;">네.</button>
 							<a
 								href="<%=request.getContextPath()%>/admin/employeeMemberList.jsp">
-								<button type="button" class="btn btn-outline-success" style="float: center;">아니오.</button>
+								<button type="submit" class="btn btn-outline-success" style="float: center;">아니오.</button>
 							</a> <br> <br> <br>
 						</fieldset>
 					</form>
@@ -69,13 +69,4 @@ System.out.println("\n\n----------------------------------deleteEmployeeForm- st
 	<!-- Product Section End -->
 	<%@ include file="/inc/footer.jsp"%>
 </body>
-<script>
-	$('#employeeBtn').click(function() {
-		if ($('#employeePass').val() == '') {
-			alert('비밀번호를 입력하세요.');
-		} else {
-			$('#deleteEmployeeForm').submit();
-		}
-	});
-</script>
 </html>

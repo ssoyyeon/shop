@@ -87,81 +87,8 @@ public class GoodsDao {
 		}
 		return goods;
 	} // end updateGoods
-	/*
-	 * // 상품별 리스트 분기 public List<Map<String, Object>>
-	 * selectGoodsByCategory(Connection conn, int rowPerPage, int beginRow, String
-	 * category) { // 분기할 쿼리 변수 String sql = null;
-	 * 
-	 * if (category.equals("m")) { // 남자 - 신발 - walking sql =
-	 * "SELECT * FROM goods WHERE goods_name LIKE '%m%Shoes%walking%'"; // 남자 - 신발 -
-	 * running sql =
-	 * "SELECT * FROM goods WHERE goods_name LIKE '%m%Shoes%running%'"; // 남자 - 신발 -
-	 * training sql =
-	 * "SELECT * FROM goods WHERE goods_name LIKE '%m%Shoes%training%'"; // 남자 - 신발
-	 * - sandals sql =
-	 * "SELECT * FROM goods WHERE goods_name LIKE '%m%Shoes%sandals%'";
-	 * 
-	 * // 남자 - 옷 - top sql =
-	 * "SELECT * FROM goods WHERE goods_name LIKE '%m%Clothing%tshirts%'"; // 남자 - 옷
-	 * - jersey sql =
-	 * "SELECT * FROM goods WHERE goods_name LIKE '%m%Clothing%jersey%'"; // 남자 - 옷
-	 * - pants sql =
-	 * "SELECT * FROM goods WHERE goods_name LIKE '%m%Clothing%pants%'"; // 남자 - 옷 -
-	 * socks sql = "SELECT * FROM goods WHERE goods_name LIKE '%m%Clothing%socks%'";
-	 * 
-	 * // 남자 - 가방 sql = "SELECT * FROM goods WHERE goods_name LIKE '%all%bag%";
-	 * 
-	 * } else if (category.equals("w")) { // 여자 - 신발 - walking sql =
-	 * "SELECT * FROM goods WHERE goods_name LIKE '%Shoes%walking%'"; // 여자 - 신발 -
-	 * running sql = "SELECT * FROM goods WHERE goods_name LIKE '%Shoes%running%'";
-	 * // 여자 - 신발 - training sql =
-	 * "SELECT * FROM goods WHERE goods_name LIKE '%Shoes%training%'"; // 여자 - 신발 -
-	 * sandals sql = "SELECT * FROM goods WHERE goods_name LIKE '%Shoes%sandals%'";
-	 * 
-	 * // 여자 - 옷 - top sql =
-	 * "SELECT * FROM goods WHERE goods_name LIKE '%Clothing%top%'"; // 여자 - 옷 -
-	 * jersey sql = "SELECT * FROM goods WHERE goods_name LIKE '%Clothing%jersey%'";
-	 * // 여자 - 옷 - pants sql =
-	 * "SELECT * FROM goods WHERE goods_name LIKE '%Clothing%pants%'"; // 여자 - 옷 -
-	 * socks sql = "SELECT * FROM goods WHERE goods_name LIKE '%Clothing%socks%'";
-	 * 
-	 * // 여자 - 가방 sql = "SELECT * FROM goods WHERE goods_name LIKE '%all%bag%'"; }
-	 * else if (category.equals("k")) { // 키즈 - 신발 - walking sql =
-	 * "SELECT * FROM goods WHERE goods_name LIKE '%kids%Shoes%walking%'"; // 키즈 -
-	 * 신발 - running sql =
-	 * "SELECT * FROM goods WHERE goods_name LIKE '%kids%Shoes%running%'"; // 키즈 -
-	 * 신발 - training sql =
-	 * "SELECT * FROM goods WHERE goods_name LIKE '%kids%Shoes%training%'"; // 키즈 -
-	 * 신발 - sandals sql =
-	 * "SELECT * FROM goods WHERE goods_name LIKE '%kids%Shoes%sandals%'";
-	 * 
-	 * // 키즈 - 옷 - top sql =
-	 * "SELECT * FROM goods WHERE goods_name LIKE '%kids%Clothing%top%'"; // 키즈 - 옷
-	 * - jersey sql =
-	 * "SELECT * FROM goods WHERE goods_name LIKE '%kids%Clothing%jersey%'"; // 키즈 -
-	 * 옷 - pants sql =
-	 * "SELECT * FROM goods WHERE goods_name LIKE '%kids%Clothing%pants%'"; // 키즈 -
-	 * 옷 - socks sql =
-	 * "SELECT * FROM goods WHERE goods_name LIKE '%Clothing%socks%'";
-	 * 
-	 * // 키즈 - 가방 sql = "SELECT * FROM goods WHERE goods_name LIKE '%kids%bag%'"; }
-	 * else if (category.equals("all")) { // 모든 상품 sql =
-	 * "SELECT g.goods_no goodsNo, g.sold_out soldOut, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename filename "
-	 * + ", ifNull(t.sumNum, 0) sumNum  FROM goods g LEFT JOIN " +
-	 * "(SELECT goods_no, Sum(order_quantity) sumNum  FROM orders GROUP BY goods_no) t "
-	 * +
-	 * "ON g.goods_no = t.goods_no  INNER JOIN goods_img gi ON g.goods_no = gi.goods_no "
-	 * + "ORDER BY g.goods_no ASC"; } else { // 세일 sql =
-	 * "SELECT g.goods_no goodsNo, g.sold_out soldOut, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename filename "
-	 * + ", ifNull(t.sumNum, 0) sumNum  FROM goods g LEFT JOIN " +
-	 * "(SELECT goods_no, Sum(order_quantity) sumNum  FROM orders GROUP BY goods_no) t "
-	 * +
-	 * "ON g.goods_no = t.goods_no  INNER JOIN goods_img gi ON g.goods_no = gi.goods_no "
-	 * + "WHERE goods_name LIKE '%sale%'" + "ORDER BY g.goods_no ASC"; } } // end
-	 * selectGoodsSort
-	 */
-	// 검색어로 상품 검색
 
+	// 검색어로 상품 검색
 	public List<Map<String, Object>> selectCutomerGoodsListBySearch(Connection conn, int rowPerPage, int beginRow,
 			String word) throws SQLException {
 		// 리턴 반환 객체
@@ -298,20 +225,27 @@ public class GoodsDao {
 						+ " (SELECT goods_no, Sum(order_quantity) sumNum" + " FROM orders GROUP BY goods_no) t"
 						+ " ON g.goods_no = t.goods_no" + " INNER JOIN goods_img gi" + " ON g.goods_no = gi.goods_no"
 						+ " where goods_name like ? and goods_name like ? ORDER BY IFNULL(t.sumNum, 0) DESC limit ?,?";
-			} else if (goodsListSort.equals("Best")) {
+			} else if (goodsListSort.equals("High")) {
 				// 높은 가격순
 				sql = "SELECT g.goods_no goodsNo, g.sold_out soldOut, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename filename"
 						+ ", ifNull(t.sumNum, 0) sumNum" + " FROM goods g LEFT JOIN"
 						+ " (SELECT goods_no, Sum(order_quantity) sumNum" + " FROM orders GROUP BY goods_no) t"
 						+ " ON g.goods_no = t.goods_no" + " INNER JOIN goods_img gi" + " ON g.goods_no = gi.goods_no"
 						+ " where goods_name like ? and goods_name like ? ORDER BY goodsPrice DESC limit ?,?";
-			} else if (goodsListSort.equals("Best")) {
+			} else if (goodsListSort.equals("Low")) {
 				// 낮은 가격순
 				sql = "SELECT g.goods_no goodsNo, g.sold_out soldOut, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename filename"
 						+ ", ifNull(t.sumNum, 0) sumNum" + " FROM goods g LEFT JOIN"
 						+ " (SELECT goods_no, Sum(order_quantity) sumNum" + " FROM orders GROUP BY goods_no) t"
 						+ " ON g.goods_no = t.goods_no" + " INNER JOIN goods_img gi" + " ON g.goods_no = gi.goods_no"
 						+ " where goods_name like ? and goods_name like ? ORDER BY goodsPrice ASC limit ?,?";
+			} else if (goodsListSort.equals("Latest")) {
+				// 최근 등록순
+				sql = "SELECT g.goods_no goodsNo, g.sold_out soldOut, g.goods_name goodsName, g.goods_price goodsPrice, g.create_date createDate, gi.filename filename"
+						+ ", ifNull(t.sumNum, 0) sumNum" + " FROM goods g LEFT JOIN"
+						+ " (SELECT goods_no, Sum(order_quantity) sumNum" + " FROM orders GROUP BY goods_no) t"
+						+ " ON g.goods_no = t.goods_no" + " INNER JOIN goods_img gi" + " ON g.goods_no = gi.goods_no"
+						+ " where goods_name like ? and goods_name like ? ORDER BY createDate DESC limit ?,?";
 			} else {
 				// GoodsListSort == 'all'
 				// 상품 번호순
@@ -367,20 +301,27 @@ public class GoodsDao {
 						+ " (SELECT goods_no, Sum(order_quantity) sumNum" + " FROM orders GROUP BY goods_no) t"
 						+ " ON g.goods_no = t.goods_no" + " INNER JOIN goods_img gi" + " ON g.goods_no = gi.goods_no"
 						+ " where goods_name like ?  ORDER BY IFNULL(t.sumNum, 0) DESC limit ?,?";
-			} else if (goodsListSort.equals("Best")) {
+			} else if (goodsListSort.equals("High")) {
 				// 높은 가격순
 				sql = "SELECT g.goods_no goodsNo, g.sold_out soldOut, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename filename"
 						+ ", ifNull(t.sumNum, 0) sumNum" + " FROM goods g LEFT JOIN"
 						+ " (SELECT goods_no, Sum(order_quantity) sumNum" + " FROM orders GROUP BY goods_no) t"
 						+ " ON g.goods_no = t.goods_no" + " INNER JOIN goods_img gi" + " ON g.goods_no = gi.goods_no"
 						+ " where goods_name like ? ORDER BY goodsPrice DESC limit ?,?";
-			} else if (goodsListSort.equals("Best")) {
+			} else if (goodsListSort.equals("Low")) {
 				// 낮은 가격순
 				sql = "SELECT g.goods_no goodsNo, g.sold_out soldOut, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename filename"
 						+ ", ifNull(t.sumNum, 0) sumNum" + " FROM goods g LEFT JOIN"
 						+ " (SELECT goods_no, Sum(order_quantity) sumNum" + " FROM orders GROUP BY goods_no) t"
 						+ " ON g.goods_no = t.goods_no" + " INNER JOIN goods_img gi" + " ON g.goods_no = gi.goods_no"
 						+ " where goods_name like ? ORDER BY goodsPrice ASC limit ?,?";
+			} else if (goodsListSort.equals("Latest")) {
+				// 최근 등록순
+				sql = "SELECT g.goods_no goodsNo, g.sold_out soldOut, g.goods_name goodsName, g.goods_price goodsPrice, g.create_date createDate, gi.filename filename"
+						+ ", ifNull(t.sumNum, 0) sumNum" + " FROM goods g LEFT JOIN"
+						+ " (SELECT goods_no, Sum(order_quantity) sumNum" + " FROM orders GROUP BY goods_no) t"
+						+ " ON g.goods_no = t.goods_no" + " INNER JOIN goods_img gi" + " ON g.goods_no = gi.goods_no"
+						+ " where goods_name like ? ORDER BY createDate DESC limit ?,?";
 			} else {
 				// GoodsListSort == 'all'
 				// 상품 번호순
@@ -435,20 +376,27 @@ public class GoodsDao {
 						+ " (SELECT goods_no, Sum(order_quantity) sumNum" + " FROM orders GROUP BY goods_no) t"
 						+ " ON g.goods_no = t.goods_no" + " INNER JOIN goods_img gi" + " ON g.goods_no = gi.goods_no"
 						+ " where goods_name like ?  ORDER BY IFNULL(t.sumNum, 0) DESC limit ?,?";
-			} else if (goodsListSort.equals("Best")) {
+			} else if (goodsListSort.equals("High")) {
 				// 높은 가격순
 				sql = "SELECT g.goods_no goodsNo, g.sold_out soldOut, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename filename"
 						+ ", ifNull(t.sumNum, 0) sumNum" + " FROM goods g LEFT JOIN"
 						+ " (SELECT goods_no, Sum(order_quantity) sumNum" + " FROM orders GROUP BY goods_no) t"
 						+ " ON g.goods_no = t.goods_no" + " INNER JOIN goods_img gi" + " ON g.goods_no = gi.goods_no"
 						+ " where goods_name like ? ORDER BY goodsPrice DESC limit ?,?";
-			} else if (goodsListSort.equals("Best")) {
+			} else if (goodsListSort.equals("Low")) {
 				// 낮은 가격순
 				sql = "SELECT g.goods_no goodsNo, g.sold_out soldOut, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename filename"
 						+ ", ifNull(t.sumNum, 0) sumNum" + " FROM goods g LEFT JOIN"
 						+ " (SELECT goods_no, Sum(order_quantity) sumNum" + " FROM orders GROUP BY goods_no) t"
 						+ " ON g.goods_no = t.goods_no" + " INNER JOIN goods_img gi" + " ON g.goods_no = gi.goods_no"
 						+ " where goods_name like ? ORDER BY goodsPrice ASC limit ?,?";
+			} else if (goodsListSort.equals("Latest")) {
+				// 최근 등록순
+				sql = "SELECT g.goods_no goodsNo, g.sold_out soldOut, g.goods_name goodsName, g.goods_price goodsPrice, g.create_date createDate, gi.filename filename"
+						+ ", ifNull(t.sumNum, 0) sumNum" + " FROM goods g LEFT JOIN"
+						+ " (SELECT goods_no, Sum(order_quantity) sumNum" + " FROM orders GROUP BY goods_no) t"
+						+ " ON g.goods_no = t.goods_no" + " INNER JOIN goods_img gi" + " ON g.goods_no = gi.goods_no"
+						+ " where goods_name like ? ORDER BY createDate DESC limit ?,?";
 			} else {
 				// GoodsListSort == 'all'
 				// 상품 번호순
@@ -503,20 +451,27 @@ public class GoodsDao {
 						+ " (SELECT goods_no, Sum(order_quantity) sumNum" + " FROM orders GROUP BY goods_no) t"
 						+ " ON g.goods_no = t.goods_no" + " INNER JOIN goods_img gi" + " ON g.goods_no = gi.goods_no"
 						+ " ORDER BY IFNULL(t.sumNum, 0) DESC limit ?,?";
-			} else if (goodsListSort.equals("Best")) {
+			} else if (goodsListSort.equals("High")) {
 				// 높은 가격순
 				sql = "SELECT g.goods_no goodsNo, g.sold_out soldOut, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename filename"
 						+ ", ifNull(t.sumNum, 0) sumNum" + " FROM goods g LEFT JOIN"
 						+ " (SELECT goods_no, Sum(order_quantity) sumNum" + " FROM orders GROUP BY goods_no) t"
 						+ " ON g.goods_no = t.goods_no" + " INNER JOIN goods_img gi" + " ON g.goods_no = gi.goods_no"
 						+ " ORDER BY goodsPrice DESC limit ?,?";
-			} else if (goodsListSort.equals("Best")) {
+			} else if (goodsListSort.equals("Low")) {
 				// 낮은 가격순
 				sql = "SELECT g.goods_no goodsNo, g.sold_out soldOut, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename filename"
 						+ ", ifNull(t.sumNum, 0) sumNum" + " FROM goods g LEFT JOIN"
 						+ " (SELECT goods_no, Sum(order_quantity) sumNum" + " FROM orders GROUP BY goods_no) t"
 						+ " ON g.goods_no = t.goods_no" + " INNER JOIN goods_img gi" + " ON g.goods_no = gi.goods_no"
 						+ " ORDER BY goodsPrice ASC limit ?,?";
+			} else if (goodsListSort.equals("Latest")) {
+				// 최근 등록순
+				sql = "SELECT g.goods_no goodsNo, g.sold_out soldOut, g.goods_name goodsName, g.goods_price goodsPrice, g.create_date createDate, gi.filename filename"
+						+ ", ifNull(t.sumNum, 0) sumNum" + " FROM goods g LEFT JOIN"
+						+ " (SELECT goods_no, Sum(order_quantity) sumNum" + " FROM orders GROUP BY goods_no) t"
+						+ " ON g.goods_no = t.goods_no" + " INNER JOIN goods_img gi" + " ON g.goods_no = gi.goods_no"
+						+ " ORDER BY createDate DESC limit ?,?";
 			} else {
 				// goodsListSort == 'all'
 				// 상품 번호순
@@ -558,82 +513,6 @@ public class GoodsDao {
 				if (stmt != null) {
 					stmt.close();
 				}
-			}
-		}
-		return list;
-	} // end selectCutomerGoodsListByPage
-
-	// 여자 상품 리스트 분기
-	public List<Map<String, Object>> selectCutomerGoodsListByWomen(Connection conn, int rowPerPage, int beginRow,
-			String GoodsListSort) throws SQLException {
-		// 리턴 반환 객체
-		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		String sql = null;
-		// GoodsListSort 값에 따라서 쿼리가 달라짐
-		if (GoodsListSort.equals("Best")) {
-			// 판매순
-			sql = "SELECT g.goods_no goodsNo, g.sold_out soldOut, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename filename"
-					+ ", ifNull(t.sumNum, 0) sumNum" + " FROM goods g LEFT JOIN"
-					+ " (SELECT goods_no, Sum(order_quantity) sumNum" + " FROM orders GROUP BY goods_no) t"
-					+ " ON g.goods_no = t.goods_no" + " INNER JOIN goods_img gi" + " ON g.goods_no = gi.goods_no"
-					+ " ORDER BY IFNULL(t.sumNum, 0) DESC limit ?,?";
-		} else if (GoodsListSort.equals("Best")) {
-			// 높은 가격순
-			sql = "SELECT g.goods_no goodsNo, g.sold_out soldOut, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename filename"
-					+ ", ifNull(t.sumNum, 0) sumNum" + " FROM goods g LEFT JOIN"
-					+ " (SELECT goods_no, Sum(order_quantity) sumNum" + " FROM orders GROUP BY goods_no) t"
-					+ " ON g.goods_no = t.goods_no" + " INNER JOIN goods_img gi" + " ON g.goods_no = gi.goods_no"
-					+ " ORDER BY goodsPrice DESC limit ?,?";
-		} else if (GoodsListSort.equals("Best")) {
-			// 낮은 가격순
-			sql = "SELECT g.goods_no goodsNo, g.sold_out soldOut, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename filename"
-					+ ", ifNull(t.sumNum, 0) sumNum" + " FROM goods g LEFT JOIN"
-					+ " (SELECT goods_no, Sum(order_quantity) sumNum" + " FROM orders GROUP BY goods_no) t"
-					+ " ON g.goods_no = t.goods_no" + " INNER JOIN goods_img gi" + " ON g.goods_no = gi.goods_no"
-					+ " ORDER BY goodsPrice ASC limit ?,?";
-		} else {
-			// 상품 번호순
-			sql = "SELECT g.goods_no goodsNo, g.sold_out soldOut, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename filename"
-					+ ", ifNull(t.sumNum, 0) sumNum" + " FROM goods g LEFT JOIN"
-					+ " (SELECT goods_no, Sum(order_quantity) sumNum" + " FROM orders GROUP BY goods_no) t"
-					+ " ON g.goods_no = t.goods_no" + " INNER JOIN goods_img gi" + " ON g.goods_no = gi.goods_no"
-					+ " ORDER BY goodsNo ASC LIMIT ?,?";
-		}
-		// 디버깅
-		System.out.println("GoodsListSort : " + GoodsListSort);
-
-		try {
-			stmt = conn.prepareStatement(sql);
-			// 디버깅
-			System.out.println("GoodsDao - selectCutomerGoodsListByPage - DB 연결 성공!");
-			// ? 값 설정
-			stmt.setInt(1, beginRow);
-			stmt.setInt(2, rowPerPage);
-			// 디버깅
-			System.out.println("selectCutomerGoodsListByPage - stmt : " + stmt);
-
-			rs = stmt.executeQuery();
-
-			while (rs.next()) {
-				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("goodsNo", rs.getString("goodsNo"));
-				map.put("goodsName", rs.getString("goodsName"));
-				map.put("goodsPrice", rs.getString("goodsPrice"));
-				map.put("filename", rs.getString("filename"));
-				map.put("soldOut", rs.getString("soldOut"));
-				list.add(map);
-				// 디버깅
-				System.out.println("cutomerGoodsListByPage - list : " + list);
-			}
-		} finally {
-			// DB 자원해제
-			if (rs != null) {
-				rs.close();
-			}
-			if (stmt != null) {
-				stmt.close();
 			}
 		}
 		return list;
@@ -715,6 +594,7 @@ public class GoodsDao {
 		return lastPage;
 	} // end lastPage
 
+	// 관리자용 상품 조회
 	public List<Goods> selectGoodsListbyPage(Connection conn, int rowPerPage, int beginRow)
 			throws ClassNotFoundException, SQLException {
 		// 리턴 반환 할 객체
@@ -773,15 +653,6 @@ public class GoodsDao {
 		DBUtil dbUtil = new DBUtil();
 		String sql = "SELECT g.goods_no goodsNo, g.goods_name goodsName, g.goods_price goodsPrice, g.sold_out SoldOut, gi.filename filename, g.create_date createDate"
 				+ " FROM goods g inner join goods_img gi ON g.goods_no = gi.goods_no WHERE g.goods_no = ?";
-		/*
-		 * SELECT g.*, gi.* FROM goods g inner join goods_img gi ON g.goods_no =
-		 * gi.goods_no WHERE g.goods_no = ?;
-		 * 
-		 * while(rs.next()){ Map<String,Object> m = new HashMap<String,Object>();
-		 * m.put("goodsNo",rs.getInt("goodsNo")); }
-		 * 
-		 * 쿼리에서 where 조건이 없다면.. 반환 타입 List<Map<String,Object>> list
-		 */
 		conn = dbUtil.getConnection();
 		// 디버깅
 		System.out.println("selectGoodsAndImgOne -  DB 연결");

@@ -64,6 +64,25 @@ System.out.println(
 <!-- 메인내용 -->
 <div class="container">
 	<div class="row">
+		<!-- 로그인이 되어있지 않으면 주문리스트 보여주지 않음 -->
+		<%
+		// 주문리스트가 비었다면
+		if (session.getAttribute("id") == null || list.isEmpty()) {
+		%>
+		<div class="col-lg-12"
+			style="margin-top: 10%; background-color: #E9EDF1; text-align: center;">
+			<h2 style="font-size: 40px; margin-top: 5%; height: 213px;">
+				<b>주문하신 상품이 없습니다.</b>
+			</h2>
+			<a href="<%=request.getContextPath()%>/main.jsp"
+				style="margin-bottom: 5%;">
+				<button type="button" class="btn btn-dark"
+					style="margin-bottom: 5%;">홈으로 가기</button>
+			</a>
+		</div>
+		<%
+		} else {
+		%>
 		<!-- 메인페이지 -->
 		<div class="col-lg-12"
 			style="margin-bottom: 6%; margin-top: 5%; background-color: #E9EDF1;">
@@ -91,14 +110,6 @@ System.out.println(
 					for (Map<String, Object> o : list) {
 					%>
 					<tr>
-						<%
-						// 주문한 상품이 없는 경우
-						if (o.isEmpty()) {
-						%>
-						<td style="font-size: 30px; margin-top: 10%;">주문한 상품이 없습니다.</td>
-						<%
-						}
-						%>
 						<td><a
 							href="<%=request.getContextPath()%>/customer/customerOrdersOne.jsp?goodsNo=<%=o.get("goodsNo")%>&orderNo=<%=o.get("orderNo")%>">
 								<%=o.get("orderNo")%>
@@ -148,9 +159,16 @@ System.out.println(
 				</tbody>
 			</table>
 		</div>
+		<%
+		}
+		%>
 		<!-- 페이징 -->
 		<!-- 페이징 -->
 		<!-- 페이징 -->
+		<%
+		// 주문리스트가 비었다면
+		if (!(session.getAttribute("id") == null || list.isEmpty())) {
+		%>
 		<div class="container" style="text-align: center; margin-top: 5%;">
 			<%
 			if (currentPage > 1) {
@@ -186,6 +204,7 @@ System.out.println(
 				<button type="submit" class="btn btn-dark" disabled="disabled">Next</button>
 			</a>
 			<%
+			}
 			}
 			%>
 		</div>

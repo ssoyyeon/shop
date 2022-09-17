@@ -85,7 +85,7 @@
 								%>
 								<li><a href="<%=request.getContextPath()%>/loginForm.jsp">LOGIN</a></li>
 								<li class="dropdown active"><a href="#"
-									class="nav-link dropdown-toggle arrow" data-toggle="dropdown">JOIN</a>
+									class="nav-link dropdown-toggle arrow" data-toggle="dropdown">SIGN UP</a>
 									<ul class="dropdown-menu">
 										<li>
 											<a href="<%=request.getContextPath()%>/admin/addEmployee.jsp" style="color:black;">employee</a>

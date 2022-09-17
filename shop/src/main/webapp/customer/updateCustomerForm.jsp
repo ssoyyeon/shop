@@ -4,7 +4,8 @@
 	pageEncoding="UTF-8"%>
 <%
 //디버깅
-System.out.println("\n-------------------------------------updateCustomerForm - start ------------------------------------------------\n");
+System.out.println(
+		"\n-------------------------------------updateCustomerForm - start ------------------------------------------------\n");
 //customer가 아닐 경우 접속 불가
 if (session.getAttribute("id") == null || (!((String) session.getAttribute("user")).equals("Customer"))) {
 	response.sendRedirect(request.getContextPath() + "/main.jsp");
@@ -33,7 +34,8 @@ if (customer != null) {
 	System.out.println("고객 1 정보 출력 성공!");
 }
 //디버깅
-System.out.println("\n----------------------------------updateCustomerForm - end ---------------------------------------\n");
+System.out.println(
+		"\n----------------------------------updateCustomerForm - end ---------------------------------------\n");
 %>
 <%@ include file="/inc/header.jsp"%>
 <!-- main -->
@@ -46,7 +48,9 @@ System.out.println("\n----------------------------------updateCustomerForm - end
 			</h2>
 			<br>
 			<hr>
-			<form action="<%=request.getContextPath()%>/customer/updateCustomerAction.jsp" id="modifyBtn">
+			<form
+				action="<%=request.getContextPath()%>/customer/updateCustomerAction.jsp"
+				id="modifyBtn">
 				<table class="table table-hover table-striped"
 					style="text-align: center; margin-bottom: 3%;" class="form-group">
 					<tr>
@@ -61,9 +65,14 @@ System.out.println("\n----------------------------------updateCustomerForm - end
 						</td>
 					</tr>
 					<tr>
-						<th style="width: 40%;">customerAddr</th>
+						<th style="width: 40%;">customerAddress</th>
 						<td><input type="text" id="customerAddr" name="customerAddr"
 							value="<%=customer.getCustomerAddress()%>" class="form-control"></td>
+					</tr>
+					<tr>
+						<th style="width: 40%;">detailAddress</th>
+						<td><input type="text" id="detailAddr" name="detailAddr"
+							value="<%=customer.getDetailAddress()%>" class="form-control"></td>
 					</tr>
 					<tr>
 						<th style="width: 40%;">customerTelephone</th>
@@ -73,7 +82,9 @@ System.out.println("\n----------------------------------updateCustomerForm - end
 						</td>
 					</tr>
 				</table>
-				<button class="btn" type="submit" style=" color: white; background-color: black; float: right; margin-left: 70%; margin-bottom: 5%;" id="updateCustomerBtn">Modify</button>
+				<button class="btn" type="submit"
+					style="color: white; background-color: black; float: right; margin-left: 70%; margin-bottom: 5%;"
+					id="updateCustomerBtn">Modify</button>
 			</form>
 		</div>
 

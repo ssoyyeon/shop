@@ -29,14 +29,14 @@ System.out.println("removeEmployee : " + removeEmployee);
 
 // 성공시 페이지 재요청
 if (removeEmployee == true) {
-	response.sendRedirect(request.getContextPath() + "/admin/employeeMemberList.jsp");
+	response.sendRedirect(request.getContextPath() + "/admin/adminIndex.jsp");
 } else {
 	// 디버깅
 	System.out.println("removeEmployee : " + removeEmployee);
 %>
 <script>
 	alert("계정 삭제 실패!");
-	location.href = "<%=request.getContextPath()%>/admin/employeeMemberList.jsp";
+	location.href = "<%=request.getContextPath()%>/admin/adminIndex.jsp";
 </script>
 <%
 }

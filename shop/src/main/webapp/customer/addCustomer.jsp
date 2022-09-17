@@ -63,10 +63,10 @@ System.out.println("\n----------------------------------addCustomer - end ------
 						<!-- address -->
 						<div class="form-group">
 							<label for="customer_address" style="float: left">CustomerAddress</label>
-							<input type="text" id="sample2_address" placeholder="Please search Your Address" class="form-control" name="address" readonly><br> 
+							<input type="text" id="sample2_address" placeholder="Please search Your Address" class="form-control" name="customer_address" readonly><br> 
 							
 							<label for="detail_address" style="float: left">DetailAddress</label> 
-							<input type="text" id="sample2_detailAddress" placeholder="Please enter Your DetailAddress" class="form-control" name="detailAddress">
+							<input type="text" id="sample2_detailAddress" placeholder="Please enter Your DetailAddress" class="form-control" name="detail_address">
 							<input type="hidden" id="sample2_extraAddress" placeholder="참고항목">
 							<input type="hidden" id="sample2_postcode" placeholder="우편번호">
 							<input type="button" onclick="sample2_execDaumPostcode()"

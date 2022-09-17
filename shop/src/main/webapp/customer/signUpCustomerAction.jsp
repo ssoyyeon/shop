@@ -3,6 +3,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
+	// 디버깅
+	System.out.println("\n-------------------------------------------signUpCustomerAction start--------------------------------------\n ");
 	// 인코딩
 	request.setCharacterEncoding("utf-8");
 
@@ -13,8 +15,6 @@
 	String customerAddress = request.getParameter("customer_address");
 	String detailAddress = request.getParameter("detail_address");
 	String customerTelephone = request.getParameter("customer_telephone");
-	// 디버깅
-	System.out.println("\n------------------------------------------------addCustomerAction ");
 	System.out.println("addCustomerAction - CustomerId : " + customerId);
 	System.out.println("addCustomerAction - CustomerPass : " + customerPass);
 	System.out.println("addCustomerAction - CustomerName : " + customerName);
@@ -41,4 +41,6 @@
 	if(row != 0){
 		response.sendRedirect(request.getContextPath() + "/loginForm.jsp");
 	}
+	// 디버깅
+	System.out.println("\n--------------------------------------------signUpCustomerAction end------------------------------------------\n ");
 %>

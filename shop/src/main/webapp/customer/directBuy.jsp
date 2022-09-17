@@ -1,105 +1,75 @@
-<%@page import="service.BuyService"%>
-<%@page import="java.util.HashMap"%>
-<%@page import="vo.Orders"%>
-<%@page import="java.util.Arrays"%>
 <%@page import="vo.Customer"%>
 <%@page import="service.CustomerService"%>
-<%@page import="service.OrdersService"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="vo.Cart"%>
-<%@page import="service.Cartservice"%>
-<%@page import="java.util.List"%>
-<%@page import="service.ReviewService"%>
-<%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
-<%@page import="com.oreilly.servlet.MultipartRequest"%>
-<%@page import="repository.GoodsDao"%>
 <%@page import="java.util.Map"%>
-<%@page import="vo.Goods"%>
 <%@page import="service.GoodsService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
 // 디버깅
-System.out.println("\n---------------------------------buyGoods start------------------------------------------\n");
+System.out
+		.println("\n----------------------------------cutomerGoodsOne - start ------------------------------------\n");
 
-//customer가 아닐 경우 접속 불가
-if (session.getAttribute("id") == null || (!((String) session.getAttribute("user")).equals("Customer"))) {
+// 로그인 전이면 로그인 페이지로 재요청
+if (session.getAttribute("id") == null) {
 	response.sendRedirect(request.getContextPath() + "/main.jsp");
 	return;
 }
-//디버깅
+// 디버깅
 System.out.println("id : " + session.getAttribute("id"));
-System.out.println("user : " + session.getAttribute("user"));
 
 // 인코딩
 request.setCharacterEncoding("utf-8");
 
-// 변수 가져오기
+// 요청값 처리
+int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
 String customerId = ((String) session.getAttribute("id"));
-//디버깅
+// 디버깅
+System.out.println("goodsNo : " + goodsNo);
 System.out.println("customerId : " + customerId);
 
-// 메서드 호출하기 위한 객체생성
-BuyService buyService = new BuyService();
-
-//디버깅
-System.out.println("cartList: " + session.getAttribute("cartList"));
-
-// 리턴할 객체 생성
-List<Map<String, Object>> list = null;
-
-// 리스트 준비
-List<Cart> cartList = new ArrayList<>();
-// 주문 리스트 넣어주기
-if ((session.getAttribute("cartList") != null)) {
-	cartList = (List<Cart>) session.getAttribute("cartList");
-	//디버깅
-	System.out.println("cartList" + cartList + "/" + (List<Cart>) session.getAttribute("cartList"));
-
-	list = buyService.getBuyByCartList(cartList);
-}
-// 고객 정보 가져오기
+//고객 정보 가져오기
 CustomerService customerService = new CustomerService();
 Customer customer = customerService.selecCustomerOne(customerId);
-// 디버깅
+//디버깅
 System.out.println("buyGoods - customer : " + customer);
 
-if (customer != null) {
-	System.out.println("고객 정보 출력 성공!");
-}
-
-// 디버깅
-System.out.println("\n---------------------------------buyGoods end------------------------------------------\n");
+// 상품정보 받아오기
+GoodsService goodsService = new GoodsService();
+Map<String, Object> selectGoods = goodsService.selectGoodsAndImgOne(goodsNo);
 %>
-<!--  header  -->
 <%@ include file="/inc/header.jsp"%>
+<!-- start main -->
 <!-- main -->
 <div class="site-section" style="margin-top: 8%;">
 	<div class="container">
 		<form
-			action="<%=request.getContextPath()%>/customer/buyGoodsAction.jsp"
-			id="addOrdersForm" method="post">
+			action="<%=request.getContextPath()%>/customer/directBuyAction.jsp"
+			id="OrdersForm" method="post">
 			<div class="row">
 				<div class="col-md-6 mb-5 mb-md-0">
-					<h2 class="h3 mb-3 text-black" style="margin-topr:7%;">Orderer Information</h2>
+					<h2 class="h3 mb-3 text-black" style="margin-topr: 7%;">Orderer
+						Information</h2>
 					<div class="p-3 p-lg-5 border">
 						<div class="form-group row">
 							<div class="col-md-12">
-								<label for="customerName" class="text-black" style="margin-topr:3%;"><b>Name</b>
-									<span class="text-danger">*</span></label> <input type="text"
+								<label for="customerName" class="text-black"
+									style="margin-topr: 3%;"><b>Name</b> <span
+									class="text-danger">*</span></label> <input type="text"
 									class="form-control" id="customerName" name="customerName"
 									value="<%=customer.getCustomerName()%>" readonly>
 							</div>
 						</div>
 						<div class="form-group ">
-							<label for="customeId" class="text-black" style="margin-topr:4%;"><b>Id</b> <span
+							<label for="customeId" class="text-black"
+								style="margin-topr: 4%;"><b>Id</b> <span
 								class="text-danger">*</span></label> <input type="text"
 								class="form-control" id="customeId" name="customeId"
 								value="<%=customer.getCustomerId()%>" readonly>
 						</div>
 						<div class="form-group ">
-							<label for="customerTelephone" class="text-black" style="margin-topr:4%;"><b>Phone</b>
-								<span class="text-danger">*</span></label> <input type="text"
+							<label for="customerTelephone" class="text-black"
+								style="margin-topr: 4%;"><b>Phone</b> <span
+								class="text-danger">*</span></label> <input type="text"
 								class="form-control" id="customerTelephone"
 								name="customerTelephone"
 								value="<%=customer.getCustomerTelephone()%>" readonly>
@@ -107,17 +77,19 @@ System.out.println("\n---------------------------------buyGoods end-------------
 
 						<!-- address -->
 						<div class="form-group">
-							<label for="Address" class="text-black"  style="margin-top:4%;"><b>Address</b></label> <input
-								type="text" id="sample2_address"
+							<label for="Address" class="text-black" style="margin-top: 4%;"><b>Address</b></label>
+							<input type="text" id="sample2_address"
 								placeholder="Please search Your Address" class="form-control"
-								name="address" readonly><br>
-				
-							<label for="detailAddress" class="text-black" style="margin-topr:4%;"><b>detailAddress</b></label>
-							<input type="text" id="sample2_detailAddress" placeholder="Please enter Your DetailAddress" class="form-control" name="detailAddress">
-							<input type="hidden" id="sample2_extraAddress" placeholder="참고항목">
+								name="address" readonly><br> <label
+								for="detailAddress" class="text-black" style="margin-topr: 4%;"><b>detailAddress</b></label>
+							<input type="text" id="sample2_detailAddress"
+								placeholder="Please enter Your DetailAddress"
+								class="form-control" name="detailAddress"> <input
+								type="hidden" id="sample2_extraAddress" placeholder="참고항목">
 							<input type="hidden" id="sample2_postcode" placeholder="우편번호">
 							<input type="button" onclick="sample2_execDaumPostcode()"
-								value="Address Search" style="margin-left: 80%; margin-top: 11%; background-color:black; color:white"><br>
+								value="Address Search"
+								style="margin-left: 80%; margin-top: 11%; background-color: black; color: white"><br>
 							<!-- iOS에서는 position:fixed 버그가 있음, 적용하는 사이트에 맞게 position:absolute 등을 이용하여 top,left값 조정 필요 -->
 							<div id="layer"
 								style="display: none; position: fixed; overflow: hidden; z-index: 1; -webkit-overflow-scrolling: touch;">
@@ -137,27 +109,23 @@ System.out.println("\n---------------------------------buyGoods end-------------
 								<thead>
 									<tr>
 										<th>Product</th>
-										<th>cartQuantity</th>
+										<th>orderQuantity</th>
 										<th>Price</th>
 									</tr>
 								</thead>
 
 								<tbody>
-									<%
-									for (Map<String, Object> m : list) {
-									%>
 									<tr>
-										<td><%=m.get("goodsName")%><strong class="mx-2">x</strong></td>
-										<td><%=m.get("cartQuantity")%></td>
-										<td><%=m.get("goodsPrice")%>won <input type="hidden"
-											name="orderPrice" value="<%=m.get("goodsPrice")%>"> <input
-											type="hidden" name="cartQuantity"
-											value="<%=m.get("cartQuantity")%>"> <input
-											type="hidden" name="goodsNo" value="<%=m.get("goodsNo")%>"></td>
+										<td><%=selectGoods.get("goodsName")%><strong class="mx-2">x</strong></td>
+										<td><input type="text" name="orderQuantity"
+											id="orderQuantity" placeholder="0" style="width: 30px;">
+										</td>
+										<td><%=selectGoods.get("goodsPrice")%>won <input
+											type="hidden" name="orderPrice"
+											value="<%=selectGoods.get("goodsPrice")%>"> <input
+											type="hidden" name="goodsNo"
+											value="<%=selectGoods.get("goodsNo")%>"></td>
 									</tr>
-									<%
-									}
-									%>
 								</tbody>
 							</table>
 
@@ -181,9 +149,9 @@ System.out.println("\n---------------------------------buyGoods end-------------
 							</div>
 
 							<div class="form-group">
-								<button class="btn btn-lg py-3 btn-block"
-									id="addOrdersBtn" type="button"
-									style="background-color:black; color:white; margin-top: 7%; margin-bottom: 7%;">
+								<button class="btn btn-lg py-3 btn-block" id="OrdersBtn"
+									type="button"
+									style="background-color: black; color: white; margin-top: 7%; margin-bottom: 7%;">
 									Order</button>
 							</div>
 						</div>
@@ -197,11 +165,11 @@ System.out.println("\n---------------------------------buyGoods end-------------
 </div>
 <!-- site-section -->
 <!-- end main -->
-<!-- footer -->
+<!-- end main -->
 <%@ include file="/inc/footer.jsp"%>
 </body>
 <script>
-	$('#addOrdersBtn').click(function() {
+	$('#OrdersBtn').click(function() {
 		if ($('#sample2_address').val() == '') {
 			alert('주소를 입력하세요.');
 			$('#sample2_address').focus();
@@ -211,15 +179,21 @@ System.out.println("\n---------------------------------buyGoods end-------------
 		} else if ($('#card-number').val() == '') {
 			alert('카드번호를 입력하세요.');
 			$('#card-number').focus();
+		} else if ($('#card-number').val() < 16) {
+			alert('카드번호 16자리를 입력하세요.');
+			$('#card-number').focus();
 		} else if ($('#card-expiry').val() == '') {
 			alert('카드 유효기간 입력하세요.');
 			$('#card-expiry').focus();
 		} else if ($('#card-cvc').val() == '') {
 			alert('카드 cvc번호를 입력하세요.');
-			$('#card-cvc').focus();	
+			$('#card-cvc').focus();
+		} else if ($('#orderQuantity').val() == '') {
+			alert('구매할 수량을 입력하세요.');
+			$('#orderQuantity').focus();
 		} else {
 			alert('주문하시겠습니까?');
-			$('#addOrdersForm').submit();
+			$('#OrdersForm').submit();
 		}
 	});
 </script>

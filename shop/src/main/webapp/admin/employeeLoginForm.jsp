@@ -29,7 +29,7 @@
 								<p> 총관리자 <br> Id:   admin <br> Pw:   1234 </p>
 								</div>
 								<div  style="float: left; margin-left:3%;  margin-top:3%; font-weight: bolder; ">
-								<p> 매니저<br> Id:   m1m1 <br> Pw:   1234</p>
+								<p> 매니저<br> Id:   manager <br> Pw:   1234</p>
 								</div>
 								<div >
 									<br> 
