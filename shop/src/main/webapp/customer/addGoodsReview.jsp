@@ -61,7 +61,7 @@
 				</table>
 				<br>
 				<br>
-				<button type="button" class="btn" style="color: white; background-color: black; float: right; margin-right: 3%; margin-bottom:5%;" id="addReviewBtn">확인</button>
+				<button type="button" class="btn" style="color: white; background-color: black; float: right; margin-right: 3%; margin-bottom:5%;" id="addReviewBtn">Add</button>
 			</form>
 		</div>
 	</div>

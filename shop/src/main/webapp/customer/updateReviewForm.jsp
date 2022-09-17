@@ -1,151 +1,181 @@
 <%@page import="java.util.List"%>
 <%@page import="service.ReviewService"%>
-<%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
-<%@page import="com.oreilly.servlet.MultipartRequest"%>
-<%@page import="repository.GoodsDao"%>
 <%@page import="java.util.Map"%>
-<%@page import="vo.Goods"%>
-<%@page import="service.GoodsService"%>
+<%@page import="vo.Orders"%>
+<%@page import="service.OrdersService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%
-	// 디버깅
-	System.out.println("\n----------------------------------updateReviewForm - start ----------------------------------------\n");
-	
-	// 로그인 전이면 로그인 페이지로 재요청
-	if (session.getAttribute("id") == null) {
-		response.sendRedirect(request.getContextPath() + "/main.jsp");
-		return;
-	}
-	// 디버깅
-	System.out.println("id : " + session.getAttribute("id"));
-	
-	// 인코딩
-	request.setCharacterEncoding("utf-8");
-	
-	// 요청값 처리
-	int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
-	int orderNo = Integer.parseInt(request.getParameter("orderNo"));
-	String customerId = ( (String)session.getAttribute("id") );
-	// 디버깅
-	System.out.println("goodsNo : " + goodsNo);
-	System.out.println("orderNo : " + orderNo);
-	System.out.println("customerId : " + customerId);
-	
-	// 상품 상세보기 메서드 호출
-	GoodsService goodsService = new GoodsService();
-	Map<String, Object> selectGoods = goodsService.selectGoodsAndImgOne(goodsNo);
-	// 디버깅
-	if (selectGoods != null) {
-		System.out.println("상세보기 성공");
-	}
-	
-	// 리뷰 메서드 호출
-	ReviewService ReviewService = new ReviewService();
-	List<Map<String, Object>> list = ReviewService.getReviewListByIdGoods(goodsNo,customerId);
-	// 디버깅
-	System.out.println(list);
-	if (list != null) {
-		System.out.println("리뷰보기 성공");
-	}
-	
-	// 디버깅
-	System.out.println("\n---------------------------------------updateReviewForm - end --------------------------------------------\n");
-%>
 <%@ include file="/inc/header.jsp"%>
+<%
+// 디버깅
+System.out.println(
+		"\n----------------------------------customerOrdersOne - start -----------------------------------------\n");
+
+// 로그인 전이면 로그인 페이지로 재요청
+if (session.getAttribute("id") == null) {
+	response.sendRedirect(request.getContextPath() + "/main.jsp");
+	return;
+}
+// 디버깅
+System.out.println("customerId : " + session.getAttribute("id"));
+
+// 인코딩
+request.setCharacterEncoding("utf-8");
+
+// 요청값 처리
+int orderNo = Integer.parseInt(request.getParameter("orderNo"));
+int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
+// 디버깅
+System.out.println("customerOrdersOne - orderNo : " + orderNo);
+System.out.println("customerOrdersOne - goodsNo : " + goodsNo);
+
+// 상세보기 메서드 호출 
+OrdersService ordersService = new OrdersService();
+Map<String, Object> map = ordersService.selectOrdersOne(orderNo);
+// 디버깅
+System.out.println("customerOrdersOne : " + map);
+// 디버깅
+if (map != null) {
+	System.out.println("주문 상세보기 성공");
+}
+
+// 리뷰 메서드 호출
+ReviewService ReviewService = new ReviewService();
+List<Map<String, Object>> list = ReviewService.getReviewListByGoods(goodsNo);
+// 디버깅
+System.out.println(list);
+if (list != null) {
+	System.out.println("리뷰보기 성공");
+}
+//디버깅
+System.out.println(
+		"\n----------------------------------cutomerOrdersOne - end ---------------------------------------\n");
+%>
 <!-- main -->
-<div class="container">
-	<div class="row">
+<div class="container" style="margin-bottom: 5%;">
+	<div class="row"
+		style="margin-top: 6%; background-color: #E9EDF1; text-align: center;">
 		<!-- 메인페이지 -->
-		<div class="col-lg-12"
-			style="margin-top: 6%; background-color: #E9EDF1; text-align: center;">
+		<div class="col-lg-5 mt-5" style="">
+			<img class="card-img img-fluid"
+				src="<%=request.getContextPath()%>/upload/<%=map.get("orderImg")%>"
+				width=200; height=200; style="background-color: white;">
+		</div>
+		<div class="col-lg-7">
 			<h2 style="font-size: 40px; text-align: center; margin-top: 5%;">
-				<b>GOODS DETAIL</b>
+				<b>Order Detail</b>
 			</h2>
 			<hr>
-			<br> <br>
-			<form action="<%=request.getContextPath()%>/noticeList.jsp"
-				method="post">
-				<table class="table table-hover table-striped">
-					<thead>
-						<tr style="width: 120px; text-align: center;">
-							<th><b>goodseNo</b></th>
-							<th><b>goodsName</b></th>
-							<th><b>goodsImg</b></th>
-							<th><b>goodsPrice</b></th>
-							<th><b>soldOut</b></th>
-							<th><b>createDate</b></th>
-						</tr>
-					</thead>
-
-					<tr>
-						<td><%=goodsNo%></td>
-						<td><%=selectGoods.get("goodsName")%></td>
-						<td><img alt="이미지 파일"
-							src="<%=request.getContextPath()%>/upload/<%=selectGoods.get("filename")%>"
-							width=200; height=200; style="background-color: white;"></td>
-						<td><%=selectGoods.get("goodsPrice")%></td>
-						<td><%=selectGoods.get("soldOut")%></td>
-						<td><%=selectGoods.get("createDate")%></td>
+			<table class="table table-hover table-striped">
+				<thead>
+					<tr style="width: 120px; text-align: center;">
+						<th><b>goodsName</b></th>
+						<td><%=map.get("goodsName")%></td>
 					</tr>
-				</table>
-			</form>
+					<tr>
+						<th><b>customerId</b></th>
+						<td><%=map.get("customerId")%></td>
+					</tr>
+					<tr>
+						<th><b>customerAddress</b></th>
+						<td><%=map.get("orderAddress")%>-<%=map.get("detailAddress")%></td>
+					</tr>
+					<tr>
+						<th><b>orderPrice</b></th>
+						<td><%=map.get("orderPrice")%></td>
+					</tr>
+					<tr>
+						<th><b>orderQuantity</b></th>
+						<td><%=map.get("orderQuantity")%></td>
+					</tr>
+					<tr>
+						<th><b>orderState</b></th>
+						<td><%=map.get("orderState")%></td>
+					</tr>
+					<tr>
+						<th><b>orderDate</b></th>
+						<td><%=map.get("orderDate")%></td>
+					</tr>
+			</table>
 		</div>
-		<div
-			style="float: right; margin-top: 5%; margin-left: 75%; margin-bottom: 6%;">
-			<a href="#">
-				<button type="button" class="btn" style=" color: white; background-color: black;">AddCart</button>
-			</a> <a href="#">
-				<button type="button" class="btn"
-					style= "color: white; background-color: black;">GoodsOrder</button>
-			</a> <a
-				href="#p">
-				<button type="button" class="btn" style=" color: white; background-color: black;">GoodsList</button>
-			</a>
-		</div>
-		<br> <br>
-		<!-- review -->
-		<div class="col-lg-12"
-			style="margin-top: 3%; background-color: #E9EDF1;">
-			<h3 style="font-size: 40px; text-align: center; margin-top: 5%;">
-				<b>REVIEW</b>
-			</h3>
-			<hr>
-			<br> <br>
-			<div>
-			<form action="<%=request.getContextPath()%>/customer/updateReviewAction.jsp?orderNo=<%=orderNo%>" method="post">
-				<table class="table table-hover table-striped"
-					style="text-align: center;">
-					<tr>
-						<th><b>orderNo</b></th>
-						<th><b>reviewContent</b></th>
-						<th><b>createDate </b></th>
-						<th><b>updateDate </b></th>
-						<th></th>
-					</tr>
-					<%
-					for (Map<String, Object> m : list) {
-					%>
-					<tr>
-						<td><%=m.get("orderNo")%></td>
-						<td>
-							<input type="text" name="reviewContent" value="<%=m.get("reviewContent")%>">
-						</td>
-						<td><%=m.get("createDate")%></td>
-						<td><%=m.get("updateDate")%></td>
-						<td>
-							<button type="submit" class="btn" style=" color: white; background-color: black;">Modify</button>
-							<button type="button" class="btn" style=" color: white; background-color: black;">Delete</button>
-						</td>
-					</tr>
-					<%
-					}
-					%>
-				</table>
-				</form>
+	</div>
+	<!-- goodsOne end -->
+	<!-- review start -->
+	<div class="container" style="margin-top: 5%;">
+		<div class="row">
+			<!-- 로그인이 되어있지 않으면 리뷰리스트 보여주지 않음 -->
+			<%
+			// 리뷰가 비었다면
+			if (session.getAttribute("id") == null || list.isEmpty()) {
+			%>
+			<div class="col-lg-12"
+				style="margin-top: 10%; background-color: #E9EDF1; text-align: center;">
+				<h2 style="font-size: 40px; margin-top: 5%; height: 213px;">
+					<b>리뷰가 없습니다.</b>
+				</h2>
+				<a href="<%=request.getContextPath()%>/main.jsp"
+					style="margin-bottom: 5%;">
+					<button type="button" class="btn btn-dark"
+						style="margin-bottom: 5%;">홈으로 가기</button>
+				</a>
 			</div>
+			<%
+			} else {
+			%>
+			<div style="float: right; margin-left: 90%; margin-bottom: 5%;">
+				<a
+					href="<%=request.getContextPath()%>/customer/customerOrdersList.jsp">
+					<button type="submit" class="btn"
+						style="background-color: black; color: white; margin-bottom: 3%;">OrderList</button>
+				</a>
+			</div>
+			<!-- review -->
+			<div class="col-lg-12"
+				style="margin-top: 3%; background-color: #E9EDF1;">
+				<h3 style="font-size: 40px; text-align: center; margin-top: 5%;">
+					<b>Review</b>
+				</h3>
+				<hr>
+				<br> <br>
+				<div>
+				<form action="<%=request.getContextPath()%>/customer/updateReviewAction.jsp" id="updateReviewForm" method="post" class="form-group">
+					<table class="table table-hover table-striped"
+						style="text-align: center;">
+						<tr>
+							<th><b>orderNo</b></th>
+							<th><b>reviewContent</b></th>
+							<th><b>createDate </b></th>
+							<th><b>updateDate </b></th>
+						</tr>
+						<%
+						for (Map<String, Object> m : list) {
+						%>
+						<tr>
+							<td><input type="hidden" name="orderNo" id="orderNo" value="<%=orderNo %>"></td>
+							<td><textarea rows="5" cols="20" name="reviewContent" id="reviewContent" class="form-control"> <%=m.get("reviewContent")%></textarea></td>
+							<td><%=m.get("createDate")%></td>
+							<td><%=m.get("updateDate")%></td>
+						</tr>
+						<%
+						}
+						%>
+					</table>
+					<br>
+				<br>
+				<div>
+				<button type="submit" class="btn" style="color: white; background-color: black; float: right; margin-bottom:5%;">Modify</button>
+					<a href="<%=request.getContextPath()%>/customer/customerReviewList.jsp">
+					<button type="submit" class="btn" style="color: white; background-color: black; float: right; margin-bottom:5%;">ReviewList</button>
+				</a>
+					</div>
+					</form>
+				</div>
+			</div>
+			<%
+			}
+			%>
+			<!-- review end -->
 		</div>
-		<br> <br>
 	</div>
 </div>
 <!-- end main -->

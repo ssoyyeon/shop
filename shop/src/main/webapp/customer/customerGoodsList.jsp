@@ -10,7 +10,7 @@ System.out.println(
 //인코딩
 request.setCharacterEncoding("utf-8");
 
-// 한 페이지당 게시물 수
+// 한 페이지당 상품 수
 int rowPerPage = 20;
 if (request.getParameter("rowPerPage") != null) {
 	rowPerPage = Integer.parseInt(request.getParameter("rowPerPage"));
@@ -57,7 +57,7 @@ List<Map<String, Object>> list = null;
 list = goodsService.selectCutomerGoodsListByPage(rowPerPage, currentPage, goodsListSort, category, kind);
 
 // 페이징 마지막 페이지 메서드 호출
-int lastPage = goodsService.lastPage(rowPerPage, currentPage);
+int lastPage = goodsService.lastPageByCutomer(rowPerPage, currentPage, kind, category);
 
 //디버깅
 System.out.println(
@@ -95,8 +95,7 @@ System.out.println(
 											class="list-group-item list-group-item-action active">All
 											Clothing </a> <a
 											href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?goodsListSort=<%=goodsListSort%>&kind=<%=kind%>&category=top"
-											class="list-group-item list-group-item-action">Top &
-											T-shirt </a> <a
+											class="list-group-item list-group-item-action">Top & T-shirt </a> <a
 											href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?goodsListSort=<%=goodsListSort%>&kind=<%=kind%>&category=jersey"
 											class="list-group-item list-group-item-action">Jersey </a> <a
 											href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?goodsListSort=<%=goodsListSort%>&kind=<%=kind%>&category=pants"
@@ -216,9 +215,8 @@ System.out.println(
 										</a>
 									</div>
 									<div><%=m.get("goodsName")%></div>
-									<div><%=m.get("goodsPrice")%></div> <!-- 품절 여부 --> 
-									<%
- 									if (m.get("soldOut").equals("Y")) {
+									<div><%=m.get("goodsPrice")%></div> <!-- 품절 여부 --> <%
+ if (m.get("soldOut").equals("Y")) {
  %>
 									<div>
 										<b style="color: red;">SoldOut</b>
@@ -267,14 +265,14 @@ System.out.println(
 			if (currentPage > 1) {
 			%>
 			<a
-				href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?currentPage=<%=currentPage - 1%>">
+				href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?category=<%=category%>&kind=<%=kind%>&currentPage=<%=currentPage - 1%>">
 				<button type="submit" class="btn btn-secondary">Pre</button>
 			</a>
 			<%
 			} else {
 			%>
 			<a
-				href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?currentPage=<%=currentPage - 1%>">
+				href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?category=<%=category%>&kind=<%=kind%>&currentPage=<%=currentPage - 1%>">
 				<button type="submit" class="btn btn-secondary" disabled="disabled">Pre</button>
 			</a>
 			<%
@@ -285,7 +283,7 @@ System.out.println(
 			System.out.println("currentPage : " + currentPage);
 			%>
 			<a
-				href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?category=<%=category%>&kind=<%=kind%>currentPage=<%=currentPage + 1%>">
+				href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?category=<%=category%>&kind=<%=kind%>&currentPage=<%=currentPage + 1%>">
 				<button type="submit" class="btn btn-dark">Next</button>
 			</a>
 
@@ -293,7 +291,7 @@ System.out.println(
 			} else {
 			%>
 			<a
-				href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?category=<%=category%>&kind=<%=kind%>currentPage=<%=currentPage%>">
+				href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?category=<%=category%>&kind=<%=kind%>&currentPage=<%=currentPage%>">
 				<button type="submit" class="btn btn-dark" disabled="disabled">Next</button>
 			</a>
 			<%

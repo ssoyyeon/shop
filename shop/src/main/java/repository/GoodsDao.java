@@ -559,7 +559,8 @@ public class GoodsDao {
 	} // end insertGoods
 
 	// lastPage 페이지 구하기 메서드
-	public int lastPage(Connection conn, int rowPerPage, int beginRow) throws ClassNotFoundException, SQLException {
+	public int lastPageByCutomer(Connection conn, int rowPerPage, int beginRow, String kind, String category)
+			throws ClassNotFoundException, SQLException {
 		// 리턴 반환 변수
 		int lastPage = 0;
 		// 전체 행의 수
@@ -567,33 +568,181 @@ public class GoodsDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		DBUtil dbUtil = new DBUtil();
-		String sql = "SELECT count(*) FROM goods";
+		String sql = null;
 
 		conn = dbUtil.getConnection();
-		try {
-			stmt = conn.prepareStatement(sql);
-			// 전체 행의 수를 구하기 위한 쿼리 실행
-			rs = stmt.executeQuery();
-			if (rs.next()) {
-				totalRow = rs.getInt("count(*)");
-			}
-			// 디버깅
-			System.out.println("totalRow  : " + totalRow);
+		// 디버깅
+		System.err.println("goodsDao - lastPageByCutomer DB 연결");
+		System.err.println("goodsDao - kind : " + kind);
+		System.err.println("goodsDao - category : " + category);
 
-			// 마지막 페이지
-			lastPage = totalRow / rowPerPage;
-			// 페이지의 수가 rowPerPage로 딱 나눠 떨어지지 않는다면 마지막 페이지 수를 1개 더해준다.
-			if (totalRow % rowPerPage != 0) {
-				lastPage += 1;
+		// 종류 유무에 따라 쿼리가 달라짐.
+		// 카테고리 o 종류 o
+		if (category != null && kind != null) {
+			sql = "select count(*) from goods where goods_name LIKE ? and goods_name LIKE ?";
+			try {
+				stmt = conn.prepareStatement(sql);
+				// ? 값 setter
+				stmt.setString(1, "%" + kind + "%");
+				stmt.setString(2, "%" + category + "%");
+				// 전체 행의 수를 구하기 위한 쿼리 실행
+				rs = stmt.executeQuery();
+				if (rs.next()) {
+					totalRow = rs.getInt("count(*)");
+				}
+				// 디버깅
+				System.out.println("totalRow  : " + totalRow);
+
+				// 마지막 페이지
+				lastPage = totalRow / rowPerPage;
+				// 페이지의 수가 rowPerPage로 딱 나눠 떨어지지 않는다면 마지막 페이지 수를 1개 더해준다.
+				if (totalRow % rowPerPage != 0) {
+					lastPage += 1;
+				}
+			} finally {
+				// 자원해제
+				rs.close();
+				stmt.close();
 			}
-		} finally {
-			// 자원해제
-			rs.close();
-			stmt.close();
+		}
+		// 카테고리 x 종류 o
+		else if (category == null && kind != null) {
+			sql = "select count(*) from goods where goods_name LIKE ? ";
+			try {
+				stmt = conn.prepareStatement(sql);
+				// ? 값 setter
+				stmt.setString(1, "%" + kind + "%");
+				// 전체 행의 수를 구하기 위한 쿼리 실행
+				rs = stmt.executeQuery();
+				if (rs.next()) {
+					totalRow = rs.getInt("count(*)");
+				}
+				// 디버깅
+				System.out.println("totalRow  : " + totalRow);
+
+				// 마지막 페이지
+				lastPage = totalRow / rowPerPage;
+				// 페이지의 수가 rowPerPage로 딱 나눠 떨어지지 않는다면 마지막 페이지 수를 1개 더해준다.
+				if (totalRow % rowPerPage != 0) {
+					lastPage += 1;
+				}
+			} finally {
+				// 자원해제
+				rs.close();
+				stmt.close();
+			}
+		} // 카테고리 o 종류 x
+		else if (category != null && kind == null) {
+			sql = "select count(*) from goods where goods_name LIKE ?";
+			try {
+				stmt = conn.prepareStatement(sql);
+				// ? 값 setter
+				stmt.setString(1, "%" + category + "%");
+				// 전체 행의 수를 구하기 위한 쿼리 실행
+				rs = stmt.executeQuery();
+				if (rs.next()) {
+					totalRow = rs.getInt("count(*)");
+				}
+				// 디버깅
+				System.out.println("totalRow  : " + totalRow);
+
+				// 마지막 페이지
+				lastPage = totalRow / rowPerPage;
+				// 페이지의 수가 rowPerPage로 딱 나눠 떨어지지 않는다면 마지막 페이지 수를 1개 더해준다.
+				if (totalRow % rowPerPage != 0) {
+					lastPage += 1;
+				}
+			} finally {
+				// 자원해제
+				rs.close();
+				stmt.close();
+			}
+		} // 카테고리 x 종류 x
+		else {
+			sql = "select count(*) from goods";
+			try {
+				stmt = conn.prepareStatement(sql);
+				// 전체 행의 수를 구하기 위한 쿼리 실행
+				rs = stmt.executeQuery();
+				if (rs.next()) {
+					totalRow = rs.getInt("count(*)");
+				}
+				// 디버깅
+				System.out.println("totalRow  : " + totalRow);
+
+				// 마지막 페이지
+				lastPage = totalRow / rowPerPage;
+				// 페이지의 수가 rowPerPage로 딱 나눠 떨어지지 않는다면 마지막 페이지 수를 1개 더해준다.
+				if (totalRow % rowPerPage != 0) {
+					lastPage += 1;
+				}
+			} finally {
+				// 자원해제
+				rs.close();
+				stmt.close();
+			}
 		}
 		return lastPage;
-	} // end lastPage
+	} // end lastPageByCutomer
 
+	// 마지막 페이지
+		public int lastPage(Connection conn, final int ROW_PER_PAGE) throws ClassNotFoundException, SQLException  {
+			// 리턴값 반환할 변수
+			int lastPage = 0;
+			// 전체 게시물 수 
+			int totalRow = 0;
+			// DB 자원
+			DBUtil dbUtil = new DBUtil();
+			PreparedStatement stmt = null;
+			ResultSet rs = null;
+			String sql = "SELECT count(*) FROM goods";
+
+			conn = dbUtil.getConnection();
+			// 디버깅
+			System.out.println("GoodsDao - lastPage DB 연결 성공!!!!!!!!!!");
+
+			try {
+				stmt = conn.prepareStatement(sql);
+				// 쿼리 실행
+				rs = stmt.executeQuery();
+
+				// 전체 행의 수를 구하기 위한 쿼리 실행
+				if (rs.next()) {
+					totalRow += rs.getInt("count(*)");
+					// 디버깅
+					System.out.println("GoodsDao - totalRow  : " + totalRow);
+				}
+
+				// 마지막 페이지 구하기
+				lastPage = totalRow / ROW_PER_PAGE;
+				// 마지막페이지가 rowPerPage로 떨어지지 않을 떼
+				if (totalRow % ROW_PER_PAGE != 0) {
+					lastPage += 1;
+				}
+
+				// 디버깅
+				System.out.println("GoodsDao - lastPage : " + lastPage);
+			} finally {
+				// DB 자원해제
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				if (stmt != null) {
+					try {
+						stmt.close();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			//
+			return lastPage;
+		} // end lastPage
+	
 	// 관리자용 상품 조회
 	public List<Goods> selectGoodsListbyPage(Connection conn, int rowPerPage, int beginRow)
 			throws ClassNotFoundException, SQLException {

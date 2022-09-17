@@ -163,16 +163,6 @@
 		</div>
 	</div>
 	<!-- End Main Top -->
-	<!-- 
-if (session.getAttribute("id") != null && session.getAttribute("user").equals("Employee")) {
-<li><a
-	href="<%=request.getContextPath()%>/admin/adminGoodsList.jsp">GOODS</a></li>
-} else {
-<li><a
-	href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp">GOODS</a></li>
-
-} 
- -->
 	<!-- Start Main Top -->
 	<header class="main-header">
 		<!-- Start Navigation -->
@@ -203,8 +193,11 @@ if (session.getAttribute("id") != null && session.getAttribute("user").equals("E
 								Goods</a>
 							<ul class="dropdown-menu">
 								<li><a
-									href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp">All
-										Goods</a></li>
+									href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=-&category=clothing">clothing</a></li>
+								<li><a
+									href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=-&category=Shoes">Shoes</a></li>
+								<li><a
+									href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=-&category=Bag">Bags</a></li>
 							</ul></li>
 						<li class="dropdown active"><a href="#"
 							class="nav-link dropdown-toggle arrow" data-toggle="dropdown">Women</a>
@@ -214,7 +207,7 @@ if (session.getAttribute("id") != null && session.getAttribute("user").equals("E
 								<li><a
 									href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=w&category=Shoes">Shoes</a></li>
 								<li><a
-									href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=all&category=Bag">Bags</a></li>
+									href="<%=request.getContextPath()%>/customer/customerGoodsList.jsp?kind=wl&category=Bag">Bags</a></li>
 							</ul></li>
 						<li class="dropdown active"><a href="#"
 							class="nav-link dropdown-toggle arrow" data-toggle="dropdown">Men</a>
@@ -251,9 +244,6 @@ if (session.getAttribute("id") != null && session.getAttribute("user").equals("E
 							</ul></li>
 					</ul>
 				</div>
-				<%-- 		<%
-				if (session.getAttribute("id") != null && session.getAttribute("user").equals("Customer")) {
-				%> --%>
 				<!-- /.navbar-collapse -->
 				<!-- Start Atribute Navigation -->
 				<div class="attr-nav"

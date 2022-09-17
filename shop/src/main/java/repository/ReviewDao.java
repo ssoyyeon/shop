@@ -70,16 +70,6 @@ public class ReviewDao {
 		// 쿼리
 		String sql = "SELECT order_no orderNo, review_content reviewContent,  goods_no goodsNo, create_date createDate, update_date updateDate "
 				+ "FROM review " + "WHERE order_no in (SELECT order_no  FROM orders where customer_id = ?) ";
-		/*
-		 * 
-		 * SELECT * FROM orders WHERE customer_id='q'
-		 * 
-		 * SELECT DISTINCT r.order_no orderNo, r.goods_no goodsNo , r.review_content
-		 * reviewContent, r.create_date createDate, r.update_date updateDate" +
-		 * " FROM orders o INNER JOIN goods g ON o.goods_no = g.goods_no " +
-		 * "INNER JOIN review r ON g.goods_no = r.goods_no " +
-		 * "WHERE customer_id=? AND o.goods_no= ?"
-		 */
 
 		try {
 			stmt = conn.prepareStatement(sql);

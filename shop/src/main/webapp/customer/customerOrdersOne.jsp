@@ -8,7 +8,8 @@
 <%@ include file="/inc/header.jsp"%>
 <%
 // 디버깅
-System.out.println("\n----------------------------------customerOrdersOne - start -----------------------------------------\n");
+System.out.println(
+		"\n----------------------------------customerOrdersOne - start -----------------------------------------\n");
 
 // 로그인 전이면 로그인 페이지로 재요청
 if (session.getAttribute("id") == null) {
@@ -47,7 +48,8 @@ if (list != null) {
 	System.out.println("리뷰보기 성공");
 }
 //디버깅
-System.out.println("\n----------------------------------cutomerOrdersOne - end ---------------------------------------\n");
+System.out.println(
+		"\n----------------------------------cutomerOrdersOne - end ---------------------------------------\n");
 %>
 <!-- main -->
 <div class="container" style="margin-bottom: 5%;">
@@ -101,7 +103,25 @@ System.out.println("\n----------------------------------cutomerOrdersOne - end -
 	<!-- review start -->
 	<div class="container" style="margin-top: 5%;">
 		<div class="row">
-			<!-- ordersOne end -->
+			<!-- 로그인이 되어있지 않으면 리뷰리스트 보여주지 않음 -->
+			<%
+			// 리뷰가 비었다면
+			if (session.getAttribute("id") == null || list.isEmpty()) {
+			%>
+			<div class="col-lg-12"
+				style="margin-top: 10%; background-color: #E9EDF1; text-align: center;">
+				<h2 style="font-size: 40px; margin-top: 5%; height: 213px;">
+					<b>리뷰가 없습니다.</b>
+				</h2>
+				<a href="<%=request.getContextPath()%>/main.jsp"
+					style="margin-bottom: 5%;">
+					<button type="button" class="btn btn-dark"
+						style="margin-bottom: 5%;">홈으로 가기</button>
+				</a>
+			</div>
+			<%
+			} else {
+			%>
 			<div style="float: right; margin-left: 90%; margin-bottom: 5%;">
 				<a
 					href="<%=request.getContextPath()%>/customer/customerOrdersList.jsp">
@@ -128,15 +148,6 @@ System.out.println("\n----------------------------------cutomerOrdersOne - end -
 						</tr>
 						<%
 						for (Map<String, Object> m : list) {
-							// 주문한 상품이 없는 경우
-							System.out.println("list : " + m);
-							if (m.isEmpty()) {
-						%>
-						<tr>
-							<td>주문한 상품이 없습니다.</td>
-						</tr>
-						<%
-						} else {
 						%>
 						<tr>
 							<td><%=m.get("orderNo")%></td>
@@ -146,11 +157,13 @@ System.out.println("\n----------------------------------cutomerOrdersOne - end -
 						</tr>
 						<%
 						}
-						}
 						%>
 					</table>
 				</div>
 			</div>
+			<%
+			}
+			%>
 			<!-- review end -->
 		</div>
 	</div>

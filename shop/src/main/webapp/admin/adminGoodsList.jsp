@@ -34,7 +34,7 @@ GoodsService goodsService = new GoodsService();
 List<Goods> list = null;
 list = goodsService.selectGoodsListbyPage(rowPerPage, currentPage);
 // 페이징 마지막 페이지 메서드 호출
-int lastPage = goodsService.lastPage(rowPerPage, currentPage);
+int lastPage = goodsService.lastPage(rowPerPage);
 
 // 디버깅
 System.out.println(

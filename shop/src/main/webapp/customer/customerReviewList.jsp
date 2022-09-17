@@ -94,16 +94,8 @@ System.out.println(
 					for (Map<String, Object> o : list) {
 					%>
 					<tr>
-						<%
-						// 주문한 상품이 없는 경우
-						if (list == null) {
-						%>
-						<td style="font-size: 30px; margin-top: 10%;">주문한 상품이 없습니다.</td>
-						<%
-						}
-						%>
 						<td><a
-							href="<%=request.getContextPath()%>/customer/customerOrdersOne.jsp?orderNo=<%=o.get("orderNo")%>">
+							href="<%=request.getContextPath()%>/customer/customerOrdersOne.jsp?orderNo=<%=o.get("orderNo")%>&goodsNo=<%=o.get("goodsNo")%>">
 								<%=o.get("orderNo")%>
 						</a></td>
 						<td><%=o.get("goodsNo")%></td>

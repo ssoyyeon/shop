@@ -8,6 +8,7 @@ import java.util.Map;
 import repository.DBUtil;
 import repository.GoodsDao;
 import repository.GoodsImgDao;
+import repository.NoticeDao;
 import vo.Goods;
 import vo.GoodsImg;
 
@@ -255,9 +256,44 @@ public class GoodsService {
 
 		}
 	}
-
+	
 	// 마지막 페이지
-	public int lastPage(int rowPerPage, int currentPage) throws ClassNotFoundException, SQLException {
+	public int lastPage(final int ROW_PER_PAGE) throws Exception {
+		int lastPage = 0;
+		Connection conn = null;
+		DBUtil dbUtil = new DBUtil();
+
+		try {
+			conn = dbUtil.getConnection();
+			// 디버깅
+			System.out.println("GoodsService lastPage - DB 연결");
+
+			// 메서드 호출을 위한 객체 생성
+			GoodsDao goodsDao = new GoodsDao();
+
+			// lastPage 구하는 메서드 호출
+			lastPage = goodsDao.lastPage(conn, ROW_PER_PAGE);
+			// lastPage 실패시 오류 생성
+			if (lastPage == 0) {
+				throw new Exception();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			// DB 자원해제
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return lastPage;
+	} // end lastPage
+
+	// 고객용 상품별 마지막 페이지
+	public int lastPageByCutomer(int rowPerPage, int currentPage, String kind, String category) throws ClassNotFoundException, SQLException {
 		int lastPage = 0;
 		this.goodsDao = new GoodsDao();
 		Connection conn = null;
@@ -267,15 +303,19 @@ public class GoodsService {
 			// DB 연결
 			conn = dbUtil.getConnection();
 			// 디버깅
-			System.out.println("service lastPage - DB 연결");
+			System.out.println("Goodsservice lastPageByCutomer - DB 연결");
 
 			// 시작행
 			int beginRow = (currentPage - 1) * rowPerPage;
 			// 디버깅
-			System.out.println(" GoodsService - beginRow : " + beginRow);
-
+			System.out.println("GoodsService - beginRow : " + beginRow);
+			
+			// 디버깅
+			System.out.println("service lastPage - kind : " + kind);
+			System.out.println("service lastPage - category : " + category);
+			
 			// lastPage를 구하기 위한 메서드 호출
-			lastPage = goodsDao.lastPage(conn, rowPerPage, beginRow);
+			lastPage = goodsDao.lastPageByCutomer(conn, rowPerPage, beginRow, kind, category);
 
 			// lastPage 쿼리 실행 실패시 오류 생성
 			if (lastPage == 0) {
@@ -292,7 +332,7 @@ public class GoodsService {
 			}
 		}
 		return lastPage;
-	} // end lastPage
+	} // end lastPageByCutomer
 
 	// 상품 리스트
 	public List<Goods> selectGoodsListbyPage(int rowPerPage, int currentPage)
