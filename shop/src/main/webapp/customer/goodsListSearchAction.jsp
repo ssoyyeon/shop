@@ -40,7 +40,7 @@ List<Map<String, Object>> searchList = null;
 searchList = goodsService.selectCutomerGoodsListBySearch(rowPerPage, currentPage, word);
 
 //페이징 마지막 페이지 메서드 호출
-int lastPage = goodsService.lastPage(rowPerPage, currentPage);
+int lastPage = goodsService.lastPage(rowPerPage);
 
 if(searchList != null){
 	System.out.println("검색어로 상픔 보기 성공");

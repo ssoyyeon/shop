@@ -177,7 +177,7 @@
 						aria-expanded="false" aria-label="Toggle navigation">
 						<i class="fa fa-bars"></i>
 					</button>
-					<a class="navbar-brand" href="index.html"><img
+					<a class="navbar-brand" href="<%=request.getContextPath()%>/main.jsp"><img
 						src="<%=request.getContextPath()%>/images/스우시3.svg" class="logo"
 						alt="logoImg" width=100 height=100 style="margin-left: -230%;"></a>
 
@@ -246,6 +246,9 @@
 				</div>
 				<!-- /.navbar-collapse -->
 				<!-- Start Atribute Navigation -->
+				<%
+				if (session.getAttribute("id") != null && session.getAttribute("user").equals("Employee")) { 
+				%>
 				<div class="attr-nav"
 					style="margin-left: 210px; margin-right: -250px;">
 					<ul>
@@ -269,6 +272,9 @@
 					</ul>
 				</div>
 				<!-- End Atribute Navigation -->
+				<%
+				}
+				%>
 			</div>
 			<%
 			//	}

@@ -104,13 +104,13 @@ System.out.println("\n---------------------------------------customerOrderOne - 
 		<div style="margin-left: 77%;">
 			<!-- 고객 임시 비밀번호  -->
 			<a
-				href="<%=request.getContextPath()%>/admin/updateCustomerForm.jsp?customerId=<%=customer.getCustomerId()%>">
+				href="<%=request.getContextPath()%>/admin/updateCustomerFormByAdmin.jsp?customerId=<%=customer.getCustomerId()%>">
 				<button type="submit" class="btn btn"
 					style="float: right; color: white; background-color: black;">ModifyPassword</button>
 			</a>
 			<!--  고객 계정 강제 삭제 -->
 			<a
-				href="<%=request.getContextPath()%>/admin/deleteCustomerForm.jsp?customerId=<%=customer.getCustomerId()%>">
+				href="<%=request.getContextPath()%>/admin/deleteCustomerIdForm.jsp?customerId=<%=customer.getCustomerId()%>">
 				<button type="submit" class="btn btn"
 					style="float: right; color: white; background-color: black;">DeleteAccount</button>
 			</a>

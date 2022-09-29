@@ -5,7 +5,7 @@
     pageEncoding="UTF-8"%>
 <%
 	//디버깅
-	System.out.println("\n\n----------------------------------deleteCustomerAction- start ---------------------------------"); 
+	System.out.println("\n\n----------------------------------deleteCustomerIdAction- start ---------------------------------"); 
 
 	//인코딩
 	request.setCharacterEncoding("utf-8");
@@ -13,7 +13,7 @@
 	// 요청값 처리
 	String customerId = request.getParameter("customerId");
 	// 디버깅
-	System.out.println("deleteMemberAction - customerId : " + customerId);
+	System.out.println("deleteCustomerIdAction - customerId : " + customerId);
 	
 	// deleteCustomerById 매개변수 setter
 	Customer paracustomer = new Customer();
@@ -40,5 +40,5 @@
 	}
 	
 	//디버깅
-	System.out.println("----------------------------------deleteCustomerAction- end ---------------------------------\n\n"); 
+	System.out.println("----------------------------------deleteCustomerIdAction- end ---------------------------------\n\n"); 
 %>

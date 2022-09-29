@@ -41,7 +41,7 @@
 			style="margin-top: 10%; background-color: #E9EDF1;">
 			<h2 style="font-size: 40px; text-align: center; margin-top: 5%;">
 				<b>PASSWORD UPDATE</b></h2>
-			<form action="<%=request.getContextPath()%>/admin/updateCustomerAction.jsp" id="updateCustomerForm" method="post" class="form-group">
+			<form action="<%=request.getContextPath()%>/admin/updateCustomerActionByAdmin.jsp" id="updateCustomerForm" method="post" class="form-group">
 				<hr>
 				<br>
 				<br>
